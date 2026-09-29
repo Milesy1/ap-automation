@@ -22,12 +22,12 @@ from ap_automation.core.models import (
 
 def get_qdrant() -> QdrantClient:
     if settings.qdrant_api_key:
+        # Qdrant Cloud — use HTTPS URL on port 443
         return QdrantClient(
-            host=settings.qdrant_host,
-            port=settings.qdrant_port,
+            url=f"https://{settings.qdrant_host}",
             api_key=settings.qdrant_api_key,
-            https=True,
         )
+    # Local Docker
     return QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port)
 
 
