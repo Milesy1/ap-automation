@@ -8,7 +8,7 @@ import math
 from datetime import datetime, timezone
 
 from qdrant_client import QdrantClient
-from qdrant_client.models import Filter, FieldCondition, MatchValue, VectorParams, Distance, PointStruct
+from qdrant_client.models import Filter, FieldCondition, MatchValue, VectorParams, Distance, PointStruct, PayloadSchemaType
 from rank_bm25 import BM25Okapi
 
 from ap_automation.core.config import settings
@@ -30,7 +30,7 @@ def get_qdrant() -> QdrantClient:
 
 
 def ensure_collection() -> None:
-    """Create Qdrant collection if it does not exist."""
+    """Create Qdrant collection and required payload indexes."""
     client = get_qdrant()
     existing = [c.name for c in client.get_collections().collections]
     if settings.qdrant_collection not in existing:
@@ -41,6 +41,15 @@ def ensure_collection() -> None:
                 distance=Distance.COSINE,
             ),
         )
+    # Payload index required for filtered search on Qdrant Cloud
+    try:
+        client.create_payload_index(
+            collection_name=settings.qdrant_collection,
+            field_name="vendor_id",
+            field_schema=PayloadSchemaType.KEYWORD,
+        )
+    except Exception:
+        pass  # Already exists
 
 
 def _build_filter(vendor_id: str) -> Filter:
@@ -64,7 +73,6 @@ def _recency_weight(timestamp: datetime) -> float:
 
 
 def _collection_size() -> int:
-    """Return number of points in the collection, 0 on any error."""
     try:
         client = get_qdrant()
         info = client.get_collection(settings.qdrant_collection)
@@ -81,10 +89,6 @@ def retrieve(
     currency: str,
     top_k: int | None = None,
 ) -> list[RetrievedEvidence]:
-    """
-    Hybrid retrieval: dense (Qdrant cosine) + sparse (BM25) fused with RRF.
-    Returns empty list if corpus is empty or on any retrieval error.
-    """
     if _collection_size() == 0:
         return []
 
@@ -93,6 +97,7 @@ def retrieve(
     query_vector = embed(description)
     vendor_filter = _build_filter(vendor_id)
 
+    # Dense retrieval — vendor-filtered first, fall back to unfiltered
     try:
         dense_response = client.query_points(
             collection_name=settings.qdrant_collection,
@@ -122,16 +127,15 @@ def retrieve(
     if not dense_results:
         return []
 
+    # Sparse retrieval (BM25)
     try:
-        scroll_filter = vendor_filter
         all_candidates = client.scroll(
             collection_name=settings.qdrant_collection,
-            scroll_filter=scroll_filter,
+            scroll_filter=vendor_filter,
             limit=200,
             with_payload=True,
             with_vectors=False,
         )[0]
-
         if len(all_candidates) < 3:
             all_candidates = client.scroll(
                 collection_name=settings.qdrant_collection,
@@ -222,7 +226,6 @@ def retrieve(
 
 
 def index_outcome(outcome_payload: dict) -> None:
-    """Write a confirmed outcome into the Qdrant corpus."""
     client = get_qdrant()
     vector = embed(outcome_payload["description"])
     client.upsert(
