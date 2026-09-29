@@ -22,12 +22,10 @@ from ap_automation.core.models import (
 
 def get_qdrant() -> QdrantClient:
     if settings.qdrant_api_key:
-        # Qdrant Cloud — use HTTPS URL on port 443
         return QdrantClient(
             url=f"https://{settings.qdrant_host}",
             api_key=settings.qdrant_api_key,
         )
-    # Local Docker
     return QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port)
 
 
@@ -65,6 +63,16 @@ def _recency_weight(timestamp: datetime) -> float:
     return math.exp(-days_old / 730)
 
 
+def _collection_size() -> int:
+    """Return number of points in the collection, 0 on any error."""
+    try:
+        client = get_qdrant()
+        info = client.get_collection(settings.qdrant_collection)
+        return info.points_count or 0
+    except Exception:
+        return 0
+
+
 def retrieve(
     description: str,
     vendor_id: str,
@@ -73,50 +81,69 @@ def retrieve(
     currency: str,
     top_k: int | None = None,
 ) -> list[RetrievedEvidence]:
+    """
+    Hybrid retrieval: dense (Qdrant cosine) + sparse (BM25) fused with RRF.
+    Returns empty list if corpus is empty or on any retrieval error.
+    """
+    if _collection_size() == 0:
+        return []
+
     k = top_k or settings.top_k
     client = get_qdrant()
     query_vector = embed(description)
     vendor_filter = _build_filter(vendor_id)
 
-    dense_response = client.query_points(
-        collection_name=settings.qdrant_collection,
-        query=query_vector,
-        query_filter=vendor_filter,
-        limit=k,
-        with_payload=True,
-        with_vectors=False,
-    )
-    dense_results = dense_response.points
-
-    if not dense_results:
+    try:
         dense_response = client.query_points(
             collection_name=settings.qdrant_collection,
             query=query_vector,
+            query_filter=vendor_filter,
             limit=k,
             with_payload=True,
             with_vectors=False,
         )
         dense_results = dense_response.points
+    except Exception:
+        dense_results = []
+
+    if not dense_results:
+        try:
+            dense_response = client.query_points(
+                collection_name=settings.qdrant_collection,
+                query=query_vector,
+                limit=k,
+                with_payload=True,
+                with_vectors=False,
+            )
+            dense_results = dense_response.points
+        except Exception:
+            return []
 
     if not dense_results:
         return []
 
-    scroll_filter = vendor_filter if dense_results else None
-    all_candidates = client.scroll(
-        collection_name=settings.qdrant_collection,
-        scroll_filter=scroll_filter,
-        limit=200,
-        with_payload=True,
-        with_vectors=False,
-    )[0]
-
-    if len(all_candidates) < 3:
+    try:
+        scroll_filter = vendor_filter
         all_candidates = client.scroll(
             collection_name=settings.qdrant_collection,
+            scroll_filter=scroll_filter,
             limit=200,
             with_payload=True,
             with_vectors=False,
         )[0]
+
+        if len(all_candidates) < 3:
+            all_candidates = client.scroll(
+                collection_name=settings.qdrant_collection,
+                limit=200,
+                with_payload=True,
+                with_vectors=False,
+            )[0]
+    except Exception:
+        all_candidates = []
+
+    if not all_candidates:
+        return []
 
     corpus_descriptions = [p.payload.get("description", "") for p in all_candidates]
     tokenised_corpus = [d.lower().split() for d in corpus_descriptions]
@@ -195,6 +222,7 @@ def retrieve(
 
 
 def index_outcome(outcome_payload: dict) -> None:
+    """Write a confirmed outcome into the Qdrant corpus."""
     client = get_qdrant()
     vector = embed(outcome_payload["description"])
     client.upsert(
