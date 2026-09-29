@@ -1,0 +1,1001 @@
+invoice_id,raw_vendor_name,description,amount,currency,entity_id,cost_centre,category,ground_truth_gl
+002e83ad-ea3b-4375-8fab-50d9fc2d312b,TechSource IT Solutions,Cloud infrastructure services Q2,11252.48,GBP,IE001,CC100,routine,6200
+8d676e6b-45c2-457c-8f55-0a5863e6b976,Apex Equipment Co,Server hardware purchase,49286.94,GBP,UK001,CC200,routine,7100
+05d6b3fe-fbe9-416e-9a9d-1e24fdade0b6,Apex Co.,Network equipment installation,6990.2,GBP,UK002,CC500,routine,7100
+9c695e70-c58c-4834-888c-80e8b4b70a80,Swift Travel Services,Flight and hotel Q4,2312.6,GBP,UK002,CC200,routine,6500
+11a0eecb-530a-409e-9580-ed0c1255a9b5,Horizon Consulting,HR consulting project,4350.84,GBP,UK002,CC500,routine,6400
+85f4517b-7c06-428d-9f29-f3b474e3505c,Swift Travel Services,Conference accommodation and travel,2229.74,EUR,UK001,CC500,routine,6500
+081a6fa7-7cf6-4399-abcd-bdc8a3f32cd6,SwiftTravel,Rail travel and expenses,1912.78,GBP,UK001,CC200,routine,6500
+a7928e56-332f-428b-b092-dd8ddfb6227c,Swift Travel Services,Business travel accommodation,2587.66,GBP,UK002,CC300,routine,6500
+ee6760c6-2394-499d-847d-212585d01341,Global Office Ltd,Monthly office supplies order,316.45,USD,IE001,CC200,routine,6100
+49983517-e141-421a-9f8e-d08709bfb79c,Apex Co.,Capital equipment acquisition,23360.82,GBP,IE001,CC500,routine,7100
+570aeeee-cf2f-4fc1-b4ab-2c8687f2a263,Horizon Group Ltd,Management consulting services,9458.5,GBP,UK002,CC400,routine,6400
+f9cba501-619d-4a7c-84e5-7a4d57927a98,Swift Travel Services,Conference accommodation and travel,751.3,GBP,IE001,CC400,routine,6500
+7286e39f-d63f-45b7-aa9d-ae1c9d625bc1,Brandworks Agency,Brand design and production,9718.19,GBP,IE001,CC500,routine,6700
+63675650-9314-4e4a-b205-f70ba031da12,Apex Equipment Ltd,Capital equipment acquisition,61026.04,GBP,UK001,CC200,routine,7100
+76bbee0f-5675-4ccb-8547-699c5d784cd5,Apex Equipment Ltd,Server hardware purchase,11818.21,GBP,IE001,CC200,routine,7100
+02a1044a-87d4-47c6-b18a-85e849d61263,Brandworks Agency,PR retainer monthly,2207.03,USD,UK002,CC500,routine,6700
+e8bd2631-0874-44cd-9ee1-edc89b1a07e1,Meridian Fac. Ltd,Pest control and grounds maintenance,3659.46,GBP,UK001,CC300,routine,6300
+5b5b9e26-8871-400e-aa4c-abe5af273879,Brandworks Marketing,Brand design and production,9620.75,USD,UK001,CC300,routine,6700
+80cd1a35-20d2-4dd6-9c62-76d4eabce46d,Apex Co.,Production machinery purchase,19918.33,USD,IE001,CC100,routine,7100
+ac5d7a64-8002-4cfd-bf99-576550e53c76,Powerline Util. Ltd,Water rates quarterly,333.11,GBP,UK001,CC200,routine,6600
+b02dbe9d-11f9-4794-9284-2128d5a02393,TechSource IT Solutions,Annual software licence renewal,11112.66,GBP,IE001,CC400,routine,6200
+5ee28122-9bec-4e0e-bc04-8480bf8a9af3,Apex Equipment Co,Capital equipment acquisition,24879.25,USD,IE001,CC200,routine,7100
+2e451935-92f5-4f8c-b959-009beee72f1c,Swift Travel Ltd,Rail travel and expenses,2986.18,USD,UK002,CC100,routine,6500
+618a064b-30c4-47f5-97d5-f6459005ecba,Horizon Consulting Group,Management consulting services,3472.6,USD,UK001,CC100,routine,6400
+c428c719-73cc-4ce9-8da3-9683201a6da0,Tech Source Ltd,Cloud infrastructure services Q1,9650.99,GBP,UK002,CC100,routine,6200
+f080db09-46c2-4e4e-aa60-f58a955dd9b9,Apex Equipment Co,Capital equipment acquisition,25885.79,USD,UK001,CC500,routine,7100
+dd4426dc-93fb-4996-a414-8ae301fd5cc8,Learn Forward Training,Technical skills workshop,4030.79,GBP,UK001,CC400,routine,6800
+18dd4e27-65ae-4a64-8b87-ae7b904806e6,Powerline Util. Ltd,Electricity supply monthly,998.87,GBP,UK002,CC300,routine,6600
+6d25232c-b5ae-47dc-84d3-dd87305c23af,TechSource IT Solutions,Cybersecurity platform licence,3278.06,GBP,UK002,CC200,routine,6200
+ad6f74c7-6bef-4e8b-b0ac-f510da3f2e24,Swift Travel Ltd,Business travel accommodation,861.95,USD,UK001,CC100,routine,6500
+2cc43b5f-4e69-4c22-8e99-5637a05beb63,Apex Equipment Co,Network equipment installation,77674.72,EUR,UK002,CC400,routine,7100
+ca0da90b-1f15-4aa6-9a5a-7fea3a98a8e7,Horizon Consulting,Legal advisory fees Q4,22756.19,GBP,UK002,CC300,routine,6400
+586271c2-09b7-438b-984b-aa04d59a26e8,LearnForward Ltd,Professional development programme,2403.53,GBP,UK001,CC300,routine,6800
+18c7e413-89ad-4720-bfbf-a0211066691a,Horizon Consulting Group,Financial advisory retainer,15321.15,GBP,UK001,CC100,routine,6400
+6459f157-e1e2-4a92-aa0d-5e532341e253,Learn Forward,Professional development programme,4637.24,GBP,IE001,CC100,routine,6800
+3481c372-ee91-47d2-834a-d53c51ddcaa3,Global Office Supplies,"Paper, pens and office supplies Q4",496.28,GBP,IE001,CC200,routine,6100
+a58cd350-3fd8-4220-85f4-bae47986e1a9,Meridian Fac. Ltd,Pest control and grounds maintenance,593.52,GBP,UK001,CC300,routine,6300
+18090972-72b0-4db1-9160-c47246cd4dcf,Horizon Consulting,Audit and assurance services,11103.07,GBP,UK001,CC100,routine,6400
+7ac96ce9-009b-4758-ab14-9eb64a3ef62e,Learn Forward,Staff training programme,4993.04,USD,UK001,CC500,routine,6800
+03bf1bc4-4c72-4916-a5f3-1205c52f947a,Swift Travel Services,Business travel accommodation,2809.79,GBP,UK002,CC200,routine,6500
+ed0c24b8-4b91-4e01-8765-df51b1616557,Learn Forward,Professional development programme,3665.93,USD,UK002,CC100,routine,6800
+50309582-4952-45c0-811f-958af5e5bc6a,Global Office Ltd,Office stationery and printer consumables,136.57,GBP,UK002,CC500,routine,6100
+7fc94184-9f35-4ee3-ac1c-29d50e3b44ea,Horizon Group Ltd,Audit and assurance services,9886.25,GBP,UK001,CC100,routine,6400
+894bd51c-6a64-44eb-8a76-0c12260edfd2,BrandWorks Ltd,Brand design and production,1837.65,GBP,UK001,CC400,routine,6700
+761257a7-1f29-4d8e-95ea-2dee46c4326f,Apex Co.,Server hardware purchase,37076.52,GBP,IE001,CC200,routine,7100
+61888b6c-e24b-4981-ade0-54c1de82f682,Apex Equipment Co,Network equipment installation,67594.63,GBP,UK001,CC300,routine,7100
+3433b821-7993-4c27-be24-7b2aac211924,Powerline Utilities,Gas and electricity Q2,1828.17,GBP,UK002,CC500,routine,6600
+424f1765-cec9-4e38-9dae-0e5ca40ab519,Brandworks Agency,Social media advertising Q2,15240.07,GBP,UK002,CC100,routine,6700
+628052c3-b4e4-4056-b36c-77c9c13de8a8,Global Office,Printer cartridges and stationery,743.37,GBP,UK001,CC100,routine,6100
+ce0c38bb-991d-4686-b38a-1d8470719b6c,Brandworks Marketing,Social media advertising Q2,17313.27,EUR,UK002,CC300,routine,6700
+f8701034-4b95-4b66-808e-e4fca33710a5,Horizon Consulting Group,Legal advisory fees Q4,2544.28,GBP,UK002,CC100,routine,6400
+8011a452-4094-4dc7-ab4b-945e00d55ad5,Swift Travel Ltd,Client meeting travel costs,1978.22,GBP,UK001,CC300,routine,6500
+9c6d5311-ffde-4be4-baaa-c0180e0ba380,Global Office,Monthly office supplies order,771.9,GBP,IE001,CC400,routine,6100
+920acbdd-2f5d-4fe8-9ff7-b27132cf155c,Powerline,Utilities combined bill,1636.93,EUR,IE001,CC200,routine,6600
+c0679571-6fe1-4b73-99f7-8d7835672d74,Swift Travel Services,Business travel accommodation,2170.04,GBP,UK002,CC100,routine,6500
+6631a627-49b2-4753-a856-86b065968f30,Powerline,Electricity supply monthly,833.66,USD,UK002,CC400,routine,6600
+6679c0d5-e48d-494f-8886-c82fa3b4c5b7,Powerline Util. Ltd,Energy supply invoice,1485.25,GBP,UK002,CC400,routine,6600
+ea5895a1-4005-44fc-aabf-558ce187c38f,Global Office,Printer cartridges and stationery,476.83,GBP,UK002,CC200,routine,6100
+64b47a65-8b4f-48fb-a8b3-95a3331a6935,Brandworks Agency,Brand design and production,12526.57,EUR,UK002,CC200,routine,6700
+2c81f3bc-ea1c-447d-aa88-92cbd629694f,Apex Equipment Ltd,Network equipment installation,64530.15,GBP,IE001,CC500,routine,7100
+d585f13b-b269-44cc-8fd1-ecbf8d00ab83,Powerline Utilities,Gas and electricity Q3,1691.32,GBP,UK001,CC200,routine,6600
+75806fd4-7b37-4721-891f-d8944abc41ad,Meridian Facilities Ltd,Facility management services Q1,1375.24,EUR,UK002,CC500,routine,6300
+aad98333-b06d-4061-a77e-c1a9b8fb27b8,Horizon Group Ltd,HR consulting project,18016.15,GBP,UK001,CC100,routine,6400
+34684ae5-1984-4071-bcb5-2ef54b7058c8,TechSource IT,SaaS platform annual fee,3673.2,GBP,IE001,CC200,routine,6200
+f0b75895-da33-41bf-801e-a9dc9214dffe,TechSource IT,Software subscription renewal,2433.42,EUR,IE001,CC500,routine,6200
+3fb26218-34bb-4e19-b1e6-4a5e094d6df0,Brandworks Agency,Social media advertising Q4,9472.36,EUR,UK002,CC200,routine,6700
+79942243-0671-4506-8c67-153b9d50a5d4,SwiftTravel,Flight and hotel Q3,1531.1,EUR,UK001,CC300,routine,6500
+b39397a1-5ea3-48d7-a3b3-3e1b96540306,Horizon Consulting,Financial advisory retainer,9724.49,GBP,UK001,CC200,routine,6400
+8334d035-f9e4-4cd1-a367-e2f0d0b78dbc,Brandworks Agency,Social media advertising Q1,3903.3,EUR,UK002,CC300,routine,6700
+c36a70a1-0284-4698-ae33-b4ff22a2d433,Apex Equipment Ltd,Network equipment installation,36183.07,EUR,IE001,CC100,routine,7100
+7c8c5294-8602-478f-9e9c-95fe79444135,BrandWorks Ltd,Brand design and production,1112.03,EUR,UK002,CC500,routine,6700
+61ed24cc-20bf-4727-a9ff-9c1ebcd170ec,Apex Co.,Capital equipment acquisition,72335.85,GBP,UK002,CC400,routine,7100
+c197c102-9eed-4d38-8c8b-1929beb6c06a,Meridian Facilities,Facility management services Q2,1813.42,EUR,UK001,CC500,routine,6300
+7b32a006-8b4e-4b19-9b0d-b95140d77053,Apex Equipment Co,Server hardware purchase,73019.66,EUR,UK001,CC400,routine,7100
+878dbefb-ce85-4425-8b89-6ee3354220ba,Global Office Supplies,Monthly office supplies order,245.12,EUR,UK002,CC300,routine,6100
+937cb7e4-69a8-4173-bdfe-5e48a5f10c10,BrandWorks Ltd,PR retainer monthly,15288.19,GBP,UK002,CC100,routine,6700
+0252e4d8-7b17-418b-9b5c-32dd713bbb39,Apex Equipment Co,Production machinery purchase,79993.09,GBP,IE001,CC100,routine,7100
+4dda9646-f179-482d-bacb-8323d926ff96,Meridian Facilities Ltd,Office cleaning services monthly,1156.93,GBP,UK001,CC400,routine,6300
+b859566c-2b73-4017-9e63-7b00b4d87670,Tech Source Ltd,Software subscription renewal,14242.48,GBP,UK001,CC500,routine,6200
+2cec9df7-75ae-4b3d-8da3-1f0e60d86953,TechSource IT Solutions,Annual software licence renewal,14488.45,GBP,IE001,CC400,routine,6200
+d33c00d6-b977-4fd3-b829-e1199e545ee1,Brandworks Agency,Marketing materials and print,4768.27,GBP,IE001,CC300,routine,6700
+d5a27c2f-7687-4c74-9cd4-735886b64c52,Tech Source Ltd,IT support and maintenance contract,11848.21,GBP,UK001,CC500,routine,6200
+1f5a2af4-146b-488b-b667-4cbbd4b17ed9,Powerline Utilities,Utilities combined bill,1744.28,EUR,UK002,CC400,routine,6600
+5108a217-ce1a-4639-9e09-f03c960f3aea,Global Office Ltd,Office consumables replenishment,182.1,USD,IE001,CC400,routine,6100
+ccca7c54-c2c9-46b0-914b-2483e487f2ee,LearnForward Ltd,Professional development programme,4215.81,GBP,UK001,CC100,routine,6800
+c427a5b4-b4a9-4732-b327-f4ea15f83e4b,Swift Travel Ltd,Client meeting travel costs,845.01,GBP,UK001,CC400,routine,6500
+0ef06eaa-522f-4b93-954a-1f2ade2e75ce,Powerline Utilities,Water rates quarterly,1128.83,GBP,UK002,CC500,routine,6600
+062f140e-e951-4360-afab-bed9996a7c87,SwiftTravel,Flight and hotel Q1,178.93,GBP,IE001,CC400,routine,6500
+5c3b70be-0bbc-4066-b3f7-118489ffe043,Learn Forward,Technical skills workshop,3911.74,EUR,UK001,CC100,routine,6800
+a33e132a-83a7-42bc-ad2a-a27f89f6ef72,Swift Travel Services,Flight and hotel Q3,1302.54,USD,UK002,CC400,routine,6500
+c6bf345d-a611-49cc-b923-95b0ab79792d,Apex Co.,Production machinery purchase,30781.8,EUR,UK002,CC300,routine,7100
+06ab3de3-128d-4977-ab58-9ec7f924b86d,Swift Travel Services,Flight and hotel Q3,493.87,GBP,IE001,CC500,routine,6500
+8e138af0-ce3f-4130-a5a2-99c21e71918e,Global Office Supplies,Printer cartridges and stationery,212.29,USD,IE001,CC500,routine,6100
+69b1d187-18c6-48c6-8e41-f005300c09fd,Swift Travel Services,Rail travel and expenses,2522.99,GBP,UK001,CC300,routine,6500
+9ff699da-e2a2-4e17-a5b2-8e3a692c7e3d,Meridian Fac. Ltd,HVAC servicing and inspection,2763.85,GBP,IE001,CC300,routine,6300
+a22ff68e-fe0d-4047-9810-ec7d0b3964bf,Global Office,Printer cartridges and stationery,701.35,GBP,IE001,CC300,routine,6100
+5c9a4346-6a61-4c52-8e8a-ee63bc00b5eb,LearnForward Ltd,Leadership development course,2482.11,GBP,UK002,CC100,routine,6800
+9ae4ee6b-3514-40e5-bd2b-8b3504944938,TechSource IT,Cybersecurity platform licence,7630.33,GBP,UK001,CC500,routine,6200
+ae88fc30-744f-45a1-8db1-b87cf4d191df,Swift Travel Services,Business travel accommodation,2982.67,USD,IE001,CC500,routine,6500
+146e6656-3221-44f5-b2ce-b4e82f48ee24,Horizon Group Ltd,HR consulting project,10748.69,USD,UK002,CC300,routine,6400
+c28aef8a-c105-411f-b6b2-4e5b7df2732a,Meridian Fac. Ltd,Office cleaning services monthly,4808.52,GBP,UK002,CC100,routine,6300
+2767a53d-41e2-4925-89a9-7689937fa6d3,Global Office Supplies,Office stationery and printer consumables,180.36,GBP,UK002,CC400,routine,6100
+2d7a6b31-8432-4013-810f-cccdf0ac5368,LearnForward Ltd,Compliance training Q3,646.88,EUR,UK001,CC200,routine,6800
+537708b1-9794-4136-a6c0-52ab79d29efc,SwiftTravel,Flight and hotel Q4,1830.9,GBP,IE001,CC200,routine,6500
+1c967d45-bb04-47fd-a74b-d90517aefc89,Global Office Ltd,Office stationery and printer consumables,669.97,GBP,UK002,CC500,routine,6100
+466f0f88-df8e-47b8-b54e-a58914e9b210,Swift Travel Ltd,Rail travel and expenses,504.41,GBP,IE001,CC500,routine,6500
+2ff09b22-0e7f-4591-80e9-44f1dbf8ab15,LearnForward Ltd,Staff training programme,861.99,GBP,IE001,CC300,routine,6800
+9b48cacf-ed92-4b57-a4cc-73db77cbbe12,Meridian Facilities Ltd,Pest control and grounds maintenance,1298.84,GBP,IE001,CC100,routine,6300
+0280136e-71da-49b5-a7a1-0e7c254ec287,Global Office Ltd,Printer cartridges and stationery,439.22,GBP,IE001,CC400,routine,6100
+1c7cfe9c-c3ca-4ef2-8a40-2d4a089aae6f,Learn Forward Training,Technical skills workshop,2615.05,GBP,IE001,CC100,routine,6800
+76d08566-cabd-459c-a0a2-e8dbd9473bbb,Global Office Ltd,Printer cartridges and stationery,358.73,EUR,IE001,CC100,routine,6100
+bec4e9db-c032-4827-8379-ea01ebe7c7b7,Learn Forward Training,Compliance training Q1,1915.33,EUR,IE001,CC100,routine,6800
+7344ac87-c741-41ee-a021-5272eb743cad,Apex Equipment Ltd,Network equipment installation,35993.57,USD,UK002,CC400,routine,7100
+1a8ee75d-16fd-44c2-9b03-177365b0ba1c,Meridian Facilities Ltd,Building maintenance and repairs,1481.87,EUR,IE001,CC400,routine,6300
+5ee1b609-df2a-403d-8ec3-64084b5bf04b,TechSource IT Solutions,Cybersecurity platform licence,14610.63,GBP,UK002,CC500,routine,6200
+41ececde-3eef-47a5-a9a1-dd49817e2de4,Meridian Fac. Ltd,Building maintenance and repairs,2158.36,EUR,UK001,CC200,routine,6300
+6f733f5f-d3f4-4081-9112-c019ea9e7732,Learn Forward,Compliance training Q4,1813.38,EUR,UK002,CC200,routine,6800
+4d97afcb-de16-4392-a16a-420f5c7d450d,Learn Forward,Leadership development course,1150.89,GBP,UK002,CC400,routine,6800
+16b06fce-39f2-46e9-94b7-78165987b144,Powerline,Electricity supply monthly,754.19,GBP,IE001,CC500,routine,6600
+0751a10a-93a7-4ea8-aec1-6c0755ec036c,Learn Forward Training,Technical skills workshop,2509.46,GBP,IE001,CC500,routine,6800
+b00bb0c7-2001-48cc-a1cc-c18671d9f949,BrandWorks Ltd,Social media advertising Q2,18724.19,USD,UK002,CC200,routine,6700
+099f3070-b425-4c1d-9062-afd5e75e54a5,Brandworks Marketing,PR retainer monthly,7045.35,EUR,IE001,CC200,routine,6700
+a056b758-ef89-4105-9db2-2ee82a234fbb,Learn Forward Training,Professional development programme,1068.11,GBP,UK002,CC100,routine,6800
+05242ecb-1d37-467d-84a5-3bb2d2c75297,Apex Equipment Ltd,Network equipment installation,6151.07,GBP,UK001,CC400,routine,7100
+47677d11-cebb-4007-9933-39b5308aca12,Swift Travel Ltd,Client meeting travel costs,1926.29,GBP,IE001,CC500,routine,6500
+e82f8fe3-e85d-40bc-9312-237dbc34e454,BrandWorks Ltd,PR retainer monthly,12909.18,USD,UK001,CC200,routine,6700
+d85aca16-a18c-4a4c-888b-2db4030004a3,Swift Travel Services,Client meeting travel costs,2278.28,GBP,UK002,CC200,routine,6500
+839c6909-0844-4d26-88b6-20ab8ea45f86,Swift Travel Services,Business travel accommodation,281.07,GBP,UK002,CC400,routine,6500
+ba9bfabc-2d33-4c5a-8dd5-f30386d37431,Global Office Supplies,Office consumables replenishment,448.37,GBP,UK001,CC100,routine,6100
+f4e3d995-a693-42ed-9852-337e5b5f495c,Brandworks Agency,PR retainer monthly,13979.56,GBP,UK002,CC300,routine,6700
+336bd014-58ad-40cf-8d95-b5f50eb49e04,LearnForward Ltd,Technical skills workshop,3500.78,USD,UK001,CC100,routine,6800
+867b59a8-d90d-4e16-aa08-d9aa881e9a8b,LearnForward Ltd,Compliance training Q4,4944.43,GBP,UK002,CC300,routine,6800
+ab64a00e-f451-4826-851f-2ae08fee4026,Horizon Consulting,Management consulting services,21626.72,EUR,IE001,CC300,routine,6400
+86b68441-dcd3-4bef-81f2-8849d1ea202e,SwiftTravel,Client meeting travel costs,991.41,GBP,IE001,CC100,routine,6500
+9e8c040f-ee03-488d-8d00-a82ec7e3be7c,LearnForward Ltd,Leadership development course,3990.83,GBP,IE001,CC200,routine,6800
+c9ba772e-e059-4a20-82c9-b138d02a568b,SwiftTravel,Flight and hotel Q1,2303.4,GBP,UK002,CC400,routine,6500
+18cb7d85-6a25-464a-b773-a832588ba78e,Meridian Fac. Ltd,Building maintenance and repairs,1951.33,GBP,UK002,CC400,routine,6300
+05d3ee93-7687-494b-b1e9-d5fafde213b7,Global Office Supplies,Office consumables replenishment,149.12,USD,IE001,CC300,routine,6100
+dbb5b027-bbb8-49df-a52d-808e7ac2bf25,Global Office Ltd,Printer cartridges and stationery,735.54,GBP,UK001,CC400,routine,6100
+1a7013da-b6b0-437f-bb24-cced29d3698e,TechSource IT Solutions,Cloud infrastructure services Q4,11435.2,USD,UK002,CC100,routine,6200
+b52e111f-92b7-4992-abf0-af0d98ee273a,Brandworks Marketing,Digital marketing campaign,6024.71,GBP,IE001,CC300,routine,6700
+2d074964-ac98-4e36-aeeb-e44f4d9aa12f,Brandworks Agency,Digital marketing campaign,18865.55,EUR,UK001,CC500,routine,6700
+c7bd01d1-704f-4ddb-b9a5-26c878b10430,Apex Equipment Ltd,Network equipment installation,73644.19,EUR,IE001,CC300,routine,7100
+ecb8d847-e820-457e-98a9-aed5853c3152,Brandworks Marketing,Digital marketing campaign,3655.76,EUR,UK001,CC100,routine,6700
+2bd264c2-e093-4f25-9bdb-d80b7a9b6a44,Horizon Group Ltd,HR consulting project,5120.27,USD,UK002,CC500,routine,6400
+c4e84238-7fb6-4fbc-9bac-d2d73869dd6b,Global Office Ltd,Printer cartridges and stationery,541.19,GBP,UK001,CC300,routine,6100
+dffba133-e19b-42d1-8131-3a465cf1325c,Horizon Consulting,Legal advisory fees Q3,12228.0,GBP,IE001,CC300,routine,6400
+91c59bd8-56bf-467a-8dce-02b21872a2ab,Apex Co.,Capital equipment acquisition,31900.54,GBP,UK001,CC400,routine,7100
+e2a9835c-e879-44eb-9057-d07cfcc1af5e,Tech Source Ltd,SaaS platform annual fee,3575.53,GBP,UK002,CC200,routine,6200
+89cd3617-950c-4866-a900-394e0e0fa294,Global Office,Office consumables replenishment,203.9,USD,UK001,CC200,routine,6100
+a78dd3fe-21f8-46fe-b93c-59a283070dec,Powerline Utilities,Energy supply invoice,1640.69,GBP,UK001,CC200,routine,6600
+c1c74115-b31b-472e-a7c3-21725711c700,Apex Equipment Ltd,Server hardware purchase,64888.54,GBP,UK001,CC300,routine,7100
+21eb84b1-21e8-4c8b-9f9b-1b8b8e470888,Horizon Group Ltd,Legal advisory fees Q3,9446.74,GBP,UK001,CC400,routine,6400
+9f958979-f70b-4050-99cf-520ee24a3191,Apex Equipment Co,Capital equipment acquisition,60924.9,GBP,IE001,CC500,routine,7100
+29570f07-2ad8-41f3-96d5-2fa13d81d0fa,TechSource IT,Cybersecurity platform licence,7805.66,USD,UK002,CC400,routine,6200
+4c6b6d40-5d00-422f-80ca-54c059b5305e,Meridian Facilities Ltd,Facility management services Q4,4993.22,GBP,UK002,CC400,routine,6300
+8a5333ae-5e6a-47a0-b0ae-3bbd4c234258,TechSource IT Solutions,Cloud infrastructure services Q1,5170.62,GBP,UK002,CC500,routine,6200
+eae41d66-53a4-4602-ad58-3e63bec3b1a7,Apex Co.,Production machinery purchase,29388.91,USD,IE001,CC400,routine,7100
+9a4e1f8f-a1de-46ff-a3f6-53c5dfdf7429,Tech Source Ltd,SaaS platform annual fee,2159.0,EUR,UK002,CC200,routine,6200
+6d99b691-00fd-40c9-8ab6-8388585469bb,BrandWorks Ltd,PR retainer monthly,16720.97,GBP,UK002,CC400,routine,6700
+90ff652e-52e4-4365-b98e-d6faf2996231,Powerline,Gas and electricity Q4,733.31,GBP,UK001,CC100,routine,6600
+b78ee74c-c76b-448f-aa87-b8641641d8f6,TechSource IT,SaaS platform annual fee,1900.18,GBP,IE001,CC100,routine,6200
+45497b8e-f5d1-4a5a-8acd-d0777f997831,Apex Co.,Server hardware purchase,29723.45,GBP,IE001,CC400,routine,7100
+2699fc58-7795-4578-9615-2b57c2f7679b,Meridian Facilities,HVAC servicing and inspection,3081.97,USD,IE001,CC200,routine,6300
+71bd4e09-8013-4894-8bad-3ba32674f36d,Global Office,Office stationery and printer consumables,411.64,USD,UK002,CC100,routine,6100
+dfaf5b4a-c916-4c29-90fd-88f47981b9e7,SwiftTravel,Client meeting travel costs,794.55,USD,IE001,CC300,routine,6500
+7bec8452-01ed-4e76-ac89-dd3e02ad8422,Meridian Facilities Ltd,HVAC servicing and inspection,1511.7,GBP,UK001,CC200,routine,6300
+5c5504a7-b98e-48d1-9e51-f559c424b48d,Global Office,Office stationery and printer consumables,543.01,GBP,UK001,CC500,routine,6100
+8ffa4805-12f1-4dd8-91dc-e0fab9b6b337,Horizon Consulting,Audit and assurance services,11656.15,GBP,UK002,CC300,routine,6400
+bcf46f5e-fb04-4ec8-88ad-da741bcf4b3c,TechSource IT Solutions,Cybersecurity platform licence,2755.91,GBP,UK002,CC400,routine,6200
+8b0a22e7-1ecb-4b09-b431-1102ff1c242c,BrandWorks Ltd,PR retainer monthly,12534.44,GBP,IE001,CC100,routine,6700
+0f047c79-4ae9-41d6-9b58-a88478a25bd7,Powerline Util. Ltd,Energy supply invoice,488.51,USD,IE001,CC300,routine,6600
+273d0b02-5f96-42df-98d6-cdb04bfec2cd,Meridian Facilities Ltd,Pest control and grounds maintenance,2097.26,GBP,UK001,CC300,routine,6300
+2d61fbd0-0b52-481e-99b2-4402aaf1ac6f,Horizon Consulting Group,Audit and assurance services,19575.7,GBP,UK001,CC400,routine,6400
+71b0a54f-fc58-4f50-9a50-da81c66332df,Brandworks Marketing,Marketing materials and print,3454.53,USD,IE001,CC300,routine,6700
+d9a2404c-ddef-4248-bef7-1edf1c3de225,TechSource IT,Annual software licence renewal,12995.58,GBP,UK002,CC100,routine,6200
+55bc03ef-4ea1-4ec0-a3fc-f965b1d6ab6a,Powerline,Utilities combined bill,1029.78,GBP,UK001,CC400,routine,6600
+d4916120-4ba1-43a6-819e-0c30d884df82,Meridian Facilities,Pest control and grounds maintenance,1024.99,GBP,UK001,CC400,routine,6300
+4b885692-03fe-458e-87a9-c826f3518c30,TechSource IT Solutions,Software subscription renewal,6817.31,EUR,UK002,CC300,routine,6200
+27a5c0a2-c673-42d1-ab36-7cf0dff6a7c3,Horizon Consulting,Management consulting services,19919.71,USD,IE001,CC200,routine,6400
+d5f04433-5fe8-49ca-ac99-8a82c1cc100b,Powerline Util. Ltd,Gas and electricity Q2,1536.54,GBP,UK001,CC300,routine,6600
+7fd4365e-b6f2-4dbc-b20f-a8283ed38658,Horizon Consulting Group,Management consulting services,15855.18,EUR,UK002,CC500,routine,6400
+690571ce-1c9d-4451-8241-1a8b04467b1a,Learn Forward,Professional development programme,4658.69,GBP,UK001,CC400,routine,6800
+b023cf1e-95dd-4ee0-b6e2-8380ee50061a,TechSource IT,IT support and maintenance contract,6912.02,USD,UK001,CC300,routine,6200
+dac0e475-7468-42da-bc9d-1f8ca01c4b1e,Apex Equipment Co,Capital equipment acquisition,28280.59,GBP,UK002,CC300,routine,7100
+fcc57da7-d851-4106-bf9e-86abe85a5807,Tech Source Ltd,Annual software licence renewal,13031.63,EUR,IE001,CC500,routine,6200
+1fd9d7a2-bb6f-49c8-805f-ccc6be8d3878,Meridian Facilities,Pest control and grounds maintenance,4563.44,GBP,IE001,CC400,routine,6300
+545eda7d-50da-4c49-be2d-90579f125a85,Apex Equipment Co,Capital equipment acquisition,76829.18,GBP,IE001,CC100,routine,7100
+448703f2-f5e7-4aff-b32c-6752e0b7bd24,Apex Co.,Network equipment installation,17941.92,EUR,IE001,CC500,routine,7100
+d03d9840-324d-4a52-b456-aa19f6273a74,Global Office Ltd,Monthly office supplies order,329.64,EUR,UK002,CC500,routine,6100
+44b0857e-9cf1-4386-818b-77d8ba8fc939,Meridian Fac. Ltd,Office cleaning services monthly,3307.07,GBP,IE001,CC400,routine,6300
+6fa67c2a-bb95-4c61-add6-79fa7db17213,Swift Travel Ltd,Conference accommodation and travel,2212.64,GBP,UK001,CC500,routine,6500
+609cf26d-f977-423b-8417-f095621c2307,Global Office Ltd,Printer cartridges and stationery,282.67,USD,IE001,CC100,routine,6100
+e9f8c205-8baa-4981-8da1-1ae825ab575b,SwiftTravel,Rail travel and expenses,1223.54,USD,UK001,CC400,routine,6500
+577cd56c-5a4c-4783-8479-1f2783a09db0,Apex Equipment Ltd,Production machinery purchase,6367.29,GBP,UK002,CC400,routine,7100
+3237b200-5a44-4f47-9db5-ed8a2eeefc5a,Horizon Consulting Group,Legal advisory fees Q1,24999.46,GBP,UK001,CC500,routine,6400
+d07e4903-6e10-4a4a-b14c-6e4d2439ab93,Apex Co.,Server hardware purchase,71276.16,USD,UK001,CC500,routine,7100
+b6ea2aab-d32e-4841-9d29-6d51249c9b5a,Brandworks Marketing,Marketing materials and print,4082.7,EUR,UK001,CC400,routine,6700
+640c4cf2-b588-48b6-a172-cecd31fee95a,Powerline,Utilities combined bill,1523.3,EUR,UK001,CC500,routine,6600
+10456e97-efd7-4e7e-941c-cffe0c8acf51,Horizon Consulting,HR consulting project,24208.72,GBP,IE001,CC500,routine,6400
+b0e1f3ef-8bbd-4191-a37f-9eeb0b47300e,LearnForward Ltd,Technical skills workshop,3962.47,GBP,UK001,CC500,routine,6800
+26c7f1a9-eb48-4d7b-af14-6d1533d76095,Global Office Ltd,Printer cartridges and stationery,89.13,USD,UK001,CC500,routine,6100
+b05aa681-dc07-4a0f-b864-0d856c72cd4d,TechSource IT,Cloud infrastructure services Q3,1716.19,EUR,IE001,CC200,routine,6200
+6a593feb-22b0-4150-8278-585322f31031,Brandworks Marketing,Social media advertising Q4,18981.85,GBP,UK001,CC400,routine,6700
+a655e61a-a3a6-4069-90f5-8f08b1b69748,Meridian Facilities,Building maintenance and repairs,2609.63,GBP,UK002,CC200,routine,6300
+8deab252-15df-4749-ac93-672693060229,Meridian Facilities,HVAC servicing and inspection,4667.96,GBP,UK001,CC300,routine,6300
+b5b18a87-6168-477a-aa8f-dc50f8b76780,Learn Forward,Technical skills workshop,4240.0,USD,UK001,CC100,routine,6800
+a5c944e9-4010-4847-a7b5-1bcd9cc858ef,Meridian Facilities,Building maintenance and repairs,1235.14,GBP,UK002,CC200,routine,6300
+d1719007-2aff-4393-9fa3-f93bcef9b1ca,Swift Travel Services,Client meeting travel costs,286.09,GBP,UK001,CC400,routine,6500
+0303e4a2-93f0-4657-b9da-d22cf9b260e1,Apex Equipment Co,Network equipment installation,52396.62,GBP,UK002,CC100,routine,7100
+dc89d059-eede-4d71-b4d4-d17abe709f52,Powerline Utilities,Gas and electricity Q1,1270.13,USD,UK002,CC100,routine,6600
+d6a73a90-c405-494f-a460-c1d343c01e3f,Apex Co.,Server hardware purchase,43049.58,EUR,UK001,CC400,routine,7100
+096e0650-5961-4f4e-ad4e-1290814a4e9d,Powerline Util. Ltd,Water rates quarterly,1570.44,GBP,UK001,CC100,routine,6600
+90a6d3fc-05b2-4c8f-865a-f2eb8e000d78,Powerline Utilities,Energy supply invoice,375.37,GBP,IE001,CC400,routine,6600
+1ce1e53f-4dbc-4236-9205-a31ff447a0c2,Learn Forward,Leadership development course,1320.25,EUR,UK001,CC300,routine,6800
+2af6f2fb-4252-4790-aa22-e1af3cf822ac,Horizon Consulting Group,Management consulting services,20195.51,GBP,IE001,CC400,routine,6400
+ccc010e6-96f2-44ea-b098-fdbb8cd7bb69,Apex Equipment Ltd,Network equipment installation,23998.53,GBP,UK001,CC300,routine,7100
+13633a0c-e841-48c5-afc4-c01bdcb58765,Swift Travel Services,Client meeting travel costs,2428.13,EUR,UK002,CC300,routine,6500
+6a40fbac-94c2-498c-94ec-3c1e222939c4,Global Office Ltd,Monthly office supplies order,569.05,GBP,IE001,CC400,routine,6100
+427415d0-dbd6-4b36-9f19-ae99a464ca9c,TechSource IT,Cloud infrastructure services Q3,9235.57,GBP,UK001,CC100,routine,6200
+d4f3e9af-397b-4536-86b6-3a39077054c4,Powerline,Utilities combined bill,802.59,GBP,IE001,CC400,routine,6600
+130ab84d-6813-4c4d-ac72-028dc7a39319,Powerline Util. Ltd,Water rates quarterly,372.0,GBP,IE001,CC100,routine,6600
+b9d1d1ae-03cf-4b58-824b-1fa3df27a057,Tech Source Ltd,IT support and maintenance contract,9743.93,GBP,UK001,CC500,routine,6200
+e4f377ac-464d-4b1b-8e88-1383ca33ef7c,Learn Forward Training,Leadership development course,1068.04,GBP,UK002,CC500,routine,6800
+8f626d78-cc19-433d-ba97-c1784be6bd4f,Meridian Fac. Ltd,Facility management services Q3,936.5,GBP,UK002,CC100,routine,6300
+146db0b4-bd07-457f-a626-897e135ceaf1,Global Office,Monthly office supplies order,325.21,GBP,UK001,CC100,routine,6100
+ae89090a-5e76-44f0-9f05-deace2a72d59,Global Office Ltd,Office consumables replenishment,438.31,GBP,UK002,CC400,routine,6100
+dbcf5e9e-d720-4320-917e-0a202daca413,Horizon Group Ltd,HR consulting project,8568.27,GBP,UK001,CC100,routine,6400
+113b3d07-4610-4b8f-a50a-ecaa9cb529f8,Learn Forward Training,Technical skills workshop,4544.06,GBP,IE001,CC300,routine,6800
+f407168d-e411-4c20-b983-046c43607249,Tech Source Ltd,IT support and maintenance contract,8361.48,GBP,UK002,CC500,routine,6200
+8437fa0f-ae29-4e5e-a41a-b5b9c91ebbb7,Horizon Consulting Group,Legal advisory fees Q2,24658.05,EUR,UK001,CC300,routine,6400
+76c181be-a8f7-4c04-b992-baf9bbba9f50,Apex Co.,Network equipment installation,32668.34,GBP,UK002,CC400,routine,7100
+c1f9a3bd-b5a2-4713-aae7-2ab8c120fb52,Learn Forward,Technical skills workshop,2348.58,GBP,UK002,CC100,routine,6800
+45da9fa1-b858-49af-9552-67d96b237300,LearnForward Ltd,Compliance training Q2,3560.49,USD,IE001,CC500,routine,6800
+2d116f45-c95d-47b1-b83e-1fdaea7fa73c,Global Office Supplies,Office stationery and printer consumables,374.46,USD,UK001,CC300,routine,6100
+3cb4504f-2a48-475f-8b22-a23c50a05e61,Global Office Supplies,"Paper, pens and office supplies Q3",292.0,USD,UK002,CC100,routine,6100
+d3a329e2-279a-4cee-b6e4-dbc40d9e6a44,Swift Travel Services,Conference accommodation and travel,1959.91,GBP,IE001,CC300,routine,6500
+13835961-beb0-40a4-b689-b11e58c0a452,Apex Equipment Co,Network equipment installation,42692.99,GBP,IE001,CC500,routine,7100
+d6297f55-e7f7-414d-be2c-67bcfc614d13,Powerline,Electricity supply monthly,370.03,GBP,IE001,CC500,routine,6600
+eea15487-9587-47cc-8735-6769bd6ba9bf,SwiftTravel,Conference accommodation and travel,750.8,USD,IE001,CC100,routine,6500
+cb9626e3-d03f-4d38-8851-3784172beacc,Learn Forward,Compliance training Q4,2955.1,GBP,IE001,CC400,routine,6800
+117bf918-fc32-4f7d-8d5f-f42954f437d6,Swift Travel Ltd,Business travel accommodation,357.97,EUR,UK002,CC400,routine,6500
+5e68c8ad-181e-4eb3-81b1-f6b447f6cb0a,Learn Forward Training,Leadership development course,2030.87,GBP,IE001,CC300,routine,6800
+d63d47d7-0805-47c7-ba26-3f3ba7b0b5d8,Brandworks Marketing,Marketing materials and print,15452.63,GBP,UK001,CC400,routine,6700
+b2063f32-a762-4a75-8f89-c6e5757ef9da,TechSource IT,Cloud infrastructure services Q1,7019.14,GBP,UK002,CC400,routine,6200
+2d3f8fad-77eb-47cc-b0d2-81cc494da07d,Brandworks Marketing,Social media advertising Q3,19291.03,USD,IE001,CC300,routine,6700
+f7c2a473-7538-488c-90e1-700735b6e671,Horizon Consulting Group,Financial advisory retainer,13460.11,EUR,UK002,CC400,routine,6400
+86c7f80b-40cf-4434-b2d5-67047026e445,Meridian Facilities Ltd,Pest control and grounds maintenance,4737.12,GBP,UK001,CC500,routine,6300
+4f6a5799-e740-4db2-8dea-74b0f597c1b4,Powerline Utilities,Utilities combined bill,385.92,GBP,IE001,CC100,routine,6600
+0cc19e07-b6ff-4c7e-a0c9-c514d4fbf39f,TechSource IT,IT support and maintenance contract,2442.06,EUR,UK002,CC100,routine,6200
+db906254-4053-4461-8f8a-b91028d629f2,Brandworks Marketing,Social media advertising Q3,11835.35,USD,UK002,CC100,routine,6700
+84a4eaee-3a34-4b97-94b9-395ede804ca7,Brandworks Agency,Marketing materials and print,9556.73,USD,IE001,CC500,routine,6700
+ecd63218-21fb-4370-a3a5-958af1a73001,TechSource IT Solutions,Software subscription renewal,14638.7,GBP,IE001,CC300,routine,6200
+fe27f39e-69a4-4eaf-88ae-523895b216a1,Global Office Supplies,Printer cartridges and stationery,501.85,GBP,UK001,CC200,routine,6100
+a4bdaaf9-014b-48f7-be1e-fb095c70f8a8,Powerline Util. Ltd,Gas and electricity Q2,1182.87,GBP,IE001,CC300,routine,6600
+4cc2ca3b-c94e-4137-a5df-4873c7cbaf4e,Global Office Ltd,Monthly office supplies order,792.96,USD,IE001,CC500,routine,6100
+65072f72-a08d-4fc9-bcc2-087738e1dd53,Learn Forward,Technical skills workshop,3033.16,GBP,UK002,CC100,routine,6800
+234ffbe0-2f88-45c7-a005-6ad337134c79,Brandworks Agency,Digital marketing campaign,6845.88,GBP,IE001,CC500,routine,6700
+2d25c874-1445-4ddd-86f1-d1f309121950,Horizon Group Ltd,HR consulting project,3181.17,USD,IE001,CC500,routine,6400
+289b2bce-ab95-4c48-806c-5ef97d8965da,Brandworks Marketing,Social media advertising Q1,16611.56,USD,IE001,CC100,routine,6700
+1ac1b3f3-ff38-47df-979d-b603ee5a3525,Horizon Consulting Group,HR consulting project,12143.89,EUR,IE001,CC200,routine,6400
+58a7b218-45a2-4038-a7bd-ed6af6f26047,Brandworks Agency,PR retainer monthly,15724.47,GBP,IE001,CC200,routine,6700
+27bcdc56-5a28-44bd-a80b-1a84c4910633,Apex Equipment Ltd,Capital equipment acquisition,79859.22,GBP,UK001,CC400,routine,7100
+9f7b17a6-bfcd-4e02-9aed-d9f3a2a6e273,Apex Equipment Ltd,Production machinery purchase,45970.49,GBP,UK001,CC300,routine,7100
+7343646b-6cf6-4fd5-9e00-ecdac916702c,Apex Equipment Ltd,Production machinery purchase,21865.03,GBP,IE001,CC400,routine,7100
+7f1151aa-dc57-4e3f-a095-e4ffd25e5232,Powerline Util. Ltd,Water rates quarterly,892.97,GBP,IE001,CC500,routine,6600
+0cbc1a0e-3182-4ac8-a071-2c70dbb23338,BrandWorks Ltd,Social media advertising Q3,16549.17,GBP,UK002,CC100,routine,6700
+5346c0a0-8a22-402c-8d9c-47b8fba05af8,Powerline Util. Ltd,Utilities combined bill,1415.15,GBP,IE001,CC300,routine,6600
+c4f93f67-fe18-4728-803c-fc7bf3b025a2,Apex Co.,Server hardware purchase,25371.61,GBP,UK001,CC500,routine,7100
+cbfc1bc2-3abb-40e9-b439-33860a10a24c,Horizon Group Ltd,Management consulting services,7355.24,GBP,IE001,CC400,routine,6400
+0de093fe-c52d-40eb-97f9-976d21d9aa35,Tech Source Ltd,Annual software licence renewal,11676.11,EUR,IE001,CC400,routine,6200
+79ee7a23-b72b-44ca-af1b-45261314633d,Learn Forward,Compliance training Q3,1397.55,GBP,IE001,CC100,routine,6800
+c150f91c-0b4e-4b43-abaf-f967ab306adf,Tech Source Ltd,Cybersecurity platform licence,8824.93,GBP,UK002,CC200,routine,6200
+07845bb9-b34d-4835-8d2c-ab44f5fe40d3,Meridian Facilities,Building maintenance and repairs,3982.21,GBP,UK001,CC300,routine,6300
+abf25126-eef1-42e3-aded-b186fba049a8,TechSource IT,SaaS platform annual fee,4626.14,GBP,IE001,CC400,routine,6200
+74b743ba-542d-4360-a089-ad90244ab7f8,Swift Travel Services,Rail travel and expenses,2455.12,EUR,IE001,CC300,routine,6500
+ebba2d0f-389e-4347-b8ff-66b25dc49cb4,Global Office Supplies,Monthly office supplies order,602.46,GBP,IE001,CC400,routine,6100
+0d7035c5-5113-4c25-bd37-d20eb70a576d,Brandworks Agency,PR retainer monthly,7230.61,GBP,UK001,CC400,routine,6700
+8e1cda3e-c526-48b4-940e-154e01bd49bf,Powerline Utilities,Utilities combined bill,311.61,EUR,UK002,CC300,routine,6600
+780e550c-2246-4c27-9554-82b5c364a631,SwiftTravel,Business travel accommodation,2210.22,GBP,IE001,CC200,routine,6500
+f5c3c71e-2f99-46a5-ba72-8f82fcf3c253,Meridian Fac. Ltd,HVAC servicing and inspection,767.48,EUR,IE001,CC500,routine,6300
+8704f975-18cc-447b-8910-9cfcaae6ca60,SwiftTravel,Rail travel and expenses,484.63,USD,UK001,CC200,routine,6500
+c2f62afc-b5bc-46ee-8fa9-b026775fc244,Global Office Ltd,Office consumables replenishment,164.89,EUR,IE001,CC500,routine,6100
+9d9bdfe6-0d35-4f24-97fa-871d2147e6e9,Learn Forward,Leadership development course,4108.98,USD,UK001,CC500,routine,6800
+260126ce-99c1-425b-8ae2-62194fc0d320,Learn Forward,Staff training programme,3666.95,GBP,IE001,CC500,routine,6800
+9f773b86-9042-40da-93ef-c914d3bcfb70,Horizon Group Ltd,Legal advisory fees Q3,14343.18,USD,UK002,CC100,routine,6400
+2fa8ff5d-3bc4-4e6f-a3d3-abd56aed0b1e,Horizon Group Ltd,Management consulting services,15412.4,GBP,UK002,CC200,routine,6400
+b3d99ec5-a770-4282-9dc5-90b46b6b67e4,Apex Equipment Ltd,Server hardware purchase,39259.89,GBP,IE001,CC100,routine,7100
+afc4b671-3010-4346-b15e-f33ca9c31e7a,BrandWorks Ltd,Social media advertising Q1,16512.61,GBP,UK002,CC300,routine,6700
+35a28538-36a3-4652-af8c-36f3dbe69bbd,Tech Source Ltd,Annual software licence renewal,14914.79,GBP,UK002,CC400,routine,6200
+401f77f3-8cb2-4fdc-9cce-a161211f9437,Global Office Supplies,Printer cartridges and stationery,624.37,EUR,UK002,CC400,routine,6100
+212ec5e2-13d4-4b54-a21d-0ea49d787a1c,Brandworks Marketing,Marketing materials and print,13971.88,GBP,UK001,CC200,routine,6700
+664fc457-4470-44a7-8dff-20a6fb1d378d,Apex Equipment Ltd,Network equipment installation,44663.19,GBP,UK002,CC400,routine,7100
+31198ac7-e52d-48de-9e6b-cdc7608418de,Apex Equipment Ltd,Network equipment installation,44895.02,EUR,UK002,CC200,routine,7100
+43352adf-d74f-4b87-8f26-0cfe3fa3fb1a,Swift Travel Services,Business travel accommodation,2821.62,EUR,IE001,CC100,routine,6500
+dcf50842-51db-4ff3-a97c-a5b1b0ad8916,Horizon Consulting Group,Financial advisory retainer,3547.69,EUR,IE001,CC100,routine,6400
+8bd63a88-5060-483f-9e4f-b77c8d808a93,Horizon Group Ltd,HR consulting project,3017.44,USD,UK001,CC100,routine,6400
+cf285710-a260-400a-be97-1e9870374be7,Global Office,"Paper, pens and office supplies Q3",795.11,USD,IE001,CC300,routine,6100
+0037deab-b173-4258-9667-5cf2c1150efc,Horizon Consulting,Financial advisory retainer,22153.94,EUR,UK002,CC300,routine,6400
+e8e00cef-82a3-4315-8407-a21f1a490265,Meridian Fac. Ltd,Building maintenance and repairs,4752.9,USD,UK002,CC100,routine,6300
+dbd1eed1-4561-4e27-8892-e35da1c56e4b,Powerline,Energy supply invoice,1441.28,EUR,UK002,CC200,routine,6600
+c383e50e-af19-4a98-af9a-74064e4de9d1,Swift Travel Ltd,Conference accommodation and travel,674.06,GBP,UK001,CC300,routine,6500
+c00d250e-be40-4344-81d9-977cf181c5c3,Global Office Ltd,Office consumables replenishment,736.06,EUR,IE001,CC500,routine,6100
+fed31830-55f9-4a44-8fe5-d4a6f3e7c2ee,Global Office Ltd,"Paper, pens and office supplies Q3",232.14,GBP,UK002,CC300,routine,6100
+00c697a2-6406-449c-9792-13d901b2cae1,Tech Source Ltd,Cloud infrastructure services Q1,11006.48,GBP,UK002,CC500,routine,6200
+63c53f10-22ab-4057-b21c-d27eb1c3d517,Meridian Facilities Ltd,Pest control and grounds maintenance,1103.18,EUR,UK001,CC300,routine,6300
+0fbae25c-2b7f-428b-869c-91d5465648ef,Swift Travel Services,Flight and hotel Q1,753.65,EUR,UK001,CC500,routine,6500
+45838a34-0b63-47a1-be51-58352496968a,Horizon Consulting,Financial advisory retainer,23047.91,GBP,UK002,CC400,routine,6400
+7df101ee-7f5b-4498-a0c6-6021bf862b29,Apex Co.,Production machinery purchase,31944.47,USD,UK002,CC400,routine,7100
+3878c1df-cb62-40e5-8be1-30e97e1b4672,Tech Source Ltd,IT support and maintenance contract,7307.61,GBP,UK002,CC400,routine,6200
+e124ab17-60c9-4374-9b81-115b803e94f2,Meridian Fac. Ltd,Building maintenance and repairs,4347.61,GBP,IE001,CC500,routine,6300
+25030d3d-6de7-4d08-b14c-c8240d9db3bf,BrandWorks Ltd,Brand design and production,3895.82,EUR,IE001,CC200,routine,6700
+34586580-1c9c-48dd-8ba8-aeb1a637950a,Learn Forward,Compliance training Q3,3445.74,EUR,IE001,CC400,routine,6800
+ded3d64e-1010-466b-b22c-af69569b4792,Learn Forward Training,Compliance training Q2,3797.48,GBP,IE001,CC500,routine,6800
+35949772-f2fe-4fc0-8721-a21795aa7941,Learn Forward Training,Professional development programme,4626.05,USD,UK001,CC100,routine,6800
+ea7f189f-883d-4a1a-912a-71fec607f06c,Meridian Facilities Ltd,Building maintenance and repairs,2179.48,GBP,UK001,CC200,routine,6300
+c11a5a41-cc71-4970-8330-6db4026378d2,Apex Equipment Ltd,Capital equipment acquisition,32990.05,GBP,UK001,CC500,routine,7100
+72bf413a-a94f-4d44-9c84-3fdb0216ecb6,Apex Equipment Ltd,Production machinery purchase,5888.82,GBP,IE001,CC400,routine,7100
+b1ac3aac-0f35-421b-8bc4-46cc058b21ac,Global Office Supplies,Office consumables replenishment,738.54,GBP,UK001,CC500,routine,6100
+d166d922-9c98-40d9-a832-843e9e2dde2c,Apex Equipment Ltd,Production machinery purchase,66141.08,GBP,UK002,CC400,routine,7100
+03bff6a8-9192-479c-b48d-d2641645d4eb,Learn Forward,Leadership development course,1594.44,GBP,IE001,CC100,routine,6800
+1331ef82-7da0-4141-b85c-5d29166728ca,TechSource IT,Cybersecurity platform licence,5999.33,GBP,IE001,CC100,routine,6200
+20ca9b90-189e-490e-b731-ab215a02e41d,Global Office Supplies,Printer cartridges and stationery,424.89,USD,UK001,CC500,routine,6100
+fc0e1ca5-4c3d-4c9f-8026-e41b1c16fc0c,Meridian Facilities Ltd,Pest control and grounds maintenance,1214.8,GBP,UK001,CC100,routine,6300
+c84be1a6-8522-4638-97a7-9a8883d0881b,SwiftTravel,Business travel accommodation,1756.0,GBP,UK001,CC200,routine,6500
+7ed6f6bc-9be1-4e84-8bda-b433ec12a31d,Global Office,Office stationery and printer consumables,665.68,GBP,IE001,CC200,routine,6100
+ca23ea13-b3e5-4806-80e9-640242497173,Brandworks Agency,Brand design and production,18033.99,GBP,IE001,CC100,routine,6700
+2f2d96e5-b86a-4fff-976f-b72eaf3c0853,Apex Co.,Server hardware purchase,78074.25,EUR,UK001,CC100,routine,7100
+6f559c3d-6913-4644-8465-3ba4ae58900f,Powerline,Energy supply invoice,1607.31,GBP,UK001,CC300,routine,6600
+d994a8f9-c8da-49fa-a83d-830a89eae5d6,LearnForward Ltd,Professional development programme,1526.62,EUR,UK001,CC500,routine,6800
+1e5fe4c6-169f-4b53-9b23-48baa1633f43,Brandworks Marketing,Brand design and production,15671.18,GBP,UK001,CC300,routine,6700
+19ec74b4-34bf-4dc3-b890-501c829593b0,Global Office Ltd,"Paper, pens and office supplies Q4",583.76,GBP,UK002,CC100,routine,6100
+49b2ba19-b32a-4556-ac93-cd6c48364c01,TechSource IT Solutions,Software subscription renewal,14172.92,GBP,UK001,CC200,routine,6200
+6f361686-b52f-4091-ba56-978e79edb9f1,TechSource IT Solutions,Cybersecurity platform licence,6749.2,GBP,UK001,CC100,routine,6200
+713f0af9-9725-4fad-9ac6-3d8ef9b61c18,Powerline,Energy supply invoice,458.21,EUR,UK001,CC300,routine,6600
+51801ebc-6649-45a9-8563-bdb27e6a5e15,BrandWorks Ltd,Marketing materials and print,15804.21,USD,IE001,CC200,routine,6700
+3713bdba-c630-487e-8994-df92386d07e8,Brandworks Marketing,Brand design and production,3637.96,EUR,UK001,CC100,routine,6700
+0442a273-d3ac-406b-a60b-bc9efed34af1,Global Office Ltd,Monthly office supplies order,256.97,GBP,UK002,CC300,routine,6100
+848d0a11-30ff-47fc-9cb5-ac8b9625b41d,Horizon Group Ltd,Financial advisory retainer,16375.77,EUR,UK001,CC200,routine,6400
+9195e9d7-7967-4c2e-8f4e-5a10f756bd52,Swift Travel Services,Rail travel and expenses,2854.15,GBP,UK002,CC300,routine,6500
+cb1fcf76-2a5c-440e-b658-6f094d4fb339,Brandworks Agency,Social media advertising Q3,19510.28,GBP,IE001,CC200,routine,6700
+24d70689-05c7-46e5-8cab-8bb636ae539c,LearnForward Ltd,Technical skills workshop,1299.37,GBP,IE001,CC400,routine,6800
+71676ffd-0f1c-4b9c-85dc-9c2b2a9c6a13,Horizon Consulting,HR consulting project,10649.27,GBP,IE001,CC200,routine,6400
+df007a88-18fd-492c-9a14-6497e0d2e8bf,Apex Equipment Co,Server hardware purchase,56128.45,GBP,UK002,CC300,routine,7100
+03824891-1e99-41f1-bd2d-12515fdfea51,TechSource IT,Cloud infrastructure services Q3,10258.18,GBP,UK002,CC200,routine,6200
+c30a46a6-312c-4748-90ec-ac87cbffadda,BrandWorks Ltd,Marketing materials and print,2405.34,USD,UK002,CC500,routine,6700
+e2224a81-cb37-46cf-86a4-0ac989f825da,Apex Co.,Server hardware purchase,36372.55,USD,IE001,CC100,routine,7100
+1d23e508-5538-4d3a-a65a-ae4a780b05dd,TechSource IT Solutions,IT support and maintenance contract,10035.22,USD,UK001,CC500,routine,6200
+f0b56427-2fad-4054-b3ee-e9d0a750cc5c,BrandWorks Ltd,PR retainer monthly,19348.62,GBP,UK001,CC300,routine,6700
+bd28d4ae-2d48-4204-bab2-71cba523e93a,Horizon Group Ltd,Financial advisory retainer,19177.62,EUR,UK002,CC400,routine,6400
+3aba525d-e737-422d-a3f1-4f0ccab9bd0e,Learn Forward,Professional development programme,3148.65,GBP,UK001,CC400,routine,6800
+b2de7b45-8f78-4344-a10b-b27e05575755,TechSource IT,Annual software licence renewal,6531.64,GBP,UK002,CC300,routine,6200
+579f438e-6728-4b29-b0d6-5437ed4eac39,Powerline Util. Ltd,Energy supply invoice,1633.26,GBP,UK002,CC100,routine,6600
+22612ce4-d955-42c4-b34c-31aec2e2c3e0,Learn Forward,Compliance training Q1,3635.43,GBP,UK001,CC100,routine,6800
+e68a4e77-14a8-4a15-b67a-ce035589948d,Meridian Facilities,Building maintenance and repairs,3310.26,USD,UK001,CC500,routine,6300
+ecce1a05-7076-4a04-90d2-265b348707dc,Global Office Ltd,Printer cartridges and stationery,469.89,EUR,IE001,CC200,routine,6100
+d6a0df7b-727a-433d-ae0d-f3ef7a0a3ff0,Global Office,Printer cartridges and stationery,542.98,USD,UK001,CC400,routine,6100
+c1ac821a-fda1-45af-aac6-28002b4f46cd,BrandWorks Ltd,Social media advertising Q2,1084.55,GBP,IE001,CC100,routine,6700
+3cb9892a-6611-4b7f-a472-c58a10e326d9,Tech Source Ltd,IT support and maintenance contract,3210.92,EUR,UK001,CC300,routine,6200
+34a171f4-8547-42c8-a42d-66f783de0b70,Learn Forward,Compliance training Q4,4846.62,USD,UK002,CC500,routine,6800
+83bac9d8-25a1-4154-8cde-bc76e7ff1093,TechSource IT,Software subscription renewal,5603.78,GBP,IE001,CC500,routine,6200
+dd968c66-407d-447c-a570-efba414926cd,Tech Source Ltd,Annual software licence renewal,2442.24,GBP,UK001,CC200,routine,6200
+fe44827b-2921-4b41-ae52-7e63932f85ab,Powerline,Utilities combined bill,540.31,USD,UK001,CC500,routine,6600
+1990a30f-2f34-4982-b022-0615739d345b,BrandWorks Ltd,Marketing materials and print,4529.32,USD,UK001,CC400,routine,6700
+8dbf29a7-f0d1-4d38-ae93-1166e059af31,Swift Travel Services,Client meeting travel costs,683.23,GBP,UK001,CC400,routine,6500
+8ce4f8e1-74b9-464e-9f40-626b969bf06c,Global Office Supplies,Office consumables replenishment,661.41,EUR,IE001,CC400,routine,6100
+4c3ea079-de0b-429a-a7ac-1bed1138e30b,Brandworks Agency,PR retainer monthly,16957.94,GBP,IE001,CC100,routine,6700
+1037ac69-1c26-4b47-bc71-4bdaca4ba2a1,Horizon Consulting,Legal advisory fees Q3,2751.99,GBP,UK002,CC500,routine,6400
+ae4288bb-14ec-43b6-850e-8efcbf0790f9,Learn Forward,Professional development programme,2798.63,GBP,IE001,CC300,routine,6800
+a580af37-e97d-456d-8890-c795852dbff8,Apex Equipment Co,Capital equipment acquisition,62000.31,EUR,UK001,CC200,routine,7100
+30a5a1f2-f0b4-4ab6-83bd-a82e85440032,Swift Travel Services,Rail travel and expenses,1431.74,EUR,UK001,CC200,routine,6500
+03cabed8-2f2f-4841-9c95-fcb272999ae5,Horizon Group Ltd,Audit and assurance services,15522.25,GBP,IE001,CC200,routine,6400
+86daf52d-dff4-4e49-9218-388c75ed8def,Horizon Consulting Group,Financial advisory retainer,20525.13,USD,UK002,CC500,routine,6400
+22f75d47-4299-4457-815a-c1985eb88760,Apex Equipment Co,Production machinery purchase,29274.02,USD,UK002,CC500,routine,7100
+d5c3341d-a480-402c-acae-dc77a1ad504a,TechSource IT Solutions,Software subscription renewal,14460.19,GBP,IE001,CC200,routine,6200
+860f4a3f-96ed-4822-ad27-cbc22a0bad18,Global Office Supplies,Monthly office supplies order,159.68,EUR,UK002,CC200,routine,6100
+5927da38-8cc6-4278-92f3-4de11eb157c0,SwiftTravel,Client meeting travel costs,1330.54,GBP,UK002,CC500,routine,6500
+1dd2ecda-d942-4a49-b09e-e3ab0c503415,SwiftTravel,Rail travel and expenses,2818.56,EUR,UK002,CC500,routine,6500
+462896cd-d3c7-40c5-bad4-32d5cab7468c,Meridian Fac. Ltd,Facility management services Q3,647.08,GBP,IE001,CC400,routine,6300
+ab0677bd-3ff8-4394-9c7a-bc25c2ad3bfc,Horizon Consulting,HR consulting project,20971.5,GBP,UK002,CC300,routine,6400
+f4967f86-8823-48a8-a949-56f86ba8c55d,Apex Co.,Capital equipment acquisition,14794.57,GBP,UK001,CC100,routine,7100
+518d86f7-4994-48e5-9521-0d5517d33107,Learn Forward Training,Leadership development course,1059.07,EUR,UK001,CC400,routine,6800
+441db069-7b1e-47cc-9cb4-e28f5199e12d,Horizon Group Ltd,Audit and assurance services,22916.37,GBP,UK001,CC300,routine,6400
+3187cd19-47a6-4434-a919-3ba9698dede6,Swift Travel Services,Flight and hotel Q1,1209.75,EUR,IE001,CC300,routine,6500
+edb36a00-3a2d-4093-b6fc-265294d8d7c7,Horizon Consulting,Management consulting services,17076.16,GBP,UK002,CC100,routine,6400
+549f072c-55c5-4df0-b79d-f871c2b5ed62,Global Office,Printer cartridges and stationery,219.64,GBP,IE001,CC300,routine,6100
+a5d64603-1fa5-4e2e-8217-eb2542df97de,TechSource IT,Software subscription renewal,10563.45,GBP,UK002,CC100,routine,6200
+8b8e2526-521b-4ae4-9883-7ba6619de91f,TechSource IT Solutions,IT support and maintenance contract,5043.6,EUR,UK001,CC200,routine,6200
+a39d463a-f9ca-4d6f-8102-398b2d5388ba,Tech Source Ltd,Cybersecurity platform licence,8667.72,EUR,UK002,CC200,routine,6200
+d26179fe-f18f-46ae-a514-f16fba1c961d,Global Office Ltd,Printer cartridges and stationery,512.06,GBP,UK001,CC200,routine,6100
+bc115582-44c2-4a9d-bcf2-5c23a7df1da0,Tech Source Ltd,IT support and maintenance contract,11085.13,GBP,UK001,CC200,routine,6200
+a80e7876-1eea-4279-a6a1-689b086a8ad3,SwiftTravel,Conference accommodation and travel,390.11,GBP,IE001,CC300,routine,6500
+b31b4d17-ce61-4efe-a4f5-17f4ca200e73,Horizon Group Ltd,Legal advisory fees Q4,15959.32,GBP,IE001,CC100,routine,6400
+dc4ac553-ac82-4669-874b-16edd13ced94,Horizon Consulting,Legal advisory fees Q4,10875.37,USD,UK001,CC500,routine,6400
+bdf93848-051f-446a-821f-9f785b11d2b6,Meridian Facilities,Building maintenance and repairs,4682.84,USD,UK002,CC300,routine,6300
+5a5ed1cb-e238-44ee-a0f6-e678633ca7ce,Apex Co.,Capital equipment acquisition,17957.77,GBP,IE001,CC100,routine,7100
+79456ce3-8a52-42c0-ab4d-a8c17216530b,Meridian Facilities,Office cleaning services monthly,1235.57,USD,UK002,CC500,routine,6300
+21c43fd1-f17b-48c3-85bc-f2df2b3cda00,BrandWorks Ltd,Digital marketing campaign,14334.4,GBP,UK001,CC300,routine,6700
+017d787d-2cc4-4d97-b6dc-4b258caea58a,Tech Source Ltd,Cloud infrastructure services Q3,13853.41,EUR,IE001,CC100,routine,6200
+a8439f99-4e72-4930-9e46-20cad2ddda34,SwiftTravel,Flight and hotel Q1,1396.84,GBP,UK001,CC400,routine,6500
+4a2a2f85-3577-4a5d-9a64-2a058d7d8a97,TechSource IT,Annual software licence renewal,9378.3,GBP,UK001,CC100,routine,6200
+aeb69959-00b9-4054-837d-6fa5607a1689,Global Office,Printer cartridges and stationery,58.51,USD,IE001,CC300,routine,6100
+bbcf6ce4-4545-439b-aeee-83bcdd55923d,Global Office Ltd,Monthly office supplies order,145.2,GBP,UK002,CC400,routine,6100
+a5eafd09-3783-42a2-825f-0144b5a23cbc,SwiftTravel,Conference accommodation and travel,332.04,EUR,UK002,CC500,routine,6500
+8353762a-806d-45d4-8d06-5268069cfcc9,Powerline Utilities,Energy supply invoice,1149.34,GBP,UK001,CC300,routine,6600
+f051001c-19da-4a04-b5b9-b5aebaf29221,Tech Source Ltd,Annual software licence renewal,10274.75,USD,UK001,CC100,routine,6200
+b32d215c-7c3b-4ffd-aedf-5acf6293a765,Meridian Facilities Ltd,HVAC servicing and inspection,420.71,GBP,UK001,CC100,routine,6300
+df8ed39f-dc97-475f-b9ec-01d3300d202e,Apex Co.,Capital equipment acquisition,60549.94,GBP,UK001,CC400,routine,7100
+e15af990-a3c4-444b-898c-389a73733347,Powerline Util. Ltd,Energy supply invoice,1704.19,GBP,IE001,CC100,routine,6600
+72b408b6-f020-4b3a-bf0d-04d088341e7e,Global Office Supplies,Office stationery and printer consumables,653.25,GBP,UK002,CC300,routine,6100
+2dcc7c60-eccc-43fd-8aab-7eacfae5fefb,Swift Travel Ltd,Client meeting travel costs,396.2,GBP,UK001,CC300,routine,6500
+87227b7b-4217-4a1f-9ba6-3ec985ee206c,SwiftTravel,Client meeting travel costs,1924.74,USD,UK002,CC200,routine,6500
+487f3cfb-d7fb-4d14-b9a4-b31e546b9b23,Apex Equipment Co,Capital equipment acquisition,16292.48,GBP,IE001,CC300,routine,7100
+368e2478-b5bb-4694-bebd-9468154c08be,Meridian Facilities,Facility management services Q3,207.02,GBP,UK001,CC500,routine,6300
+3c489d8e-0994-4855-a15b-06a8519079fa,Horizon Consulting,Management consulting services,13316.66,GBP,UK001,CC100,routine,6400
+b48eff33-0586-44c3-8a06-8fc89662a61a,Horizon Group Ltd,Audit and assurance services,11500.31,GBP,IE001,CC100,routine,6400
+b5ccae66-0b69-4d50-b90b-9343f0e8918b,Apex Equipment Co,Capital equipment acquisition,52791.18,USD,IE001,CC100,routine,7100
+c47d4af8-3c58-444e-b1ec-9291020965bc,Brandworks Agency,Social media advertising Q3,19320.15,GBP,UK002,CC400,routine,6700
+e67920e2-376f-4db6-b3ec-6a1e0adf4401,Powerline Util. Ltd,Gas and electricity Q1,1069.69,GBP,UK001,CC500,routine,6600
+9fb41ea3-dfb9-4271-8452-e1b65f36c9be,TechSource IT Solutions,Software subscription renewal,2032.04,GBP,UK002,CC100,routine,6200
+bfb3f019-f806-40f3-bb6c-f4b85db0b7f5,Apex Equipment Ltd,Network equipment installation,77347.6,GBP,UK002,CC300,routine,7100
+70729a18-6368-4e20-ac2f-58ce8ab3f26e,TechSource IT Solutions,SaaS platform annual fee,2785.42,USD,UK001,CC200,routine,6200
+21495330-5820-46b7-b5d5-d472ae44d3d2,Powerline Utilities,Gas and electricity Q3,455.06,EUR,IE001,CC100,routine,6600
+ec1f582a-3167-4dd9-8100-976e4bfc7585,Swift Travel Ltd,Flight and hotel Q1,2487.26,EUR,UK002,CC500,routine,6500
+348e4cc7-69a6-4fbf-b98b-b4166edf1c69,Apex Equipment Co,Server hardware purchase,12104.4,GBP,UK001,CC100,routine,7100
+fb8cb14b-6ea4-484b-b659-ade018a6ec77,Horizon Consulting Group,HR consulting project,6557.06,GBP,IE001,CC500,routine,6400
+e4155400-0b4b-4246-b901-2bc53f66a663,Swift Travel Services,Business travel accommodation,212.13,EUR,UK001,CC100,routine,6500
+5b21a8b6-cad7-497b-ad27-d26ea1ade043,Powerline Utilities,Utilities combined bill,372.58,GBP,IE001,CC400,routine,6600
+99c3538c-0bf0-466d-9b75-75510fb7a5fb,BrandWorks Ltd,PR retainer monthly,1560.16,GBP,UK001,CC200,routine,6700
+66e73315-8100-49f2-9861-35df8914dfe6,Swift Travel Ltd,Flight and hotel Q1,1421.13,USD,IE001,CC500,routine,6500
+be3d72bf-6dab-4484-b538-169672275ffc,Horizon Group Ltd,HR consulting project,8787.42,GBP,UK001,CC300,routine,6400
+f1600b1f-19e7-47cf-9a50-a7cf261ebda5,Brandworks Marketing,Marketing materials and print,8965.46,USD,UK001,CC400,routine,6700
+244719c9-875c-4f34-b52a-c9d40d7616ee,Powerline Util. Ltd,Utilities combined bill,1225.68,USD,IE001,CC300,routine,6600
+1d0ed68a-7c21-41d2-8899-de61f46b0787,BrandWorks Ltd,Brand design and production,4416.5,GBP,UK002,CC100,routine,6700
+1a0603b4-b6d7-4c7e-9e0f-4f16e328f3a2,Learn Forward,Professional development programme,2108.45,GBP,UK001,CC200,routine,6800
+5fc240a7-5669-4371-95aa-40c5d959b0de,Horizon Consulting,Management consulting services,14274.86,USD,UK002,CC300,routine,6400
+165c3e95-d507-466c-8cab-a6becfb672fe,Global Office Supplies,Monthly office supplies order,227.41,USD,UK001,CC300,routine,6100
+d508ead4-d80e-47fd-86cb-b35ff9061b5f,Global Office,Printer cartridges and stationery,761.28,GBP,UK002,CC100,routine,6100
+f8774609-2329-4967-88da-d40289efada3,TechSource IT Solutions,Cloud infrastructure services Q1,3873.04,USD,UK002,CC100,routine,6200
+1eb679b1-1ca8-4b88-a2d2-b4f366a8ad3d,Powerline,Gas and electricity Q3,642.49,GBP,UK002,CC100,routine,6600
+a9c70386-68aa-4590-8141-cc2d7665bc77,Meridian Facilities Ltd,Building maintenance and repairs,3015.72,USD,UK002,CC100,routine,6300
+a8778d5d-16cd-4bb9-86b8-a493b5bbd623,Powerline,Utilities combined bill,1901.27,GBP,UK002,CC300,routine,6600
+85217b76-694e-4562-8e74-0727af0fc168,Global Office Supplies,Printer cartridges and stationery,599.26,GBP,UK001,CC500,routine,6100
+b485e269-1653-4117-8975-2155c1e7b6f4,Powerline Utilities,Gas and electricity Q4,1431.4,GBP,IE001,CC300,routine,6600
+56454da9-892d-4d02-a90f-f8ba9e4eb30b,Global Office Supplies,Office consumables replenishment,596.62,USD,UK001,CC200,routine,6100
+3d64f680-2160-4a03-9d59-3f582d4834ef,Powerline,Energy supply invoice,675.52,EUR,UK001,CC300,routine,6600
+7cb45e96-ab2c-4e83-a9d5-b803ae445aa1,TechSource IT Solutions,IT support and maintenance contract,5528.75,GBP,IE001,CC300,routine,6200
+09b0ed6b-87f5-4813-a8d4-077e86c07c7c,Learn Forward Training,Leadership development course,1693.46,GBP,UK002,CC100,routine,6800
+33073d18-cfaa-4ba6-b96c-c480d82e3c9f,Meridian Facilities Ltd,Facility management services Q2,2052.5,EUR,UK002,CC400,routine,6300
+b2a9b5cb-cd93-4556-b062-d5e93ef793c6,Powerline,Utilities combined bill,938.09,GBP,UK002,CC100,routine,6600
+6297b2b0-8cdf-49e1-93c4-6b74b00e621c,Meridian Facilities,HVAC servicing and inspection,296.37,GBP,UK002,CC200,routine,6300
+ba5148d3-5f96-4041-9228-a1d8b5ecea49,Brandworks Marketing,Marketing materials and print,14907.72,GBP,IE001,CC500,routine,6700
+e02ce19b-8617-4c41-a572-792d8f4d8c45,Learn Forward,Leadership development course,639.47,GBP,UK001,CC100,routine,6800
+0e834e81-0ae2-4282-988c-de2306a625b3,Powerline Utilities,Utilities combined bill,1956.48,GBP,UK002,CC200,routine,6600
+3dc0966e-aa1e-43f4-be5d-a82e29938c4b,TechSource IT Solutions,Cybersecurity platform licence,6197.08,GBP,UK001,CC300,routine,6200
+fb99173c-045a-4aa6-9ba5-5835d0a55001,Meridian Facilities,Pest control and grounds maintenance,620.62,GBP,UK001,CC100,routine,6300
+cf424b54-0bbe-43bd-a4df-8470f06e7afb,Horizon Consulting Group,Management consulting services,16678.39,GBP,UK002,CC400,routine,6400
+95341c00-f41f-45f7-b92d-b6c83ea0466d,LearnForward Ltd,Compliance training Q1,4526.95,USD,UK002,CC200,routine,6800
+d4f7ec85-3c3f-4f5f-801b-c05bb55726e1,Powerline Util. Ltd,Utilities combined bill,927.98,GBP,UK002,CC400,routine,6600
+6eda1462-c971-4653-a668-5e8d13348368,Swift Travel Services,Conference accommodation and travel,2535.67,GBP,IE001,CC100,routine,6500
+3b826bf4-8289-4b36-9d92-4523abab229f,Tech Source Ltd,Cybersecurity platform licence,5484.98,USD,UK001,CC500,routine,6200
+99513841-2730-4ae1-a6f7-fc7d6f8a18e5,Meridian Facilities,Facility management services Q4,4128.35,USD,UK001,CC400,routine,6300
+207ae585-86f3-4053-97ac-85fb75e56615,Swift Travel Services,Business travel accommodation,1275.19,GBP,UK002,CC200,routine,6500
+b0398447-1402-451b-8e5b-6c291eb4f8cc,Global Office Supplies,"Paper, pens and office supplies Q1",656.35,EUR,UK001,CC400,routine,6100
+a42e4245-d2b7-4337-be22-9fbe2b131ddb,Horizon Group Ltd,Financial advisory retainer,5401.2,GBP,IE001,CC100,routine,6400
+e56054b4-c794-46e4-a027-21d4ba8ed693,TechSource IT,Cybersecurity platform licence,8567.28,GBP,IE001,CC400,routine,6200
+3797dd49-b667-44fc-a78d-5f0c5614c172,Meridian Fac. Ltd,Pest control and grounds maintenance,3190.68,GBP,UK002,CC200,routine,6300
+b28c916b-6ecc-4f36-a214-e3473da41699,Global Office,Office stationery and printer consumables,490.95,USD,UK001,CC300,routine,6100
+cd7903fb-612a-42fa-b894-f05d20d93c26,Apex Equipment Ltd,Production machinery purchase,70842.02,EUR,IE001,CC500,routine,7100
+e7d4fc0a-b865-456a-9d20-775098600595,Learn Forward Training,Technical skills workshop,1274.9,USD,IE001,CC400,routine,6800
+46b6cca0-605c-4a55-98ed-98842820694d,Meridian Facilities,HVAC servicing and inspection,4469.96,GBP,IE001,CC400,routine,6300
+73acdfaf-64aa-47ac-8371-3e7960b8c089,Swift Travel Ltd,Rail travel and expenses,207.66,GBP,UK002,CC100,routine,6500
+5deae016-776e-4a0b-88db-05de396562d6,Horizon Consulting Group,HR consulting project,8911.05,GBP,IE001,CC400,routine,6400
+87b34f27-9fbe-4fec-9b04-cf289bddd58e,TechSource IT Solutions,Software subscription renewal,6904.89,USD,UK002,CC100,routine,6200
+362604ae-f743-49ac-b2e4-928cb0994c00,Apex Equipment Co,Capital equipment acquisition,9921.27,USD,IE001,CC100,routine,7100
+a0f5619d-2fc1-477e-9480-0ceac1285957,Global Office Supplies,"Paper, pens and office supplies Q1",706.39,GBP,UK001,CC400,routine,6100
+3b700366-d3d8-44b4-9bf4-3f7096ddbe35,Meridian Facilities,HVAC servicing and inspection,3582.24,EUR,IE001,CC400,routine,6300
+a7b4cd9e-dd48-409d-9296-70e8386e6b8b,Tech Source Ltd,IT support and maintenance contract,943.17,USD,UK002,CC200,routine,6200
+0cfb531e-53a4-4ff4-9f71-962661e4a1d5,Learn Forward,Compliance training Q2,2981.0,GBP,IE001,CC100,routine,6800
+8772e615-7f6e-4d71-a451-96f5b096be0f,Swift Travel Services,Flight and hotel Q2,1251.71,GBP,IE001,CC200,routine,6500
+4cdcb572-c683-4b9b-9feb-f185913b746a,Horizon Consulting,Financial advisory retainer,16986.51,GBP,UK002,CC200,routine,6400
+263fea80-f29d-4d44-a26a-3f74a83f3d73,Global Office,"Paper, pens and office supplies Q3",650.65,USD,UK002,CC300,routine,6100
+e40b20ee-e322-45e1-8839-5f95325e78b2,BrandWorks Ltd,PR retainer monthly,17180.14,GBP,UK002,CC300,routine,6700
+63e75fa0-3787-4528-afbd-755aaa941cc6,Apex Co.,Server hardware purchase,34786.44,USD,IE001,CC300,routine,7100
+3bdf8fbb-6a69-42e0-9e7e-f09762efc56e,Apex Co.,Production machinery purchase,49532.94,GBP,UK002,CC100,routine,7100
+c58188e4-d352-403c-9a92-d74031977832,Powerline Util. Ltd,Water rates quarterly,1389.01,GBP,UK001,CC200,routine,6600
+c916c670-947d-4cd3-9cf9-ac36889a12c1,Apex Equipment Co,Capital equipment acquisition,72476.53,GBP,IE001,CC100,routine,7100
+b5908198-8349-461a-869d-1b789893eccb,LearnForward Ltd,Technical skills workshop,1667.42,EUR,IE001,CC100,routine,6800
+d7934710-fb5e-4583-8b97-709f2c381ef4,Horizon Consulting,Legal advisory fees Q4,18710.65,GBP,IE001,CC300,routine,6400
+26ffa754-c489-4016-a1a2-9ed50baaa27b,Global Office,"Paper, pens and office supplies Q3",707.37,GBP,UK002,CC200,routine,6100
+06c17464-a5cb-4c3a-bb1f-c73cff6b24d4,SwiftTravel,Flight and hotel Q3,2453.78,GBP,UK001,CC300,routine,6500
+f8cc5036-493b-4f2a-839f-78b10dfa848e,Horizon Group Ltd,HR consulting project,22042.94,GBP,UK002,CC500,routine,6400
+a2fae78b-f325-4d6c-a92f-aac1ffd72927,Swift Travel Ltd,Client meeting travel costs,2575.96,USD,IE001,CC500,routine,6500
+f161a676-aff4-401d-8751-305495a91e81,TechSource IT,Cybersecurity platform licence,13396.68,EUR,IE001,CC300,routine,6200
+733e2df2-d964-4163-b7ec-15c02f91d899,Brandworks Marketing,Social media advertising Q2,17546.13,GBP,UK002,CC400,routine,6700
+cdfdc375-1b35-4ff0-9575-c6377a37c1da,Learn Forward Training,Leadership development course,1923.73,EUR,UK002,CC200,routine,6800
+547974a9-4c5f-4d3f-a8e3-d216da38fd1a,Powerline,Utilities combined bill,398.62,GBP,UK001,CC500,routine,6600
+7bc5d68d-e343-424c-82ac-30ee9100b6a0,Global Office Ltd,Office stationery and printer consumables,638.91,USD,UK002,CC400,routine,6100
+b0e1aff3-3f06-4650-8e0b-26e46b59cb8a,BrandWorks Ltd,PR retainer monthly,19341.23,GBP,IE001,CC200,routine,6700
+b255380e-830e-45b0-a555-e56fdc381b95,Powerline Utilities,Energy supply invoice,1816.41,GBP,IE001,CC100,routine,6600
+d4904d8c-88a4-402e-a022-c7fa503811ff,Horizon Consulting Group,Audit and assurance services,17951.07,GBP,UK001,CC400,routine,6400
+202ab9d2-f3a4-4f40-b53f-d50e6d601639,Apex Co.,Server hardware purchase,27958.63,GBP,UK002,CC400,routine,7100
+7f979b1f-bcb3-4ade-80d5-497890506f9e,Apex Co.,Capital equipment acquisition,44308.82,GBP,UK002,CC300,routine,7100
+50f185b5-141c-405a-a956-934f0a55415f,Horizon Consulting Group,HR consulting project,23805.94,GBP,UK001,CC200,routine,6400
+4ed5176a-b056-4e13-b747-d82d68eeebcf,Horizon Group Ltd,Financial advisory retainer,2504.01,GBP,UK002,CC100,routine,6400
+51fae0e6-aa9c-42ef-961e-4bd1c09afa91,Brandworks Agency,Marketing materials and print,5859.99,USD,UK001,CC100,routine,6700
+040d41a8-482c-406f-9a0a-4cea1afdf8aa,Meridian Facilities Ltd,Facility management services Q4,3510.8,EUR,UK001,CC500,routine,6300
+6b3f699c-1386-4f09-a53e-205be0e1f303,Swift Travel Ltd,Flight and hotel Q1,2150.32,GBP,UK002,CC100,routine,6500
+f9a87ab5-3950-485e-9d61-13493d8840e6,Apex Equipment Ltd,Network equipment installation,51709.83,GBP,IE001,CC500,routine,7100
+f3a498aa-4f31-4178-b581-321075dd4501,TechSource IT,Annual software licence renewal,2153.18,GBP,IE001,CC200,routine,6200
+63d4f470-f662-48e3-8f31-dc8eb1ea6ddc,SwiftTravel,Rail travel and expenses,2923.39,GBP,UK001,CC100,routine,6500
+8477906e-fe72-4400-b199-c71f16dacd14,Apex Equipment Ltd,Capital equipment acquisition,73276.75,GBP,UK001,CC100,routine,7100
+8f923249-a1a1-4d65-b9ea-0132eba42c81,TechSource IT Solutions,SaaS platform annual fee,12610.87,GBP,UK001,CC500,routine,6200
+3e2601a2-be7a-4d16-99a6-f7b06bd10721,Tech Source Ltd,IT support and maintenance contract,10991.86,EUR,UK002,CC300,routine,6200
+c2e7564a-6b5f-4ce6-9dca-238a5f4e8bbe,Learn Forward Training,Leadership development course,949.14,GBP,UK002,CC300,routine,6800
+409b2eec-d63d-445d-b5c6-c13dc19cb3f5,Brandworks Agency,Digital marketing campaign,3202.12,GBP,IE001,CC200,routine,6700
+399dee26-3dbb-4d36-acf4-417ec88511bc,Powerline Util. Ltd,Energy supply invoice,1820.7,GBP,UK002,CC300,routine,6600
+03817d4f-769e-4a53-bbcc-43e46783ef28,Global Office Supplies,Printer cartridges and stationery,350.58,EUR,IE001,CC400,routine,6100
+42ba9ca4-ddff-49eb-8fdc-db1462f6c84a,Brandworks Agency,Social media advertising Q1,17836.35,GBP,IE001,CC100,routine,6700
+3460c501-84eb-4a45-b6c4-61d9a6eb9384,Global Office Supplies,Office consumables replenishment,362.02,USD,IE001,CC400,routine,6100
+0bd18bea-23c1-491f-9bd6-50920c51bc8f,Global Office,Monthly office supplies order,334.81,GBP,UK002,CC400,routine,6100
+4da0216d-b961-4b69-a3c0-0c28d8ae154c,TechSource IT,Annual software licence renewal,6889.97,GBP,UK001,CC500,routine,6200
+8e3cda17-037e-44b0-b1eb-336393a797b9,Horizon Group Ltd,Financial advisory retainer,22082.3,EUR,IE001,CC200,routine,6400
+57b9f984-9c38-474e-ba3b-26ba82e9982d,LearnForward Ltd,Technical skills workshop,3486.7,USD,IE001,CC100,routine,6800
+843f629f-1399-41f0-bd3d-6678bbb34710,Meridian Fac. Ltd,Pest control and grounds maintenance,4684.98,EUR,UK001,CC100,routine,6300
+a1203611-beff-40a4-a06e-e3a9b06fe100,LearnForward Ltd,Compliance training Q1,1584.01,USD,UK001,CC500,routine,6800
+418aa3ba-9834-44b9-bc38-49b47a775813,BrandWorks Ltd,Digital marketing campaign,16524.96,EUR,IE001,CC400,routine,6700
+c908c947-8876-48ef-a0c8-08d59954b97d,TechSource IT,Annual software licence renewal,6982.49,GBP,UK001,CC400,routine,6200
+b7648ef4-589b-479e-81f2-0ac2ccc40902,Brandworks Marketing,Digital marketing campaign,11585.49,USD,IE001,CC300,routine,6700
+b8df7bff-87c7-400d-a0af-1c48c0a37d9d,Apex Co.,Capital equipment acquisition,20513.84,GBP,UK001,CC200,routine,7100
+67007061-4575-4587-9eb6-d23fe342f2fe,LearnForward Ltd,Professional development programme,3020.68,GBP,IE001,CC400,routine,6800
+68a15493-2df2-40cb-a0af-0b4d79298137,TechSource IT Solutions,Cloud infrastructure services Q1,11510.14,GBP,UK002,CC300,routine,6200
+588b05ab-f6e2-4a18-98bd-e67c01236103,Apex Co.,Server hardware purchase,33041.78,GBP,UK002,CC200,routine,7100
+fbb146af-21f3-4792-8c7a-60e6b9cb0cd0,Brandworks Marketing,Social media advertising Q2,5831.5,GBP,UK002,CC200,routine,6700
+0c4255d0-4691-4c84-8fc9-7c6ef5010a9f,Learn Forward Training,Staff training programme,3725.55,GBP,IE001,CC500,routine,6800
+3cf16bc8-acd6-4375-8bc3-3397e6807534,TechSource IT,Cybersecurity platform licence,7132.12,EUR,UK001,CC500,routine,6200
+71a87c03-73d0-4a95-9737-d9200102422c,Meridian Fac. Ltd,Pest control and grounds maintenance,4689.48,USD,UK001,CC500,routine,6300
+714a5575-de93-4144-9a6c-99b8a4a1aeec,Global Office,Office stationery and printer consumables,661.43,USD,IE001,CC300,routine,6100
+f551ff37-a969-4e82-8dc8-461bb70dda3f,Apex Equipment Ltd,Network equipment installation,36399.86,EUR,UK002,CC300,routine,7100
+a0440eb1-4bb7-4209-8feb-bf8551583b2c,Learn Forward Training,Professional development programme,1121.81,USD,UK002,CC500,routine,6800
+9a1b18a2-f3ab-4839-adf1-6b9abedb9c20,Horizon Consulting Group,Audit and assurance services,6823.39,GBP,IE001,CC200,routine,6400
+0f8e6ac3-58ec-4a88-9a58-a05e64590dad,Apex Co.,Production machinery purchase,57073.4,GBP,IE001,CC400,routine,7100
+1effcc8b-eaa1-4931-b78b-cb754f2987f9,Brandworks Agency,Marketing materials and print,15209.51,EUR,UK001,CC500,routine,6700
+5f73481c-86db-4561-9543-727f57d123de,TechSource IT Solutions,Annual software licence renewal,6022.62,GBP,UK002,CC200,routine,6200
+688c504b-ccaa-4e57-94e7-6598babea653,SwiftTravel,Business travel accommodation,864.1,GBP,IE001,CC100,routine,6500
+7ecd8f71-b92e-4f09-aa3c-fa25598c528b,Powerline Util. Ltd,Energy supply invoice,474.22,USD,UK002,CC200,routine,6600
+a2f14f73-5e13-4d8c-b96d-3b1bfd29802f,Apex Co.,Server hardware purchase,26572.9,EUR,UK002,CC300,routine,7100
+1694064d-ce62-4df6-9b40-d8d2b3ddb136,Apex Equipment Co,Production machinery purchase,5972.39,USD,UK002,CC200,routine,7100
+16544beb-f1b5-426e-b76f-9a320c8a8524,Powerline,Energy supply invoice,1229.25,GBP,UK002,CC400,routine,6600
+8ee7bd9b-a9df-487f-a7ea-f070d9f5239e,Global Office,"Paper, pens and office supplies Q1",105.85,EUR,UK001,CC400,routine,6100
+5b7a6b24-110a-4385-8f17-b4b8d8b9ff4a,SwiftTravel,Flight and hotel Q3,903.08,GBP,UK002,CC400,routine,6500
+b21cb2fc-c442-4a25-b01a-740fca197654,Global Office Supplies,Monthly office supplies order,165.28,USD,IE001,CC300,routine,6100
+2dc892ac-8ae4-46e4-aa9b-76118352c8f5,Learn Forward,Staff training programme,2975.72,USD,UK001,CC200,routine,6800
+97d49d72-3ca1-4b5b-8adb-96b5a1f9b4a4,Apex Equipment Co,Network equipment installation,63969.37,USD,IE001,CC400,routine,7100
+c1b2b9d9-6e07-4aa2-9e62-92e9e6d463aa,TechSource IT,Cloud infrastructure services Q3,3707.37,GBP,UK002,CC300,routine,6200
+55bc3a7d-8cc3-4ec2-96c4-2c0775559d5a,Horizon Group Ltd,Financial advisory retainer,14201.47,GBP,IE001,CC300,routine,6400
+a111e5f0-6b94-4822-ad37-511259251524,Learn Forward Training,Professional development programme,4570.23,GBP,IE001,CC300,routine,6800
+4c85fae3-4ce2-40cd-afef-dad5b6b1df7e,Brandworks Marketing,Marketing materials and print,8331.64,GBP,IE001,CC300,routine,6700
+2a9a767c-3ce4-4886-8066-a9f5d12f077e,Apex Co.,Server hardware purchase,38416.77,GBP,UK002,CC500,routine,7100
+67f0fe81-568a-46bc-8601-c5668499d8c8,TechSource IT Solutions,Cybersecurity platform licence,2927.22,GBP,UK001,CC200,routine,6200
+1c736d09-8b20-4ab1-bbc3-9004850a1f43,Brandworks Marketing,PR retainer monthly,4906.01,GBP,UK001,CC400,routine,6700
+b772ff40-90c4-42b2-be88-8d1c676138d8,Powerline Utilities,Electricity supply monthly,448.79,GBP,IE001,CC100,routine,6600
+b64925ff-f0bb-46f7-8ca0-b7d1cf1eb3bb,Horizon Consulting,HR consulting project,11375.55,EUR,UK002,CC100,routine,6400
+902fc7aa-b561-4e55-b425-34968d36f13e,Brandworks Agency,Digital marketing campaign,3247.81,USD,UK001,CC100,routine,6700
+38d1cc14-b09f-4004-bd47-081b30c4200c,Powerline,Water rates quarterly,480.43,GBP,UK002,CC400,routine,6600
+c66d8d1b-21c4-4415-aa5b-9e6ac6d3c97f,Brandworks Agency,Social media advertising Q2,1585.56,GBP,IE001,CC400,routine,6700
+d73b54bc-7f09-4000-9f36-97d3c18a0b11,Apex Equipment Ltd,Network equipment installation,77010.07,GBP,UK001,CC500,routine,7100
+70e0c38e-c58d-48ce-8f33-e9aef756f950,Apex Equipment Co,Server hardware purchase,14242.64,USD,IE001,CC100,routine,7100
+eb1c1b15-6a03-4d84-98fa-9581e4a2efd9,Swift Travel Services,Rail travel and expenses,2282.65,EUR,IE001,CC500,routine,6500
+0cd0b5ce-6f13-47f7-9918-0155add14b43,Global Office Supplies,Office consumables replenishment,187.99,GBP,UK001,CC200,routine,6100
+da01f062-ca2c-4ba8-ad30-ecfca9393b0b,Meridian Fac. Ltd,Pest control and grounds maintenance,2414.07,GBP,IE001,CC100,routine,6300
+320235d0-1cc2-42c9-bfad-b0baed1aa4ce,Swift Travel Services,Conference accommodation and travel,712.64,GBP,UK002,CC200,routine,6500
+9ee4bc70-0741-4b7e-9643-cd3334e67c67,Horizon Consulting Group,Management consulting services,8558.15,GBP,UK002,CC400,routine,6400
+ca791e08-8680-4f86-a33c-dba4385a01fe,Powerline,Energy supply invoice,1421.02,USD,IE001,CC300,routine,6600
+f3cd2ab1-9e90-4c5c-ad29-aa689d31949f,Powerline Util. Ltd,Water rates quarterly,586.69,GBP,IE001,CC400,routine,6600
+c10a9375-0089-444e-b6cf-9c723cd31341,Swift Travel Ltd,Rail travel and expenses,532.77,EUR,UK002,CC300,routine,6500
+0156e96e-faeb-4726-97b6-f0380a307128,Swift Travel Ltd,Flight and hotel Q1,1722.26,GBP,UK001,CC500,routine,6500
+b22e2c09-8626-4de5-a3ff-7eeb6f98456d,Horizon Consulting,Management consulting services,18871.53,GBP,IE001,CC100,routine,6400
+1756e24e-e1d5-4152-a943-b3087eaf9965,Brandworks Agency,Digital marketing campaign,5042.45,USD,IE001,CC400,routine,6700
+5ac5ce81-ebe8-4394-bd62-9c0aba0bc185,Global Office Ltd,Office consumables replenishment,344.37,GBP,UK002,CC500,routine,6100
+d14d2927-4af1-4154-9760-9bd7c7e2a567,Apex Equipment Co,Server hardware purchase,34758.89,USD,IE001,CC200,routine,7100
+40390aca-4a50-4bde-adb5-71a4cb79ecd1,Apex Equipment Co,Network equipment installation,38466.53,EUR,UK002,CC100,routine,7100
+45d4b0dd-c1c0-4721-a4fa-287605deace1,Horizon Consulting,Audit and assurance services,7330.25,GBP,UK001,CC200,routine,6400
+bdd50627-6966-482a-97bb-2758de8cd568,Apex Equipment Ltd,Capital equipment acquisition,34106.98,GBP,IE001,CC300,routine,7100
+a90a518d-3407-41bd-8ad1-b21618e1d5b1,Tech Source Ltd,SaaS platform annual fee,14542.4,GBP,IE001,CC500,routine,6200
+d2438eea-c631-4e82-9bc0-8d15e8eb1274,Global Office Ltd,Monthly office supplies order,540.26,USD,UK002,CC400,routine,6100
+1b1aeba8-4e22-490a-9f6e-f2a1216191b1,Horizon Group Ltd,Audit and assurance services,11334.37,EUR,IE001,CC100,routine,6400
+a18c1706-67da-4515-b8b4-5c78439fcc84,Apex Equipment Co,Network equipment installation,37992.4,USD,IE001,CC300,routine,7100
+85f0219e-9559-40c7-a692-3327c49da8bf,Horizon Consulting Group,Audit and assurance services,6298.83,GBP,UK002,CC300,routine,6400
+60088d19-6452-434f-bfb9-fc3af016a1e3,TechSource IT,Software subscription renewal,10290.83,USD,UK001,CC400,routine,6200
+1f1e8b1c-3e32-4870-8c9d-909c3a9c09a9,Meridian Facilities Ltd,Pest control and grounds maintenance,407.09,GBP,IE001,CC500,routine,6300
+d8379556-94ba-4b1d-8ecc-bc24fa9b61b1,Meridian Fac. Ltd,Building maintenance and repairs,904.95,GBP,IE001,CC400,routine,6300
+c036c853-7f62-460f-8212-3ed6cf82d26c,Meridian Fac. Ltd,HVAC servicing and inspection,3694.28,GBP,UK002,CC500,routine,6300
+c2610e42-b5bc-46f0-a7c9-e70e1af29ead,LearnForward Ltd,Technical skills workshop,1267.55,USD,UK001,CC500,routine,6800
+2b9b0ef4-7758-4663-96ca-5e3963d869c5,Apex Equipment Ltd,Production machinery purchase,17579.13,USD,IE001,CC100,routine,7100
+ca47aff2-2fad-49ed-aea3-89eddfb681b8,Horizon Consulting,Management consulting services,10865.62,GBP,IE001,CC500,routine,6400
+d8dc9044-b41f-414d-a96a-039e43de6d8a,Brandworks Marketing,Social media advertising Q4,12504.71,USD,IE001,CC100,routine,6700
+483905be-f2b7-4641-a132-2c3695987ea0,Apex Co.,Server hardware purchase,61428.74,GBP,IE001,CC500,routine,7100
+20f0b0e9-18a6-4fc6-bc20-bee936aa3390,Meridian Fac. Ltd,Pest control and grounds maintenance,3316.31,GBP,UK001,CC500,routine,6300
+c4ad5f54-803f-46d0-ac9b-eda24ffb4a84,Brandworks Marketing,PR retainer monthly,18830.01,GBP,IE001,CC500,routine,6700
+4017f29e-cd4f-4a37-9ae6-73c67f1b1706,TechSource IT,Software subscription renewal,2441.31,GBP,UK002,CC500,routine,6200
+cd2c1fb7-611a-4c8a-8727-31d6134406c8,Apex Equipment Ltd,Server hardware purchase,24335.37,USD,IE001,CC100,routine,7100
+9fb9468f-75d7-4723-b36a-2dc5d288ddbb,Apex Equipment Co,Network equipment installation,33127.24,EUR,UK002,CC100,routine,7100
+3e955c03-bced-4dbc-8fdc-f8f757bcdd14,Global Office Ltd,Monthly office supplies order,538.68,USD,UK002,CC500,routine,6100
+2cc5bcce-ba90-496d-b57d-efd7635fafed,Powerline,Utilities combined bill,768.45,EUR,IE001,CC500,routine,6600
+80b8588a-cb45-4180-9700-c61f6651d03d,Learn Forward Training,Professional development programme,2165.96,GBP,UK002,CC500,routine,6800
+610d98c9-c5ac-4468-ba0a-b4f5ebe26bbd,Powerline,Gas and electricity Q1,976.82,GBP,UK002,CC200,routine,6600
+85c4d730-2a54-4ff9-b4e6-50618eb4a0c4,TechSource IT Solutions,IT support and maintenance contract,7870.98,GBP,UK002,CC100,routine,6200
+2c33cb32-d2d5-4102-8520-b6e501f19299,TechSource IT Solutions,Cybersecurity platform licence,7339.2,GBP,UK001,CC300,routine,6200
+3bee7aaa-91bf-44c7-96f1-acfb13d1e46d,Horizon Consulting,Management consulting services,3840.91,EUR,IE001,CC500,routine,6400
+d317027c-6b54-41bf-b14b-f269bc4a19d7,SwiftTravel,Business travel accommodation,2896.06,EUR,UK002,CC100,routine,6500
+fe500a7f-ebac-43e8-9020-ccf14d76be77,Horizon Group Ltd,Financial advisory retainer,23407.44,GBP,UK001,CC500,routine,6400
+52eac850-c3b7-42ad-a105-93429dd5ffbd,Apex Co.,Network equipment installation,57383.73,GBP,UK001,CC100,routine,7100
+ad61ee52-2576-4ad4-999c-e64210316dd2,Global Office Supplies,Printer cartridges and stationery,797.61,EUR,UK002,CC500,routine,6100
+52ccf679-1b13-4631-a6b8-c73ebffd2583,Horizon Group Ltd,Management consulting services,2353.43,USD,UK002,CC500,routine,6400
+cb76de88-bc9c-41f4-b818-d5949ccf8199,Powerline Util. Ltd,Water rates quarterly,1937.59,USD,UK001,CC400,routine,6600
+4c770287-0aa2-4f59-b755-960f49aa8fb5,Brandworks Agency,Social media advertising Q4,1088.38,USD,UK001,CC500,routine,6700
+c527f741-9590-40cb-90a0-84418aac7531,Tech Source Ltd,Annual software licence renewal,4766.65,USD,IE001,CC300,routine,6200
+49ecea01-3550-45a1-b1b4-8171edae9bae,LearnForward Ltd,Leadership development course,3034.26,EUR,IE001,CC400,routine,6800
+e9bd160a-9203-4bd0-a44e-7f4123baf618,Meridian Facilities,Office cleaning services monthly,758.09,GBP,IE001,CC200,routine,6300
+e6efb2f9-503a-4f43-97a9-31d8f49f1e4a,Powerline Util. Ltd,Energy supply invoice,1924.26,GBP,UK001,CC300,routine,6600
+75a16dee-f77a-46ce-a3d3-1623ba6555c8,TechSource IT,IT support and maintenance contract,10268.62,USD,UK001,CC400,routine,6200
+46a9cd0a-f6c9-46cf-b0bd-f9059e61e84e,Powerline Util. Ltd,Energy supply invoice,671.56,GBP,IE001,CC200,routine,6600
+118c8fe4-bc13-4b00-aa02-9fee4c86c72e,Learn Forward,Leadership development course,1398.5,GBP,UK001,CC200,routine,6800
+a4e500e3-d4b4-4554-a021-866f870116a3,Horizon Group Ltd,Management consulting services,10188.63,GBP,IE001,CC400,routine,6400
+a13b16fc-d21c-4979-9a8e-09ae60448932,Meridian Fac. Ltd,Facility management services Q3,4798.37,USD,UK002,CC400,routine,6300
+1b97dd55-ebd2-4eab-94e7-f86964a77902,Swift Travel Ltd,Conference accommodation and travel,671.18,EUR,UK001,CC500,routine,6500
+03f6132d-8b07-4901-a2b1-2d6400d7ef54,Global Office Supplies,Printer cartridges and stationery,444.3,USD,UK001,CC500,routine,6100
+52c76de6-25a4-4a57-b912-7fcfc5fbbbbb,Powerline Util. Ltd,Gas and electricity Q4,1762.68,GBP,IE001,CC500,routine,6600
+894f32f0-fa6a-4087-9b3f-2b328c421a8f,LearnForward Ltd,Staff training programme,3601.45,EUR,IE001,CC100,routine,6800
+d35107ce-6e2b-4a7a-a7f7-54147af800b5,Powerline Util. Ltd,Water rates quarterly,1341.72,USD,UK002,CC200,routine,6600
+9796ebca-1265-4f03-a100-0dcb01bf6aa3,Swift Travel Ltd,Rail travel and expenses,2881.8,GBP,UK002,CC400,routine,6500
+522fa6a1-4175-45d5-8d37-547ec2aa7dee,Horizon Consulting,Audit and assurance services,18116.39,EUR,UK002,CC400,routine,6400
+d8dd5d58-8740-4bfe-ba46-0995f32d448e,Global Office,Office consumables replenishment,148.35,GBP,IE001,CC300,routine,6100
+0c2e18fc-b951-40dc-b689-7f1e2d275cff,Horizon Group Ltd,HR consulting project,11941.03,GBP,IE001,CC200,routine,6400
+41d0df0b-0c96-4291-bc8e-ad45acbdcaac,Learn Forward Training,Technical skills workshop,1294.73,USD,IE001,CC300,routine,6800
+2854c363-aa90-4cc9-b407-264ce9c58fc6,LearnForward Ltd,Professional development programme,1629.38,EUR,UK001,CC200,routine,6800
+b1c30686-ca9d-4ff3-932a-4591870f2440,Meridian Facilities Ltd,Facility management services Q1,4106.33,EUR,IE001,CC300,routine,6300
+8f0c9cc7-a1ec-45d3-bb72-0014275b0de4,Swift Travel Ltd,Conference accommodation and travel,1176.87,GBP,UK001,CC400,routine,6500
+825c9a51-0a95-46c1-9ec6-988f741e755f,TechSource IT,Cybersecurity platform licence,13076.84,USD,IE001,CC500,routine,6200
+53936a62-56b9-4916-bc77-397ed3fe5ab2,Global Office Ltd,Office consumables replenishment,316.33,EUR,UK001,CC400,routine,6100
+66e3ed06-8c17-4f69-befa-85a003f6174f,Swift Travel Ltd,Flight and hotel Q2,1950.38,GBP,UK002,CC500,routine,6500
+b7cf3f35-acec-4559-9586-86cffd5403f0,Brandworks Marketing,Brand design and production,2503.13,GBP,UK002,CC300,routine,6700
+fd165901-2d6e-4916-a5b1-52f86f171721,SwiftTravel,Rail travel and expenses,1987.24,GBP,IE001,CC500,routine,6500
+f87441de-be59-4d27-9a8e-f4fa4b3436cf,Apex Equipment Ltd,Network equipment installation,36049.18,GBP,IE001,CC200,routine,7100
+57d846b5-ab82-490d-ba8c-c66f2a4d6d71,SwiftTravel,Business travel accommodation,2146.99,GBP,UK002,CC100,routine,6500
+b6decc5b-c8f6-4a05-bf45-5fede1ccc5eb,TechSource IT Solutions,Software subscription renewal,14083.51,GBP,UK002,CC500,routine,6200
+e9c7cc0f-06e2-49f7-b5e5-ace3d15b59b7,TechSource IT Solutions,Cloud infrastructure services Q1,4305.56,EUR,UK002,CC200,routine,6200
+9a2cb89f-836b-4f79-ba58-fded10c7bc61,Horizon Group Ltd,Legal advisory fees Q2,8536.03,USD,UK001,CC100,routine,6400
+136c3626-1b27-4555-a618-a40519ff194e,Meridian Fac. Ltd,HVAC servicing and inspection,1912.84,EUR,IE001,CC300,routine,6300
+5a868e80-0fbd-4c14-8ca1-65791d2fce6c,Apex Equipment Ltd,Network equipment installation,15133.62,USD,UK002,CC500,routine,7100
+e70d0b84-dd78-4305-80e7-1614663b1e2a,Apex Equipment Ltd,Capital equipment acquisition,73169.24,GBP,UK002,CC300,routine,7100
+057f7b7a-19d5-49cf-8190-bb94f254661b,Powerline Util. Ltd,Water rates quarterly,741.67,GBP,IE001,CC200,routine,6600
+1451cfa1-3f75-492d-a4b5-b5ae05c7abed,Powerline Util. Ltd,Electricity supply monthly,1097.64,EUR,UK002,CC100,routine,6600
+c8826a6a-4846-47f5-bfef-609bae68ae34,BrandWorks Ltd,Digital marketing campaign,12343.07,GBP,UK002,CC500,routine,6700
+d6103021-a6ab-4012-bbf8-67ee19316074,BrandWorks Ltd,PR retainer monthly,5748.03,GBP,UK002,CC100,routine,6700
+ec3051ab-2171-4fc2-98cd-8c26cbe922cb,Brandworks Agency,Marketing materials and print,5551.67,GBP,IE001,CC500,routine,6700
+3b3b7182-eb80-4fba-8013-3fac3fd397a1,Swift Travel Ltd,Business travel accommodation,685.8,GBP,UK002,CC100,routine,6500
+09463fb6-88e5-4266-96c6-3f097d2e651c,Learn Forward,Professional development programme,2537.45,GBP,UK002,CC100,routine,6800
+c9b49005-01f2-4ebe-b000-48132d2d0e0e,Global Office Supplies,Office stationery and printer consumables,777.29,GBP,UK002,CC300,routine,6100
+99f7cd3f-290b-471a-9556-4e2e34d1145d,Global Office,Office stationery and printer consumables,378.81,GBP,UK001,CC100,routine,6100
+b3499776-795d-46e0-9b61-3667be02255a,Learn Forward Training,Compliance training Q4,2038.61,GBP,UK002,CC100,routine,6800
+46fa641f-fdd7-45d5-a168-415b79192c0c,Powerline Utilities,Gas and electricity Q1,1734.03,GBP,UK002,CC100,routine,6600
+c638eb1a-28f2-4c09-822a-2defaf580e25,Apex Equipment Ltd,Production machinery purchase,18620.28,GBP,UK001,CC200,routine,7100
+8d799d9f-9cac-4130-80b2-31b0a1a10ca7,BrandWorks Ltd,Digital marketing campaign,5696.08,EUR,IE001,CC100,routine,6700
+0a3f0fc7-3d90-43bf-a066-009d7dc10bab,Apex Co.,Capital equipment acquisition,78658.69,GBP,UK002,CC200,routine,7100
+50c3ea2b-779a-4db3-965f-f114b7d9cd21,Meridian Fac. Ltd,Pest control and grounds maintenance,4699.62,GBP,UK002,CC300,routine,6300
+9a13a13f-65ee-4a5c-a7cb-d1b1dea7482c,Horizon Consulting,Legal advisory fees Q1,22412.95,GBP,IE001,CC400,routine,6400
+09f99621-d3c2-4e03-84e7-d8a28425c189,Powerline Utilities,Water rates quarterly,584.51,EUR,UK001,CC100,routine,6600
+64a0fa2e-219f-4859-8887-4c934f2492b1,Meridian Fac. Ltd,Facility management services Q2,3960.68,GBP,UK001,CC200,routine,6300
+c3b68130-46ed-4545-bad5-e3e8452648c3,Global Office Ltd,Office consumables replenishment,118.55,GBP,UK001,CC300,routine,6100
+0a9e60ac-f5f5-434c-8568-98f2cd314c02,Global Office,Office stationery and printer consumables,452.26,EUR,UK001,CC300,routine,6100
+aa02e7a2-2913-4449-8562-4c3790c61f00,Apex Co.,Capital equipment acquisition,61752.31,GBP,IE001,CC400,routine,7100
+4505cc1a-82dc-4dd1-9c2e-5b49a7939667,Powerline,Electricity supply monthly,529.04,EUR,IE001,CC300,routine,6600
+82236cb6-0e9e-445b-8db4-ca5b7a2abcba,Apex Co.,Network equipment installation,41756.9,GBP,IE001,CC400,routine,7100
+364e0aea-046d-45ab-9286-81cbafb223aa,SwiftTravel,Conference accommodation and travel,2756.25,GBP,IE001,CC200,routine,6500
+58e4c5ab-7dc1-4376-9c11-e6179cfb2a0b,LearnForward Ltd,Professional development programme,4187.38,EUR,UK001,CC500,routine,6800
+7e139eae-b38b-439b-8bb5-516a70556097,Brandworks Agency,Digital marketing campaign,4525.15,USD,UK001,CC300,routine,6700
+e0ade73a-7e46-454e-9157-105f2d94e874,Tech Source Ltd,Software subscription renewal,14523.87,USD,IE001,CC400,routine,6200
+6f379f93-47c9-47c7-aaea-ce3052d5e8ee,Apex Equipment Co,Production machinery purchase,50977.94,GBP,UK001,CC100,routine,7100
+6cf29fd1-e53d-4f66-a7b9-1678e24ccf16,Apex Co.,Network equipment installation,10000.99,GBP,UK001,CC100,routine,7100
+77f21930-e8e8-4a3b-91a0-c63839e26e4f,Learn Forward Training,Professional development programme,944.39,EUR,IE001,CC500,routine,6800
+44ea4dec-9312-4070-a31f-79c247835a3c,Swift Travel Services,Conference accommodation and travel,1194.11,GBP,UK001,CC400,routine,6500
+c810ae55-5131-4f4f-a5eb-b9d3429bd6d3,TechSource IT,Annual software licence renewal,12114.79,USD,IE001,CC400,routine,6200
+6dac0390-891f-49d7-b2e5-b0a03b0e14c2,Powerline,Energy supply invoice,399.11,USD,UK001,CC100,routine,6600
+f16d73ef-1ae8-4c52-9071-20eff0f5b3dc,Swift Travel Services,Conference accommodation and travel,2842.12,GBP,IE001,CC200,routine,6500
+0bfcd8ed-2f65-4add-bad5-1e840f071cc7,Apex Equipment Ltd,Network equipment installation,19209.53,USD,IE001,CC500,routine,7100
+221c2402-8fc9-43f0-a138-09f4c6b5739b,Brandworks Agency,Marketing materials and print,3004.77,EUR,IE001,CC400,routine,6700
+5dc6978b-573b-4cf8-b22e-44db6076f752,TechSource IT Solutions,Cybersecurity platform licence,11990.69,USD,UK002,CC200,routine,6200
+3f276c27-c026-46a0-bc3a-ba83122c046f,Apex Co.,Production machinery purchase,38225.91,USD,UK002,CC300,routine,7100
+bf3c60b6-ecdd-4fa6-b375-047861d60aae,Brandworks Agency,Brand design and production,9181.17,USD,IE001,CC200,routine,6700
+9f38ec0a-c180-44ac-95a2-0b9f004ccfb8,Brandworks Agency,Brand design and production,18596.79,EUR,UK002,CC400,routine,6700
+f29b8889-3b0f-464e-a610-675711938e7c,Meridian Fac. Ltd,HVAC servicing and inspection,366.38,USD,UK001,CC300,routine,6300
+405c7c65-d6da-4c31-aab5-1115216db7c6,Meridian Facilities,Building maintenance and repairs,4925.09,GBP,IE001,CC300,routine,6300
+19fa5238-8f52-4504-93be-b602fbc03c5b,Apex Co.,Network equipment installation,46724.23,GBP,UK002,CC300,routine,7100
+526ae2b7-837c-4765-87a9-465ebc8787a7,Global Office Supplies,Office consumables replenishment,248.74,GBP,UK002,CC300,routine,6100
+c9e16622-e524-465f-94c0-587058af601c,Tech Source Ltd,Cloud infrastructure services Q1,6297.07,GBP,UK002,CC200,routine,6200
+59dd2b1c-42df-42cd-b49c-1fa1e9195065,Learn Forward,Staff training programme,3662.82,GBP,IE001,CC500,routine,6800
+3755996c-32f7-44af-880d-c36b1b57dc6d,Brandworks Marketing,Brand design and production,15822.32,EUR,UK002,CC100,routine,6700
+92b59e98-02e4-4a0d-8137-61c2c87d2469,Horizon Group Ltd,Financial advisory retainer,17013.92,EUR,UK001,CC300,routine,6400
+5ec2a96d-f5e0-423a-9319-906c851c7d65,CleanZone Facilities,Building maintenance and repairs ref PO-75850,1757.81,GBP,UK001,CC400,near_edge,6300
+a066afd4-a159-4301-b013-1ae52ceb370c,GreenPath Utilities,Electricity supply monthly various items,1608.04,EUR,UK001,CC200,near_edge,6600
+9d9da8cf-620c-4153-841c-f46db1a9c902,Learn Forward,Professional development programme - see attached,3853.92,EUR,IE001,CC400,near_edge,6800
+9dcb6ecc-d54b-43e1-8b8a-82f0c941a930,DataBridge IT Solutions,Software subscription renewal as per agreement,15716.59,USD,UK001,CC500,near_edge,6200
+8f8add07-b7f7-4fcb-aaaa-3c4fe0823e95,GreenPath Utilities,Electricity supply monthly various items,917.12,USD,UK001,CC100,near_edge,6600
+ba159498-6961-45d5-8471-c15e86f50ef8,Summit Training Academy,Leadership development course - see attached,2699.39,GBP,UK001,CC300,near_edge,6800
+b54baa02-ce18-49f5-b00b-90a8384eaf03,Summit Training Academy,Technical skills workshop ref PO-40603,4040.55,GBP,UK001,CC100,near_edge,6800
+38e22028-e922-487c-89a5-86d88c45f89b,Meridian Facilities Ltd,Building maintenance and repairs various items,4754.92,GBP,UK002,CC400,near_edge,6300
+17b8080c-26d6-40e5-a47e-f650ade8f376,Powerline Utilities,Gas and electricity Q2 various items,1558.02,USD,UK002,CC500,near_edge,6600
+6d960e35-1cd7-4044-ac7e-b5b86b856e92,DataBridge IT Solutions,SaaS platform annual fee - see attached,14511.28,GBP,UK001,CC100,near_edge,6200
+6fc8d962-27d1-4900-85ba-16416e4071d1,Swift Travel Services,Business travel accommodation various items,1475.14,GBP,UK001,CC100,near_edge,6500
+c621261f-75d3-4257-b37f-cdfaafb44101,Brandworks Marketing,Marketing materials and print as per agreement,19616.06,USD,IE001,CC100,near_edge,6700
+3a8fdf04-01ba-43b7-9fa2-f9d5f1d40003,Apex Equipment Ltd,Server hardware purchase various items,47051.57,GBP,UK002,CC400,near_edge,7100
+64c87e33-0c0e-4bfa-a723-25d660115f43,NovaCorp Services Ltd,Audit and assurance services various items,4121.02,GBP,IE001,CC300,near_edge,6400
+2c4de20a-9b66-4ec7-81f5-ebf5628d19fa,CleanZone Facilities,Office cleaning services monthly ref PO-39567,2672.43,GBP,UK002,CC200,near_edge,6300
+4bc689b8-dfd0-4013-a137-40ff46aaae55,Brandworks Agency,Marketing materials and print ref PO-64700,19251.51,USD,UK001,CC400,near_edge,6700
+af19f361-b187-4ff8-bf48-b8ae0b506bdb,GreenPath Utilities,Energy supply invoice ref PO-37100,1091.5,USD,IE001,CC200,near_edge,6600
+f8df127c-c5bb-4f67-b275-655bbba97841,CleanZone Facilities,Pest control and grounds maintenance ref PO-66369,2159.04,USD,UK001,CC300,near_edge,6300
+26fb097b-e6c5-41fa-8305-4d421c275752,Apex Co.,Production machinery purchase various items,13879.05,EUR,UK002,CC300,near_edge,7100
+dccc88c3-9bc3-4e6c-b972-8943c2222dd9,Swift Travel Services,Business travel accommodation - see attached,2370.46,USD,IE001,CC300,near_edge,6500
+1a7d929b-a368-4873-8ab8-6a4bd744bd86,GreenPath Utilities,Gas and electricity Q2 various items,884.91,GBP,IE001,CC400,near_edge,6600
+4d1ec0d9-3428-431b-a0aa-f0c39a25d10c,Learn Forward,Leadership development course as per agreement,3423.06,GBP,UK001,CC200,near_edge,6800
+a844a895-aecc-4469-a9f8-5a77aab96f15,Brandworks Marketing,PR retainer monthly ref PO-97993,18583.27,GBP,UK001,CC200,near_edge,6700
+dd0bdcc0-3aaf-43cf-b485-fd168fae383a,Summit Training Academy,Technical skills workshop ref PO-69971,5309.07,EUR,UK002,CC100,near_edge,6800
+66c529cf-c249-4dbe-bd38-1485aa2d5c85,Summit Training Academy,Technical skills workshop - see attached,4545.04,EUR,UK002,CC100,near_edge,6800
+00ee01fb-c7fd-483c-9281-e19a91ba9512,DataBridge IT Solutions,Software subscription renewal as per agreement,11336.65,USD,IE001,CC100,near_edge,6200
+ff56a778-3523-4f28-85f3-5f57594a3ccb,LearnForward Ltd,Compliance training Q4 as per agreement,4479.79,GBP,IE001,CC100,near_edge,6800
+d1002ab0-a416-481b-9e85-1028a180cb68,DataBridge IT Solutions,SaaS platform annual fee - see attached,10344.42,GBP,IE001,CC500,near_edge,6200
+0b2996eb-6803-4230-b45a-0a93428a6a43,BrandWorks Ltd,Social media advertising Q4 ref PO-87373,9566.83,EUR,UK001,CC300,near_edge,6700
+2e95aa80-e467-4d07-a491-9bf6deaae89e,Global Office,Office stationery and printer consumables various items,599.95,GBP,IE001,CC400,near_edge,6100
+9fed109b-748b-4e95-a874-e8021a5970e8,GreenPath Utilities,Gas and electricity Q4 as per agreement,1685.35,GBP,UK001,CC300,near_edge,6600
+fe491769-9572-4eb0-ac56-545bbfb7c6fe,DataBridge IT Solutions,Cloud infrastructure services Q2 as per agreement,4918.23,GBP,UK002,CC400,near_edge,6200
+2d31215f-57d5-4065-9e6b-27aba5278fff,Global Office Supplies,"Paper, pens and office supplies Q1 various items",723.91,GBP,UK002,CC400,near_edge,6100
+50ed30bb-2adb-47e8-9134-a4d1c22abd71,GreenPath Utilities,Energy supply invoice ref PO-41179,2095.65,USD,IE001,CC400,near_edge,6600
+d501ca1e-4a42-4170-8e1b-9fcb8ae85305,Learn Forward Training,Staff training programme various items,3205.47,USD,IE001,CC500,near_edge,6800
+99dd8c26-1afe-4461-9e29-3d67ec446915,DataBridge IT Solutions,Cloud infrastructure services Q1 various items,2880.54,GBP,UK001,CC100,near_edge,6200
+a0519460-a4a5-4080-8e0f-be101201b011,GreenPath Utilities,Electricity supply monthly as per agreement,1026.73,GBP,UK001,CC300,near_edge,6600
+72b589ae-5843-4efe-a7c3-62d380dc85d7,GreenPath Utilities,Energy supply invoice various items,1601.79,GBP,UK001,CC300,near_edge,6600
+d4edbe44-f96b-4cde-9c65-5d6282e575d6,Brandworks Marketing,Marketing materials and print as per agreement,15410.4,GBP,UK001,CC300,near_edge,6700
+2b2c7332-ce05-410a-8493-f42f321065d1,Brandworks Agency,Social media advertising Q1 - see attached,4987.06,EUR,IE001,CC500,near_edge,6700
+55a69930-1823-4197-bf82-3ce52997c92d,CleanZone Facilities,HVAC servicing and inspection various items,1453.04,GBP,IE001,CC500,near_edge,6300
+06c15b80-d2f2-4729-acb6-ba775cce596d,LearnForward Ltd,Professional development programme ref PO-48074,4135.91,GBP,UK001,CC100,near_edge,6800
+c0b5023c-5717-40a1-ae16-5cdb59a249fc,Tech Source Ltd,Cybersecurity platform licence - see attached,12797.01,GBP,UK002,CC500,near_edge,6200
+46bcfca4-eab3-4a22-a85c-a79fabea0467,DataBridge IT Solutions,Cloud infrastructure services Q3 - see attached,2203.35,GBP,UK002,CC500,near_edge,6200
+5a09795c-7811-46dd-9172-4a2cf53b3948,NovaCorp Services Ltd,Audit and assurance services - see attached,2024.53,GBP,UK001,CC300,near_edge,6400
+659dcc4a-d69a-4f0b-92fb-c657c5b1ab29,Summit Training Academy,Staff training programme ref PO-73110,5564.05,EUR,IE001,CC300,near_edge,6800
+68a5607f-99a4-4fbe-90d4-4dff9c3c604b,Brandworks Agency,Marketing materials and print various items,2064.42,USD,IE001,CC100,near_edge,6700
+6c0591b3-0658-452f-be83-6d8971dff7bd,Powerline Util. Ltd,Gas and electricity Q3 various items,412.56,EUR,IE001,CC500,near_edge,6600
+00bc70d4-3c3b-4d29-a259-e3392e64a81a,GreenPath Utilities,Gas and electricity Q1 various items,1671.95,GBP,UK002,CC400,near_edge,6600
+6eafeaa3-b98e-41c2-a4f2-cc5fd5d2bb6b,Horizon Consulting,Audit and assurance services various items,12393.85,GBP,UK001,CC300,near_edge,6400
+a1a967b8-c2a1-42e4-8cb6-25821b9ec792,DataBridge IT Solutions,Software subscription renewal ref PO-73263,18440.37,GBP,UK002,CC400,near_edge,6200
+66b2ed99-2c50-4527-a30a-d5ead3466c98,GreenPath Utilities,Water rates quarterly ref PO-22878,1051.75,GBP,IE001,CC100,near_edge,6600
+cf942919-dbea-48db-9e91-e6642cf56bad,Apex Equipment Co,Server hardware purchase as per agreement,5308.24,GBP,UK001,CC500,near_edge,7100
+f956e2ae-6061-4e82-85d5-a6a5aec193d0,CleanZone Facilities,HVAC servicing and inspection ref PO-52058,360.7,GBP,UK002,CC300,near_edge,6300
+f16d5be7-b5dc-423e-a32b-1bcd604c7656,Summit Training Academy,Compliance training Q2 various items,4289.85,GBP,UK001,CC500,near_edge,6800
+fdd60bad-5497-43e5-8c9b-1e3051e1f6a6,NovaCorp Services Ltd,Audit and assurance services ref PO-45527,2859.2,GBP,IE001,CC200,near_edge,6400
+23750c8f-e9ee-4adb-83e7-8ffe81950aaf,SwiftTravel,Conference accommodation and travel ref PO-16648,2692.89,GBP,UK002,CC100,near_edge,6500
+63637f6c-8afa-4693-8a1c-c002e57b874e,Meridian Facilities Ltd,Building maintenance and repairs various items,2247.04,GBP,UK002,CC200,near_edge,6300
+975a5b06-273e-4fbf-a522-b4ef75454049,GreenPath Utilities,Utilities combined bill as per agreement,564.95,GBP,UK002,CC300,near_edge,6600
+165b3fa9-50bd-497a-bb26-bb67feb6764b,Summit Training Academy,Leadership development course various items,3246.84,GBP,UK002,CC200,near_edge,6800
+0a5aa806-5c0d-4bc2-bf2d-fd5c928cd11f,CleanZone Facilities,HVAC servicing and inspection - see attached,2429.7,GBP,UK002,CC100,near_edge,6300
+8c36f62e-94cc-43bf-81a9-2bd3d54a9f3c,Learn Forward Training,Compliance training Q2 - see attached,1770.16,EUR,IE001,CC100,near_edge,6800
+07fec5a4-12f1-4e54-afa8-b8915a240a71,TechSource IT,Software subscription renewal ref PO-41270,8224.81,USD,UK001,CC400,near_edge,6200
+19434146-0274-4a88-b12e-8b7ebaaea744,Powerline Utilities,Energy supply invoice various items,1683.66,USD,IE001,CC200,near_edge,6600
+d5d676f2-bc8a-4844-ae28-154c40d63102,Tech Source Ltd,Cybersecurity platform licence as per agreement,13997.52,GBP,IE001,CC100,near_edge,6200
+bbfc25d0-1e49-430d-ba71-1b1f4182f833,DataBridge IT Solutions,Software subscription renewal - see attached,7544.64,USD,UK002,CC300,near_edge,6200
+e734c676-1d7b-4620-8a10-502ee0478b72,Meridian Facilities Ltd,Building maintenance and repairs ref PO-29231,1244.54,EUR,IE001,CC300,near_edge,6300
+09afc926-f209-4170-8e32-40b0664f6a52,Learn Forward Training,Compliance training Q3 various items,1425.48,EUR,IE001,CC300,near_edge,6800
+b50b81c8-48c0-48ef-9337-3b5975d0d590,GreenPath Utilities,Energy supply invoice various items,417.05,GBP,UK002,CC500,near_edge,6600
+f3fb6252-ddc7-4d73-af28-b53bfbae6334,NovaCorp Services Ltd,Audit and assurance services - see attached,7330.19,GBP,UK002,CC500,near_edge,6400
+1d94dd87-4e55-4a24-a42f-f11e9431cb26,Powerline,Utilities combined bill ref PO-81449,950.74,GBP,UK002,CC200,near_edge,6600
+5e9cf24c-f856-4a07-b491-4db87bc2b846,BrandWorks Ltd,Social media advertising Q3 ref PO-97826,16959.29,GBP,UK001,CC100,near_edge,6700
+d94e8f51-3e47-4e55-a254-608973268899,DataBridge IT Solutions,Software subscription renewal - see attached,14984.11,GBP,IE001,CC400,near_edge,6200
+d732db68-0a35-4fa4-91e8-6f37dd0681d3,GreenPath Utilities,Energy supply invoice as per agreement,2353.65,USD,UK002,CC400,near_edge,6600
+0129e398-8b25-408b-96fe-f697bdd7ef79,Global Office Ltd,Office consumables replenishment various items,503.43,EUR,IE001,CC500,near_edge,6100
+9833ed43-76e8-418a-9eb4-d9cc62f2e877,Meridian Fac. Ltd,HVAC servicing and inspection as per agreement,2519.69,GBP,UK001,CC500,near_edge,6300
+aaf08fc8-400c-4f50-911c-575d3e1326f0,CleanZone Facilities,Office cleaning services monthly as per agreement,1555.33,GBP,IE001,CC500,near_edge,6300
+631314f7-c2e2-4beb-8e7d-7529749f5bed,CleanZone Facilities,HVAC servicing and inspection as per agreement,1955.21,USD,UK002,CC500,near_edge,6300
+7d42f97f-d08d-4300-bed1-b927d78efe62,Summit Training Academy,Compliance training Q3 - see attached,2635.16,USD,IE001,CC300,near_edge,6800
+e642552f-2757-4595-9000-3169bb6cbf33,GreenPath Utilities,Utilities combined bill - see attached,946.93,GBP,IE001,CC500,near_edge,6600
+7a46ed2d-9e1c-4610-ab67-fbd956e201dc,Learn Forward Training,Staff training programme ref PO-43036,1070.7,USD,UK002,CC300,near_edge,6800
+afc7f691-11cc-4ec6-b8f6-a51eb59f818b,NovaCorp Services Ltd,Financial advisory retainer ref PO-87564,7672.86,EUR,UK002,CC200,near_edge,6400
+28eb28b0-c4ad-432b-813a-ad89bb116c67,Horizon Consulting,Financial advisory retainer - see attached,6158.61,GBP,IE001,CC200,near_edge,6400
+a14b6e9d-86b8-4876-8bbf-baf3407aafde,Summit Training Academy,Leadership development course ref PO-93568,4805.91,GBP,IE001,CC300,near_edge,6800
+e8f5aba9-c441-4010-a6d1-148d68168a60,Swift Travel Services,Client meeting travel costs various items,299.69,EUR,IE001,CC500,near_edge,6500
+430b9735-ad95-4b79-a05f-5293d1c52e70,BrandWorks Ltd,Marketing materials and print various items,5989.88,EUR,UK002,CC300,near_edge,6700
+aa0ed781-37cd-4a6c-b397-aa6c37404fec,NovaCorp Services Ltd,Financial advisory retainer various items,1876.28,GBP,UK002,CC300,near_edge,6400
+c61070a7-8c28-4c27-b328-0ee56d84942b,CleanZone Facilities,Facility management services Q4 ref PO-98511,2066.73,USD,UK001,CC500,near_edge,6300
+b6e19cc0-34ab-433f-a724-85a817e40c18,Global Office Ltd,Office stationery and printer consumables as per agreement,460.71,GBP,IE001,CC100,near_edge,6100
+f817bdde-2dd1-46b4-ab59-173dd5e48e26,CleanZone Facilities,HVAC servicing and inspection - see attached,892.42,GBP,IE001,CC100,near_edge,6300
+b604d655-e07a-49c1-a206-4c54264cbfe2,Horizon Group Ltd,Management consulting services ref PO-89257,16675.91,EUR,IE001,CC500,near_edge,6400
+8aff5b2a-46b7-43aa-a74b-84774a01906b,DataBridge IT Solutions,SaaS platform annual fee various items,18128.03,EUR,IE001,CC100,near_edge,6200
+c0eeed88-230c-41e3-8f40-22648ea791f2,CleanZone Facilities,HVAC servicing and inspection - see attached,2377.27,GBP,UK001,CC400,near_edge,6300
+f596a9b2-0cd3-4408-928c-e99c00af31d5,Meridian Facilities,HVAC servicing and inspection - see attached,4786.91,EUR,UK001,CC500,near_edge,6300
+8e764212-22a6-45f8-bebf-1a0111dfdc01,Learn Forward Training,Technical skills workshop - see attached,1147.43,EUR,IE001,CC300,near_edge,6800
+42779d0b-90b4-42c3-84dd-d17e14edb5d2,TechSource IT Solutions,IT support and maintenance contract as per agreement,8784.5,GBP,IE001,CC100,near_edge,6200
+5f28e415-d4e7-46da-980c-4d7445eb7815,Summit Training Academy,Compliance training Q4 - see attached,2185.47,USD,IE001,CC400,near_edge,6800
+f3385137-3fab-4fe8-a1dd-24013c5e28ca,Brandworks Agency,Digital marketing campaign as per agreement,15837.8,EUR,UK001,CC500,near_edge,6700
+a2bcfe75-7155-457b-8e80-d7c02f389c33,CleanZone Facilities,HVAC servicing and inspection - see attached,1200.29,GBP,IE001,CC300,near_edge,6300
+70a6d9f0-890d-4803-af3d-74ebc1533492,LearnForward Ltd,Leadership development course ref PO-60353,3415.07,GBP,IE001,CC400,near_edge,6800
+3b92080f-b9a4-448d-84ad-40f973d75a7e,CleanZone Facilities,Facility management services Q2 - see attached,1613.56,GBP,UK001,CC500,near_edge,6300
+6f120a5a-3cd0-4e61-9560-9092bc55072c,Brandworks Marketing,Brand design and production as per agreement,16062.04,GBP,UK001,CC300,near_edge,6700
+f935972b-535a-4384-a83e-cfa58be995ef,Meridian Facilities,Pest control and grounds maintenance ref PO-98877,767.3,USD,UK001,CC100,near_edge,6300
+8d2329da-a464-468f-a05a-1656c7c2a790,Global Office Ltd,Printer cartridges and stationery ref PO-41808,540.37,GBP,UK001,CC100,near_edge,6100
+1f927221-def2-4979-8a9a-49fcd1b8d789,NovaCorp Services Ltd,Legal advisory fees Q1 - see attached,5105.66,EUR,IE001,CC500,near_edge,6400
+48ac0f9b-3879-4a8f-9106-2a79cbdac123,Horizon Consulting,HR consulting project ref PO-25833,9758.89,GBP,UK001,CC100,near_edge,6400
+2308c1d5-2fe8-4a4d-859e-45a43f829bbf,CleanZone Facilities,HVAC servicing and inspection ref PO-64415,470.7,GBP,IE001,CC200,near_edge,6300
+673981af-c1c7-4d00-819c-4763cb16524d,Meridian Facilities Ltd,Pest control and grounds maintenance - see attached,679.85,EUR,UK001,CC100,near_edge,6300
+d56d7693-4f30-49b4-a13e-174f4d1b7ec9,Tech Source Ltd,IT support and maintenance contract ref PO-72391,9950.46,GBP,UK001,CC300,near_edge,6200
+e60b2574-cd5c-4c03-a90c-a7e47d7808a7,Summit Training Academy,Leadership development course ref PO-88154,2044.12,EUR,IE001,CC100,near_edge,6800
+149622e2-3fee-4100-b9ee-5971e1d0827a,CleanZone Facilities,Office cleaning services monthly - see attached,1239.2,USD,UK001,CC500,near_edge,6300
+6fdfbf76-8f61-40d2-ae00-e4d8e410328e,Apex Co.,Network equipment installation ref PO-16955,21445.71,GBP,UK001,CC400,near_edge,7100
+e6f2eee5-d6c6-4cc4-87cc-af56aab186fd,Global Office,Office stationery and printer consumables ref PO-47363,742.0,EUR,UK002,CC300,near_edge,6100
+3a1b3464-df08-49d0-a7fc-5da027a0207b,Summit Training Academy,Staff training programme - see attached,1025.25,EUR,IE001,CC100,near_edge,6800
+c553bf28-38d2-4e72-8523-24b3073e18d8,Horizon Group Ltd,Financial advisory retainer ref PO-64927,12230.88,GBP,UK001,CC100,near_edge,6400
+f375c97d-5f56-462f-a43e-e072b53f4591,TechSource IT Solutions,Cloud infrastructure services Q4 - see attached,11197.34,EUR,IE001,CC400,near_edge,6200
+8a3be93f-373d-4dcb-805a-1ede09ea80e3,Brandworks Marketing,Marketing materials and print as per agreement,5107.14,GBP,UK001,CC400,near_edge,6700
+944e932c-1c58-4374-8898-d8ec47b1468a,CleanZone Facilities,Building maintenance and repairs - see attached,2934.0,USD,UK001,CC300,near_edge,6300
+0a545659-eab6-4928-a3b5-b72e42ba492b,LearnForward Ltd,Compliance training Q2 ref PO-48687,2382.01,USD,UK001,CC500,near_edge,6800
+b874102b-768c-4ae9-bab1-7f69ea1c0137,DataBridge IT Solutions,Cybersecurity platform licence as per agreement,3556.54,EUR,UK002,CC100,near_edge,6200
+e464de7e-29bd-4153-ab16-b9a57478d61f,DataBridge IT Solutions,Software subscription renewal ref PO-87564,6460.97,USD,UK001,CC400,near_edge,6200
+102e5aa9-0c68-4acb-8196-bb111bdeb309,NovaCorp Services Ltd,Financial advisory retainer as per agreement,9921.46,EUR,IE001,CC100,near_edge,6400
+61e60da4-d7bc-4476-88d2-91ecb044447f,Horizon Consulting Group,Management consulting services ref PO-38574,14845.2,GBP,UK002,CC200,near_edge,6400
+78a50514-c68a-4894-88d1-f9a28e54f4b0,NovaCorp Services Ltd,Audit and assurance services - see attached,1143.37,EUR,UK002,CC200,near_edge,6400
+33e18865-6bba-415e-b701-007e17d002a0,Summit Training Academy,Compliance training Q4 - see attached,1761.72,GBP,UK002,CC300,near_edge,6800
+98cb28d5-14a0-4aba-865b-d5af4aa6fb00,CleanZone Facilities,HVAC servicing and inspection - see attached,1449.94,USD,UK002,CC100,near_edge,6300
+d84c976e-c886-4568-bf33-a6951bffb46c,CleanZone Facilities,Office cleaning services monthly as per agreement,2697.54,USD,UK001,CC300,near_edge,6300
+652ad285-b20d-4e18-b08c-639e02f8b317,Apex Co.,Network equipment installation ref PO-53899,10025.44,USD,UK001,CC400,near_edge,7100
+d52c13d1-9a6d-47b5-be24-7870ef7bfb20,GreenPath Utilities,Gas and electricity Q2 various items,2229.38,GBP,IE001,CC400,near_edge,6600
+99a9f03e-4fdb-4108-afbd-52e6184530df,TechSource IT,Software subscription renewal various items,5505.79,EUR,IE001,CC300,near_edge,6200
+5b82768b-c0cc-4edb-800d-6294a0305de9,NovaCorp Services Ltd,HR consulting project as per agreement,2695.18,GBP,UK002,CC100,near_edge,6400
+9ba6cf7f-8a4a-46ec-89e0-39bb441131f2,Swift Travel Services,Client meeting travel costs - see attached,2136.68,GBP,UK002,CC500,near_edge,6500
+c9a24e17-8902-4ffa-a7ac-8dbd37f1b132,Summit Training Academy,Technical skills workshop ref PO-48209,2602.84,GBP,UK001,CC200,near_edge,6800
+454acac7-708b-4bb6-a4f6-728d6df78bd0,GreenPath Utilities,Utilities combined bill various items,1753.81,EUR,IE001,CC500,near_edge,6600
+7eef9cf2-1281-44eb-b76d-c00f345eb378,Summit Training Academy,Professional development programme ref PO-50172,3181.64,GBP,UK001,CC400,near_edge,6800
+c662b9ea-1a48-4dc4-923f-f8144b883f0c,Swift Travel Services,Rail travel and expenses ref PO-31805,572.76,USD,UK002,CC200,near_edge,6500
+2022e987-0309-4227-b573-af2716aa12b5,DataBridge IT Solutions,Annual software licence renewal ref PO-51500,4902.58,EUR,UK002,CC300,near_edge,6200
+6e44bcd8-f148-4bfb-89cc-fb005165170e,Apex Co.,Production machinery purchase various items,7601.68,EUR,IE001,CC200,near_edge,7100
+0b5785d7-32f2-49d4-a648-4956efc9c625,NovaCorp Services Ltd,HR consulting project as per agreement,9283.91,GBP,UK001,CC100,near_edge,6400
+3f8e6d42-da78-4cc9-9a47-74361a5653c3,GreenPath Utilities,Water rates quarterly various items,2448.76,USD,IE001,CC200,near_edge,6600
+107606aa-14a1-4c63-8e18-8417e78ce8d6,Summit Training Academy,Staff training programme ref PO-15253,2561.16,USD,UK001,CC300,near_edge,6800
+1ca44b03-a695-4507-a668-45e1b231471d,Horizon Consulting,Audit and assurance services ref PO-89711,10220.05,USD,IE001,CC200,near_edge,6400
+ff35b636-d28a-45d0-97a0-afc431863039,CleanZone Facilities,Office cleaning services monthly - see attached,828.43,USD,UK002,CC200,near_edge,6300
+e7b98d04-ef25-4712-a438-d20a5fe02417,Apex Equipment Co,Production machinery purchase as per agreement,73133.52,GBP,UK002,CC300,near_edge,7100
+428a41ed-11a1-4cc2-a2e7-ebdb7f0a0889,Powerline Util. Ltd,Utilities combined bill as per agreement,823.75,EUR,UK002,CC300,near_edge,6600
+18b57749-3744-4341-b4b9-3a6a7eb2f83b,Brandworks Agency,Social media advertising Q1 ref PO-28827,18032.15,GBP,UK002,CC500,near_edge,6700
+cc23489b-69f7-4c15-a8b8-62ee477f3313,NovaCorp Services Ltd,Financial advisory retainer - see attached,9398.38,EUR,IE001,CC300,near_edge,6400
+72bfcbc5-2e02-4e58-8a98-2032cd78814f,Apex Equipment Ltd,Network equipment installation as per agreement,58268.53,GBP,IE001,CC400,near_edge,7100
+25524d59-bb16-43cb-84e9-af02bd252854,SwiftTravel,Conference accommodation and travel - see attached,1016.16,GBP,UK001,CC300,near_edge,6500
+a7a6a544-9ae8-44d0-ae85-090cf8477aea,Learn Forward Training,Compliance training Q4 as per agreement,3442.16,GBP,UK001,CC100,near_edge,6800
+2288d4a5-6554-4f82-bbfe-77649a3eef94,Summit Training Academy,Staff training programme as per agreement,5970.53,USD,UK002,CC300,near_edge,6800
+5af82aaf-38fc-4417-b9dc-2847fe8ff23d,Summit Training Academy,Staff training programme - see attached,5866.15,GBP,UK001,CC500,near_edge,6800
+64fe20a8-8135-4b35-aabe-d5d555c03862,Powerline Util. Ltd,Gas and electricity Q3 - see attached,1793.14,GBP,UK002,CC400,near_edge,6600
+97dd9c1d-96b1-48df-aa02-6f39f707a5cb,CleanZone Facilities,HVAC servicing and inspection ref PO-77353,431.53,GBP,UK001,CC500,near_edge,6300
+58b44c5c-24fd-4efa-b724-1b752bc60f1c,GreenPath Utilities,Water rates quarterly various items,1077.47,GBP,IE001,CC500,near_edge,6600
+98930f33-3d43-4d0d-86f8-3e066fb02f55,Global Office Supplies,Monthly office supplies order as per agreement,152.71,GBP,UK001,CC100,near_edge,6100
+a6221746-371e-4b96-9dfe-a9233c906e67,Apex Equipment Co,Server hardware purchase - see attached,67368.02,GBP,UK001,CC100,near_edge,7100
+855ccb3c-2049-437e-9782-f4181c3044d4,SwiftTravel,Client meeting travel costs various items,1183.32,GBP,IE001,CC100,near_edge,6500
+c3a072ef-5373-4613-af1e-5a88a96dbd42,Global Office,"Paper, pens and office supplies Q2 - see attached",219.93,EUR,IE001,CC100,near_edge,6100
+59de66f8-888e-42e2-b068-0f7f4c4baefb,LearnForward Ltd,Staff training programme - see attached,691.33,EUR,UK001,CC300,near_edge,6800
+4176ae99-b913-441b-81e5-89bc47eaa335,SwiftTravel,Business travel accommodation ref PO-88878,179.28,USD,UK001,CC200,near_edge,6500
+ddb4ba37-be9e-4cd1-a585-68318edb60c2,NovaCorp Services Ltd,Audit and assurance services ref PO-56163,1817.01,USD,IE001,CC500,near_edge,6400
+32159712-de90-4090-ae62-dceb0afc8176,TechSource IT Solutions,Annual software licence renewal various items,12384.0,GBP,IE001,CC100,near_edge,6200
+65905075-29ad-409d-ae6c-ef8c4a87eaf4,NovaCorp Services Ltd,Financial advisory retainer ref PO-58033,9318.09,EUR,IE001,CC100,near_edge,6400
+a64743d9-968c-4cbe-972c-35f286bc0bf0,Powerline Util. Ltd,Energy supply invoice - see attached,1020.96,GBP,UK001,CC400,near_edge,6600
+c7ed8661-be29-4a2e-8027-cc59392933c8,Global Office Ltd,Monthly office supplies order various items,621.71,EUR,UK001,CC400,near_edge,6100
+3003471f-c32b-45ab-a5c6-8d32f4648986,SwiftTravel,Client meeting travel costs as per agreement,2932.11,GBP,UK002,CC200,near_edge,6500
+ca5295aa-2371-4f37-bc31-ff5196125d99,Summit Training Academy,Compliance training Q2 as per agreement,5683.23,GBP,UK002,CC400,near_edge,6800
+51c5f0ba-0cdb-4c2d-b9dd-33975639998e,NovaCorp Services Ltd,HR consulting project - see attached,2072.96,GBP,UK001,CC300,near_edge,6400
+b80ab686-c3f0-4aa1-bb1d-f67192eb8ba8,CleanZone Facilities,Facility management services Q1 as per agreement,840.71,EUR,UK002,CC500,near_edge,6300
+9f45eef0-8f96-4280-be07-3fcf6352f473,Summit Training Academy,Professional development programme various items,2651.71,GBP,UK002,CC100,near_edge,6800
+b27594aa-2263-45e4-b073-f3e97bb3a43c,LearnForward Ltd,Leadership development course - see attached,1538.7,GBP,UK002,CC100,near_edge,6800
+5d7af1ef-d9f9-451c-bd4e-b8e464991567,Summit Training Academy,Compliance training Q2 - see attached,3943.84,GBP,IE001,CC500,near_edge,6800
+d796e0c8-2657-4d6a-b7d2-41e7f67d32a6,Summit Training Academy,Technical skills workshop various items,1850.05,USD,UK002,CC500,near_edge,6800
+57fac022-4422-4109-9a4a-0bb7421e936e,NovaCorp Services Ltd,Management consulting services various items,9916.4,EUR,UK002,CC400,near_edge,6400
+1b3c9433-a46b-4ca2-b48e-fb0e94924d22,Global Office,Monthly office supplies order as per agreement,544.56,GBP,UK002,CC400,near_edge,6100
+de58ab39-6f8c-48b1-b628-5f183591d5f1,Tech Source Ltd,SaaS platform annual fee ref PO-72378,10287.86,USD,UK001,CC400,near_edge,6200
+b72abe10-1580-4af5-8794-f634d06e8b12,Brandworks Agency,Brand design and production - see attached,13853.27,USD,UK001,CC200,near_edge,6700
+e590aecc-9454-46a3-9be5-82d0ecd9513b,CleanZone Facilities,Pest control and grounds maintenance various items,2485.79,EUR,UK001,CC400,near_edge,6300
+a8921852-f41b-4282-80c9-0fa3843aafbb,Powerline Util. Ltd,Gas and electricity Q2 various items,897.16,USD,UK001,CC100,near_edge,6600
+008e468d-2fe2-4df6-94c3-466e4a4f9571,NovaCorp Services Ltd,Management consulting services as per agreement,4038.35,EUR,IE001,CC500,near_edge,6400
+8310fd53-89fc-4ca2-8e20-6c63caa8c34e,CleanZone Facilities,Facility management services Q1 as per agreement,355.09,USD,UK002,CC300,near_edge,6300
+66d848e1-bacc-4e20-bbc2-b6ecfead634e,Summit Training Academy,Leadership development course various items,1320.29,GBP,IE001,CC300,near_edge,6800
+4a1d11f5-7ff8-4500-b089-686bfd4de012,Brandworks Marketing,Digital marketing campaign various items,10442.08,GBP,UK002,CC500,near_edge,6700
+b9e21a22-a159-48cb-a137-f7eb33f492ef,Horizon Group Ltd,Management consulting services various items,19086.42,GBP,UK001,CC500,near_edge,6400
+f919811d-0cc2-4d9d-a719-0ca9d116b641,Summit Training Academy,Compliance training Q1 various items,3020.95,USD,UK002,CC400,near_edge,6800
+8acd5b6a-50ad-4b32-908c-8edab5fe1a9c,CleanZone Facilities,Facility management services Q3 as per agreement,840.21,USD,UK001,CC100,near_edge,6300
+db3f939d-d530-4a2b-b36b-627f13d6be5d,GreenPath Utilities,Energy supply invoice as per agreement,2211.69,GBP,IE001,CC500,near_edge,6600
+5cb3df79-2c67-48de-8415-e4b2fa060c3b,Summit Training Academy,Staff training programme as per agreement,5660.11,GBP,UK001,CC200,near_edge,6800
+9f0a47c0-1a02-4832-83b6-1aa6f9bf6d82,CleanZone Facilities,Facility management services Q3 ref PO-18444,2579.13,EUR,UK002,CC300,near_edge,6300
+865d73f7-4f8d-44a9-8d0f-fd63f2c2dd6f,CleanZone Facilities,Building maintenance and repairs - see attached,2154.51,GBP,UK001,CC100,near_edge,6300
+7c4e7cb5-ab8c-48ef-b394-bc9aa932e3a3,Swift Travel Ltd,Client meeting travel costs - see attached,1533.34,GBP,UK001,CC300,near_edge,6500
+218dbfed-ef76-4510-a731-371ddb4482a9,Swift Travel Ltd,Flight and hotel Q1 - see attached,2027.21,GBP,UK001,CC300,near_edge,6500
+e4e48c0d-b04c-4583-a1b4-ab44d2da4775,NovaCorp Services Ltd,HR consulting project - see attached,9105.17,EUR,IE001,CC200,near_edge,6400
+b7b5deb0-9479-43da-8d1a-cac671248117,Apex Equipment Co,Production machinery purchase ref PO-21829,44146.82,USD,UK001,CC300,near_edge,7100
+55cece39-a64c-433b-a4d4-1d6c48c5699d,Brandworks Agency,PR retainer monthly - see attached,15135.22,GBP,UK001,CC300,near_edge,6700
+f57feedd-a388-4f31-b978-0b210510a4ad,SwiftTravel,Conference accommodation and travel various items,309.39,USD,UK002,CC400,near_edge,6500
+eec1cc85-6dcb-40ec-a88a-89cb1e44da5b,CleanZone Facilities,Building maintenance and repairs various items,2674.47,GBP,UK001,CC500,near_edge,6300
+346fdb78-4d01-453b-8930-e6aded4c3d6d,Meridian Fac. Ltd,Building maintenance and repairs as per agreement,4603.79,GBP,IE001,CC300,near_edge,6300
+449bfa9b-8ccf-46de-92c2-e3767a1103e3,NovaCorp Services Ltd,Legal advisory fees Q4 - see attached,5814.2,EUR,UK002,CC300,near_edge,6400
+6225e973-bae2-416c-9bb5-e844400f07c2,Zephyr Global Holdings,Audit and assurance services as per agreement,9061.26,EUR,IE001,CC300,hard_edge,6400
+24feb77b-d17c-4439-9cc6-91e3d010ddfe,Arcturus Supply Co,Office stationery and printer consumables as per agreement,451.79,CHF,UK002,CC400,hard_edge,6100
+aee19d1b-3c9f-465d-b968-f0d789bf26b3,Pulsar Tech GmbH,SaaS platform annual fee ref PO-23159,28015.42,USD,IE001,CC300,hard_edge,6200
+14161245-d152-46a2-b2d1-2240fbbf707f,Meridian East Europe s.r.o.,Facility management services Q3 - see attached,1111.4,USD,UK001,CC200,hard_edge,6300
+e1fbe6a6-4359-4142-9237-26b8c93ecb02,Solaris Energy Partners,Electricity supply monthly various items,3335.7,EUR,UK002,CC500,hard_edge,6600
+6db8b2e7-2491-4627-95ef-cd829ef4b548,Zephyr Global Holdings,Legal advisory fees Q2 as per agreement,8700.44,EUR,UK002,CC400,hard_edge,6400
+a43db722-3f8a-4186-a2e4-8985a5b2e06d,Arcturus Supply Co,Monthly office supplies order various items,291.35,EUR,UK002,CC200,hard_edge,6100
+e90308be-8309-4763-bd01-8af437cd5e64,Pulsar Tech GmbH,Cloud infrastructure services Q4 ref PO-59456,5278.77,USD,UK001,CC100,hard_edge,6200
+9821edf5-93cd-4696-a33b-a592be1481cf,Meridian East Europe s.r.o.,Office cleaning services monthly various items,1861.6,EUR,IE001,CC200,hard_edge,6300
+aac60a12-90e0-4650-9d9d-919e3dc2a4c0,Solaris Energy Partners,Energy supply invoice - see attached,724.02,CHF,UK002,CC200,hard_edge,6600
+9ba3073d-0d08-4c78-8c8f-52f6a97b1c4c,Zephyr Global Holdings,Management consulting services as per agreement,47625.96,GBP,UK001,CC200,hard_edge,6400
+df15515d-d931-4608-8da7-6c66261fc396,Arcturus Supply Co,Monthly office supplies order as per agreement,385.43,EUR,UK001,CC400,hard_edge,6100
+7a9a7c87-214e-4b43-a9bc-0b8394c9205e,Pulsar Tech GmbH,IT support and maintenance contract ref PO-64831,26121.12,EUR,UK002,CC200,hard_edge,6200
+a68722c6-dd4c-43b8-9e81-e0adbb3aa9f3,Meridian East Europe s.r.o.,Building maintenance and repairs various items,251.79,USD,IE001,CC400,hard_edge,6300
+8db7e3af-18d3-4cf6-9394-a8e833d45be2,Solaris Energy Partners,Gas and electricity Q3 ref PO-62108,885.82,CHF,IE001,CC400,hard_edge,6600
+f0eac37e-6540-44b4-aecc-e73ffcc3939c,Zephyr Global Holdings,Management consulting services - see attached,36880.39,USD,UK001,CC300,hard_edge,6400
+968f4d37-0496-437e-b818-5b3cda11e46a,Arcturus Supply Co,Monthly office supplies order various items,472.43,CHF,IE001,CC500,hard_edge,6100
+958bee6a-f9c0-484d-8842-36c195917b02,Pulsar Tech GmbH,SaaS platform annual fee - see attached,13285.32,CHF,IE001,CC200,hard_edge,6200
+143c4419-8da0-4a24-8643-77dc153f7a4e,Meridian East Europe s.r.o.,HVAC servicing and inspection - see attached,668.52,CHF,UK002,CC500,hard_edge,6300
+39d12a05-c913-4577-8627-32079edc7c81,Solaris Energy Partners,Electricity supply monthly ref PO-15788,2448.18,USD,UK002,CC300,hard_edge,6600
+de8b395a-136b-4884-a65f-3d3264cab077,Zephyr Global Holdings,Audit and assurance services various items,38652.05,CHF,IE001,CC300,hard_edge,6400
+9a65893a-57c8-454d-8663-ad61864bd0b9,Arcturus Supply Co,Monthly office supplies order as per agreement,274.31,EUR,UK001,CC200,hard_edge,6100
+0593a478-66a5-465f-a4f9-c83551fcb6f1,Pulsar Tech GmbH,Cloud infrastructure services Q1 various items,7012.76,EUR,UK001,CC400,hard_edge,6200
+252cc3e1-9141-4f5f-9e9e-5cfcb2d3baca,Meridian East Europe s.r.o.,Office cleaning services monthly as per agreement,985.57,CHF,UK002,CC400,hard_edge,6300
+f43286d8-c7c6-414d-810c-754fd10278c5,Solaris Energy Partners,Electricity supply monthly ref PO-22265,1006.21,EUR,UK002,CC200,hard_edge,6600
+25fd4957-6218-420a-bb0d-5f9cadd26055,Zephyr Global Holdings,Financial advisory retainer - see attached,42572.91,USD,IE001,CC500,hard_edge,6400
+7df642e3-9061-4786-9496-842fad93338f,Arcturus Supply Co,"Paper, pens and office supplies Q4 - see attached",172.23,GBP,UK002,CC100,hard_edge,6100
+9bb15e18-c764-4882-a258-c4cb68c7a39c,Pulsar Tech GmbH,Software subscription renewal - see attached,10675.59,GBP,UK002,CC200,hard_edge,6200
+bdbdbad1-10e3-4584-808c-41c67a7f3c54,Meridian East Europe s.r.o.,Facility management services Q4 various items,251.97,CHF,IE001,CC100,hard_edge,6300
+31b95b3f-7d4d-4141-9988-bc356935848d,Solaris Energy Partners,Energy supply invoice ref PO-52587,1982.42,GBP,UK001,CC100,hard_edge,6600
+a03eb008-dfbe-444b-98e0-d00db6173269,Zephyr Global Holdings,Audit and assurance services as per agreement,41070.11,USD,UK001,CC400,hard_edge,6400
+2361bf9e-c7c5-49b7-b076-c2d95134200f,Arcturus Supply Co,Printer cartridges and stationery ref PO-12688,202.07,EUR,UK001,CC400,hard_edge,6100
+d793a490-9590-40c1-b1a4-dff548992d69,Pulsar Tech GmbH,SaaS platform annual fee various items,24046.3,USD,UK002,CC400,hard_edge,6200
+25263b6c-6778-4551-ab8a-9f29d9d7ee98,Meridian East Europe s.r.o.,Pest control and grounds maintenance - see attached,1524.6,USD,UK002,CC500,hard_edge,6300
+952c3bb7-5610-4cea-9a62-47b7a9b94328,Solaris Energy Partners,Utilities combined bill as per agreement,1399.42,CHF,UK001,CC400,hard_edge,6600
+0a8515ec-3fa8-4a84-9639-f37ee1590129,Zephyr Global Holdings,HR consulting project - see attached,41494.75,EUR,IE001,CC300,hard_edge,6400
+ef622b39-66b4-4219-890d-9199544f62ac,Arcturus Supply Co,"Paper, pens and office supplies Q4 - see attached",489.31,EUR,UK002,CC400,hard_edge,6100
+c9573275-9930-4f26-b8be-16f05920bacb,Pulsar Tech GmbH,IT support and maintenance contract various items,14808.6,CHF,UK001,CC500,hard_edge,6200
+31f67f4a-9900-4626-93cc-43de7e1e5d50,Meridian East Europe s.r.o.,Pest control and grounds maintenance - see attached,969.92,GBP,IE001,CC400,hard_edge,6300
+dce4bdc1-5023-4d84-9601-5f0ee91ab451,Solaris Energy Partners,Energy supply invoice various items,2358.59,CHF,IE001,CC100,hard_edge,6600
+d755e400-7061-4f14-ac5c-c1f6e92364d5,Zephyr Global Holdings,Management consulting services ref PO-33534,39589.1,GBP,UK002,CC100,hard_edge,6400
+dd407891-9092-4a81-9b5a-8eb3088a7201,Arcturus Supply Co,Monthly office supplies order as per agreement,133.32,USD,IE001,CC300,hard_edge,6100
+c2daf9d1-a192-42d4-8e13-839ec32799c4,Pulsar Tech GmbH,Cloud infrastructure services Q2 various items,12216.03,EUR,IE001,CC100,hard_edge,6200
+b72bc8f4-d454-493d-ad5a-b9114a73590c,Meridian East Europe s.r.o.,Office cleaning services monthly - see attached,980.84,GBP,UK001,CC400,hard_edge,6300
+8f273f7d-7a5f-4232-930b-a5779cf1566a,Solaris Energy Partners,Energy supply invoice various items,2570.73,CHF,IE001,CC400,hard_edge,6600
+bfc02c00-4653-47ed-bc44-34c08ffb9cb9,Zephyr Global Holdings,Legal advisory fees Q2 ref PO-11818,41208.83,GBP,UK001,CC100,hard_edge,6400
+2d99572c-b98d-4794-aed4-c224fa54da69,Arcturus Supply Co,Office stationery and printer consumables ref PO-73060,378.41,EUR,IE001,CC200,hard_edge,6100
+f4c10c57-80d4-4cb1-92f0-159e006ddab8,Pulsar Tech GmbH,Annual software licence renewal ref PO-70742,14766.29,EUR,UK002,CC400,hard_edge,6200
+db838a42-3ead-4347-9716-b7624d033302,Meridian East Europe s.r.o.,Building maintenance and repairs as per agreement,239.27,EUR,UK001,CC400,hard_edge,6300
+2a66eb27-6915-49b5-8555-66bca114e61a,Solaris Energy Partners,Water rates quarterly various items,3133.52,EUR,UK001,CC100,hard_edge,6600
+f60359aa-4196-4cc3-b375-3ce0ea49777c,Zephyr Global Holdings,HR consulting project various items,33368.44,CHF,UK001,CC400,hard_edge,6400
+d3ef02b1-f86a-4451-b11b-aa42c356ec8a,Arcturus Supply Co,"Paper, pens and office supplies Q1 - see attached",259.87,CHF,UK002,CC500,hard_edge,6100
+cc0f730f-5c99-42bf-8346-e4e298388c88,Pulsar Tech GmbH,IT support and maintenance contract - see attached,11527.95,GBP,UK002,CC500,hard_edge,6200
+8c90edd1-ac04-4599-b09a-a2d0edb67a87,Meridian East Europe s.r.o.,Facility management services Q4 ref PO-12727,1890.14,USD,UK002,CC200,hard_edge,6300
+8ddc4077-dd84-4a8e-b970-9f02a47e0a28,Solaris Energy Partners,Gas and electricity Q2 various items,2611.58,CHF,IE001,CC400,hard_edge,6600
+bf0dfe08-860d-47cb-8984-940cf5386bd3,Zephyr Global Holdings,HR consulting project various items,10902.14,USD,UK002,CC200,hard_edge,6400
+e775ae6b-a9af-41b5-b987-932ac066f6d9,Arcturus Supply Co,Office stationery and printer consumables ref PO-26920,348.74,USD,UK001,CC200,hard_edge,6100
+6eb9902b-76b4-4e34-a498-77ed714bda60,Pulsar Tech GmbH,Software subscription renewal ref PO-49800,19355.22,GBP,UK001,CC500,hard_edge,6200
+ab876276-f37d-425a-b07c-375ff0549b47,Meridian East Europe s.r.o.,HVAC servicing and inspection ref PO-56798,284.69,GBP,UK001,CC500,hard_edge,6300
+483048af-ffcc-47a6-8709-47ceb0138103,Solaris Energy Partners,Water rates quarterly ref PO-24938,643.87,GBP,UK001,CC500,hard_edge,6600
+eb7b9c7f-a0e3-4723-be3c-5085bcc4ff41,Zephyr Global Holdings,Audit and assurance services various items,15084.3,USD,UK001,CC500,hard_edge,6400
+65c5da28-93d1-4857-9245-d2dad34bc64e,Arcturus Supply Co,Office stationery and printer consumables - see attached,341.72,GBP,UK001,CC500,hard_edge,6100
+70307b57-ce34-4d43-ae1e-af641f59728e,Pulsar Tech GmbH,Cybersecurity platform licence - see attached,19460.71,GBP,UK001,CC100,hard_edge,6200
+02a1cbfb-dcd5-4a61-b2c7-4b57baaac9f1,Meridian East Europe s.r.o.,Building maintenance and repairs as per agreement,1767.57,USD,IE001,CC100,hard_edge,6300
+1bb11daf-a2a2-4ec4-bc72-4fa7049f8ff0,Solaris Energy Partners,Water rates quarterly ref PO-26119,1194.33,USD,UK002,CC400,hard_edge,6600
+1a3c1f43-a6a2-4f7a-b7c8-ae193822be3f,Zephyr Global Holdings,Legal advisory fees Q4 various items,39614.87,GBP,IE001,CC200,hard_edge,6400
+69af1a40-2fdd-46e4-99cb-c8fb73d500e1,Arcturus Supply Co,Printer cartridges and stationery ref PO-92502,134.09,USD,UK001,CC500,hard_edge,6100
+4d90f8f4-142e-449c-aedc-9d1df770fc3e,Pulsar Tech GmbH,Cloud infrastructure services Q4 as per agreement,14386.5,EUR,UK002,CC500,hard_edge,6200
+b8eca636-eeba-468d-bd34-59c1f2122cc6,Meridian East Europe s.r.o.,Office cleaning services monthly - see attached,1630.29,USD,IE001,CC500,hard_edge,6300
+f67f83df-cf78-42fc-a4eb-762d6755654c,Solaris Energy Partners,Water rates quarterly ref PO-62645,4746.39,GBP,UK002,CC100,hard_edge,6600
+58d98e10-dfee-4f0f-b87a-15823f4393c1,Zephyr Global Holdings,Legal advisory fees Q1 various items,22696.98,GBP,UK002,CC400,hard_edge,6400
+c3733638-5b0b-48ad-8c26-deea918b8d71,Arcturus Supply Co,Monthly office supplies order various items,454.31,USD,IE001,CC500,hard_edge,6100
+b503e015-ac64-4f51-ae56-c63e2f96fe27,Pulsar Tech GmbH,Software subscription renewal as per agreement,27852.17,CHF,IE001,CC300,hard_edge,6200
+43179285-ad4d-4910-87ee-9ff408951bfd,Meridian East Europe s.r.o.,Building maintenance and repairs - see attached,1797.81,CHF,IE001,CC300,hard_edge,6300
+cc08878a-c9d9-4546-8bdf-ed606fc025f4,Solaris Energy Partners,Energy supply invoice - see attached,2254.97,EUR,IE001,CC500,hard_edge,6600
+b78b769b-4721-4a9a-9c95-a04501b0738c,Zephyr Global Holdings,Legal advisory fees Q1 various items,19051.36,USD,UK001,CC300,hard_edge,6400
+8bbf4258-1f2d-436b-b595-85349e6cf436,Arcturus Supply Co,Office stationery and printer consumables various items,390.6,GBP,UK001,CC100,hard_edge,6100
+f9dde5fa-8129-4ca9-b877-b7b94d5e7017,Pulsar Tech GmbH,Software subscription renewal - see attached,23427.12,GBP,UK002,CC300,hard_edge,6200
+7dfe1c08-085d-4b6f-8baa-df9d3cfa622c,Meridian East Europe s.r.o.,HVAC servicing and inspection ref PO-47294,1969.31,EUR,IE001,CC400,hard_edge,6300
+ad2e40e6-8f9c-4088-bdef-c0666dced60e,Solaris Energy Partners,Electricity supply monthly ref PO-77692,2838.5,EUR,UK002,CC400,hard_edge,6600
+23b49d74-0d4f-4f05-a118-e357c74e7cf6,Zephyr Global Holdings,HR consulting project - see attached,9409.45,CHF,UK002,CC200,hard_edge,6400
+884baf98-b9e5-4b73-9478-65ba096dbe6a,Arcturus Supply Co,Office stationery and printer consumables as per agreement,290.5,CHF,IE001,CC500,hard_edge,6100
+3fe0271d-6486-4868-9d03-4ca52b7573d9,Pulsar Tech GmbH,IT support and maintenance contract as per agreement,17011.51,CHF,UK002,CC400,hard_edge,6200
+b119ebf3-7cfd-4923-87f1-e47cc0104c3d,Meridian East Europe s.r.o.,Building maintenance and repairs ref PO-76294,1517.09,CHF,UK002,CC400,hard_edge,6300
+0428692d-20c9-4f90-a1ca-9d9b7b473df0,Solaris Energy Partners,Gas and electricity Q4 - see attached,1082.23,GBP,IE001,CC200,hard_edge,6600
+48065e7d-6711-46df-ae78-b15b8e5eecf8,Zephyr Global Holdings,Management consulting services - see attached,47483.13,USD,UK002,CC500,hard_edge,6400
+2d9e1226-75fa-402b-b35b-ae446ab72d59,Arcturus Supply Co,Office stationery and printer consumables various items,215.84,EUR,UK002,CC300,hard_edge,6100
+57385a7c-e2d8-4bd1-98f4-72f4f5ebc2e2,Pulsar Tech GmbH,Cloud infrastructure services Q4 various items,16119.99,EUR,UK002,CC200,hard_edge,6200
+9eff8a3e-b4a9-4a94-b8c5-02f51cfa93dc,Meridian East Europe s.r.o.,Office cleaning services monthly various items,529.54,CHF,UK001,CC100,hard_edge,6300
+f875e799-61fe-419f-8f8c-00ec2ef2b4ff,Solaris Energy Partners,Energy supply invoice as per agreement,2379.09,USD,UK002,CC500,hard_edge,6600
+e9e15676-2243-49ae-be79-e0b6be2afa5e,Zephyr Global Holdings,Financial advisory retainer as per agreement,10976.43,EUR,UK001,CC300,hard_edge,6400
+e4d10d08-3609-4329-9b64-14f56f96c1ff,Arcturus Supply Co,Printer cartridges and stationery various items,135.73,CHF,IE001,CC100,hard_edge,6100
+d2ffb538-7323-442a-83c1-0f1ed377fee8,Pulsar Tech GmbH,SaaS platform annual fee - see attached,28868.15,CHF,UK001,CC100,hard_edge,6200
+c053d6dd-07d7-487a-8ced-4843e443467b,Meridian East Europe s.r.o.,Pest control and grounds maintenance - see attached,1229.59,USD,UK001,CC500,hard_edge,6300
+ac90906a-07e4-4c4a-8d53-aba6beb03b77,Solaris Energy Partners,Energy supply invoice - see attached,2938.25,GBP,UK001,CC500,hard_edge,6600
+a27afd75-95d1-4c44-a0d6-0bf8f6c6ad87,Zephyr Global Holdings,Audit and assurance services as per agreement,13088.45,GBP,UK001,CC500,hard_edge,6400
+f6de38db-ca53-41db-ba5b-90e93cf4d733,Arcturus Supply Co,Office consumables replenishment - see attached,342.74,CHF,UK002,CC400,hard_edge,6100
+50965857-cdf4-451a-aa43-2b5e7f0ba94d,Pulsar Tech GmbH,Cybersecurity platform licence various items,7873.72,GBP,UK001,CC100,hard_edge,6200
+fa548941-bc99-4013-a22d-a068970e1088,Meridian East Europe s.r.o.,HVAC servicing and inspection various items,1963.62,EUR,UK001,CC200,hard_edge,6300
+34c81074-21ce-4129-9031-3ddf472f15b0,Solaris Energy Partners,Gas and electricity Q1 various items,1880.57,CHF,UK001,CC100,hard_edge,6600

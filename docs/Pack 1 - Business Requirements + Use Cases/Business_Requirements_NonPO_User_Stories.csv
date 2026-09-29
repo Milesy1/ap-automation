@@ -1,0 +1,135 @@
+﻿ID,Category,As a,I want,So that,Priority,Acceptance Criteria
+BR-001,Invoice Ingestion,System Administrator,the system to receive structured invoice data from the existing extraction pipeline,there is no duplicate data entry or parallel extraction process,Must,System consumes invoice data via the existing API without modification to the extraction layer
+BR-002,Invoice Ingestion,AP Clerk,the system to handle invoices with multiple line items,each line is coded correctly rather than applying one code to the whole invoice,Must,System processes each line independently and produces separate predictions
+BR-003,Invoice Ingestion,AP Manager,the system to handle invoices in multiple currencies,amount comparisons are accurate regardless of currency,Must,System normalizes amounts to a base currency for retrieval and comparison
+BR-004,Invoice Ingestion,Finance Director,the system to handle invoices across multiple legal entities without mixing data,entity A invoices do not influence predictions for entity B,Must,Retrieval is filtered by entity ID; cross-entity data leakage is zero
+BR-005,Invoice Ingestion,AP Clerk,the system to identify and process only non-PO invoices,PO invoices continue to flow through the existing matching workflow,Must,System checks for PO reference and routes PO invoices to existing matching engine
+BR-006,Invoice Ingestion,AP Clerk,the system to handle invoices where the vendor name varies slightly,minor spelling differences do not prevent processing,Should,Fuzzy matching resolves vendor names with confidence above 0.85
+BR-007,Invoice Ingestion,AP Clerk,the system to flag invoices with missing or incomplete data,I am not asked to review a prediction based on bad input,Must,"Invoices with missing vendor, amount, or description route to review with reason code"
+BR-008,Invoice Ingestion,AP Clerk,the system to handle handwritten notes without confusion,annotations do not corrupt the prediction,Should,OCR noise filtering removes handwritten elements before embedding
+BR-009,Invoice Ingestion,AP Manager,the system to handle credit notes as distinct from standard invoices,credit notes are not coded as regular purchases,Must,Credit notes are identified and routed to appropriate coding logic
+BR-010,Invoice Ingestion,AP Manager,the system to handle recurring invoices differently from one-off invoices,recurring patterns are recognised and processed faster,Should,Recurring invoices are tagged and retrieved with higher weight for pattern matching
+BR-011,Vendor Resolution,AP Clerk,the system to resolve raw vendor names to a canonical identity,invoices from the same vendor are treated consistently,Must,MDM match rate exceeds 95 percent for top 500 vendors
+BR-012,Vendor Resolution,AP Clerk,the system to handle vendor name variations and aliases,invoices from trading names reach the correct vendor record,Must,Alias table covers known trading names and abbreviations
+BR-013,Vendor Resolution,Data Steward,the system to handle vendor acquisitions where the legal name changed,post-acquisition invoices match the original vendor identity,Should,Acquisition mappings are maintained in MDM with effective dates
+BR-014,Vendor Resolution,AP Clerk,the system to flag invoices where vendor resolution fails,I know why an invoice was routed to review,Must,Low MDM confidence triggers review with reason code
+BR-015,Vendor Resolution,Finance Director,the system to prevent cross-entity vendor confusion,similar vendor names in different entities do not collide,Must,Entity prefix or isolation prevents cross-entity matching
+BR-016,Vendor Resolution,System Administrator,the system to maintain a master vendor record separate from coding prediction,vendor data is managed independently,Must,MDM service is distinct from the prediction service
+BR-017,Vendor Resolution,AP Clerk,the system to handle new vendors not in the master record,new suppliers are processed without blocking the workflow,Should,New vendors route to review with flag for MDM registration
+BR-018,Vendor Resolution,AP Manager,the system to match subsidiary invoices to parent company where appropriate,subsidiary coding follows parent patterns,Should,Parent-subsidiary hierarchy is respected in retrieval filtering
+BR-019,Prediction,AP Clerk,the system to predict general ledger account codes for non-PO lines,I do not have to look up the correct GL account manually,Must,GL account prediction accuracy exceeds baseline within 90 days
+BR-020,Prediction,AP Clerk,the system to predict cost centre codes for non-PO lines,invoices are charged to the correct department,Must,Cost centre prediction accuracy exceeds baseline within 90 days
+BR-021,Prediction,AP Clerk,the system to predict tax codes for non-PO lines,tax is calculated correctly without manual lookup,Must,Tax code prediction accuracy exceeds baseline within 90 days
+BR-022,Prediction,AP Clerk,the system to handle invoices requiring multiple coding rows,complex invoices are handled in one pass,Must,Multi-row predictions are supported with per-row confidence
+BR-023,Prediction,AP Clerk,the system to handle percentage splits across multiple GL accounts,shared costs are allocated correctly,Should,Percentage splits are predicted when historical pattern supports it
+BR-024,Prediction,AP Clerk,the system to handle fixed amount splits across multiple GL accounts,invoices with predefined splits are coded automatically,Should,Fixed amount splits are predicted when historical pattern supports it
+BR-025,Prediction,AP Manager,the system to predict coding based on historical patterns for the same vendor,vendor-specific habits are recognised,Must,Vendor-specific retrieval is the primary signal
+BR-026,Prediction,AP Manager,the system to predict coding based on similar line descriptions,description semantics influence the prediction,Must,Semantic similarity search retrieves relevant descriptions
+BR-027,Prediction,AP Manager,the system to predict coding based on amount bands and thresholds,amount influences the coding decision,Should,Amount is used as a retrieval filter and ranking signal
+BR-028,Prediction,AP Manager,the system to predict coding based on the legal entity chart of accounts,entity-specific accounts are respected,Must,Entity-specific chart of accounts is loaded and enforced
+BR-029,Prediction,AP Clerk,the system to provide a confidence score for every prediction,I know when to trust the system and when to check it,Must,Every prediction includes a confidence score from 0 to 1
+BR-030,Prediction,AP Clerk,the system to show the evidence that supports every prediction,I can verify the prediction before approving it,Must,Top 3 retrieved evidence lines are displayed with similarity scores
+BR-031,Prediction,AP Manager,the system to handle seasonal or periodic patterns,year-end or quarterly patterns are recognised,Should,Date metadata is included in retrieval ranking
+BR-032,Confidence,AP Manager,the system to define clear thresholds for automatic posting,I control the balance between automation and risk,Must,Auto-post threshold is configurable per tenant
+BR-033,Confidence,AP Manager,the system to define clear thresholds for human review,uncertain invoices are caught before posting,Must,Review threshold is configurable per tenant
+BR-034,Confidence,Compliance Auditor,the system to apply business policy rules that override model confidence,high-value invoices are always reviewed regardless of model certainty,Must,Amount-based policy overrides are enforced before auto-post
+BR-035,Confidence,Finance Director,the system to handle high-value invoices with mandatory human review,material transactions have human oversight,Must,Invoices above configurable amount always route to review
+BR-036,Confidence,AP Clerk,the system to handle new vendors with no historical data by routing to review,new suppliers are not auto-coded on guesswork,Must,Vendors with fewer than 3 historical lines route to review
+BR-037,Confidence,AP Manager,the system to handle invoices outside normal amount ranges by routing to review,anomalies are flagged for inspection,Should,Amount z-score beyond 2 standard deviations triggers review
+BR-038,Confidence,Data Scientist,the system to detect when historical patterns have drifted,stale patterns do not drive bad predictions,Should,Drift detection runs daily per vendor (cross entropy metric?)
+BR-039,Confidence,AP Manager,the system to reduce automation confidence when drift is detected,the system becomes more cautious when patterns change,Should,Auto-post threshold is temporarily raised when drift is flagged
+BR-040,Confidence,AP Manager,the system to restore automation confidence when new patterns stabilize,the system adapts to legitimate changes,Should,Threshold restores after 10 consistent confirmations
+BR-041,Confidence,Data Scientist,the system to weight recent evidence more heavily than old evidence,the model adapts to current behaviour,Should,Recency weighting decays evidence older than 12 months
+BR-042,Confidence,AP Clerk,the system to handle sparse or thin retrieved evidence,low-signal cases are not auto-posted,Must,Sparse retrieval triggers review regardless of apparent confidence
+BR-043,Review,AP Clerk,the system to present a review queue for low-confidence invoices,I can process exceptions efficiently,Must,Review queue is accessible via the existing UI
+BR-044,Review,AP Clerk,the system to display the prediction and supporting evidence clearly,I understand why the system hesitated,Must,"Review screen shows prediction, confidence, and top evidence"
+BR-045,Review,AP Clerk,the system to allow me to confirm the prediction with minimal clicks,I can process high-volume queues quickly,Must,One-click confirm is available
+BR-046,Review,AP Clerk,the system to allow me to correct the prediction,mistakes are fixed and the system learns,Must,Correction form supports editing all coding fields
+BR-047,Review,AP Clerk,the system to allow me to add explanatory comments,context is captured for future reference,Should,Free text comment field is available per correction
+BR-048,Review,AP Clerk,the system to support batch approval for low-risk patterns,I am not slowed down by repetitive approvals,Should,Batch approval supports up to 50 invoices per action
+BR-049,Review,AP Manager,"the system to prioritize the review queue by risk, value, or age",high-risk items are processed first,Should,Queue is sortable by multiple criteria
+BR-050,Review,AP Manager,the system to track review time and throughput,I can manage team capacity,Should,Dashboard shows average review time and items per hour
+BR-051,Review,AP Manager,the system to route complex cases to senior reviewers,junior staff are not overwhelmed,Should,Complexity rules route high-value or ambiguous cases to senior queue
+BR-052,Review,AP Clerk,the system to prevent invoices stuck in review indefinitely,nothing falls through cracks,Must,Escalation alert triggers after 48 hours in review
+BR-053,Review,AP Clerk,the system to show what it learned from my previous corrections,I can verify my feedback is being used,Could,Per-clerk feedback summary is available
+BR-054,Review,AP Clerk,the system to support review on mobile devices,I can approve urgent items away from my desk,Could,Review queue is responsive on mobile browsers
+BR-055,Learning,System Administrator,the system to capture confirmed outcomes from auto-posted and human-reviewed invoices,the corpus grows with every processed invoice,Must,Every confirmed outcome is indexed within 5 minutes
+BR-056,Learning,Data Scientist,the system to index confirmed outcomes into a searchable corpus,future invoices benefit from past decisions,Must,Vector store indexes description embedding plus metadata
+BR-057,Learning,Data Scientist,the system to weight recent outcomes more heavily than old outcomes,the model stays current,Should,Recency decay reduces weight of 12-month-old evidence by 50 percent
+BR-058,Learning,Data Scientist,the system to detect suspicious corrections that deviate from patterns,bad corrections do not pollute the corpus,Should,Corrections beyond 2 standard deviations from peer group are flagged
+BR-059,Learning,AP Manager,the system to prevent a single bad correction from corrupting the corpus,one mistake does not break the model,Must,"Single corrections shift confidence gradually, not instantly"
+BR-060,Learning,Compliance Auditor,the system to maintain provenance for every learned record,I can trace any learned pattern back to its source,Must,"Every record includes source, timestamp, and user identity"
+BR-061,Learning,System Administrator,the system to allow removal or suppression of bad learned records,errors in the corpus are fixable,Should,Admin interface supports search and suppression by record ID
+BR-062,Learning,Data Scientist,the system to support recency-based decay for outdated patterns,old behaviour does not dominate new behaviour,Should,Decay curve is configurable per vendor category
+BR-063,Learning,Data Scientist,the system to distinguish auto-posted from human-corrected outcomes,I know which data came from humans and which came from automation,Should,"Source tag distinguishes confirmed, corrected, and conversational"
+BR-064,Learning,AP Manager,the system to handle conflicting corrections from multiple reviewers,"disagreements are surfaced, not hidden",Should,Conflicting corrections trigger manager review before indexing
+BR-065,Learning,System Administrator,the system to exclude reversed or erroneous invoices from learning,bad data does not enter the corpus,Must,Reversed invoices are tagged and excluded from indexing
+BR-066,Learning,System Administrator,the system to support bulk re-indexing,strategy changes do not require manual rebuild,Could,Bulk re-index completes within 24 hours for full corpus
+BR-067,Conversational,AP Clerk,the system to accept natural language input through a chat interface,I can state rules in plain language,Should,Chat interface accepts free text and parses intent
+BR-068,Conversational,AP Clerk,the system to parse natural language into structured rules,my instructions are understood correctly,Should,Parsed rule is displayed for confirmation before application
+BR-069,Conversational,AP Manager,the system to validate parsed rules before applying them,nonsense or dangerous rules are caught,Should,"Validation checks for coherent vendor, account, and condition"
+BR-070,Conversational,Compliance Auditor,the system to store conversational rules with full provenance,I know who created each rule and when,Must,"Conversational rules include author ID, timestamp, and raw text"
+BR-071,Conversational,AP Clerk,the system to apply conversational rules when they conflict with retrieved patterns,stated rules override inferred patterns,Should,Conversational rules take precedence over thin retrieval
+BR-072,Conversational,AP Manager,the system to flag conflicts between conversational rules and learned patterns,I know when the system is operating under contradictory guidance,Should,Conflict dashboard shows active rule conflicts
+BR-073,Conversational,AP Clerk,the system to allow me to view and retract my own rules,I can fix mistakes I made,Should,Users can deactivate rules they created
+BR-074,Conversational,AP Clerk,the system to ask for clarification when input is ambiguous,I am not misunderstood,Should,Clarifying question is generated when intent confidence is low
+BR-075,Conversational,AP Clerk,the system to confirm understanding before applying a rule,I can verify the system got it right,Should,Parsed rule is shown for explicit confirmation
+BR-076,Conversational,AP Manager,the system to support rules with amount thresholds and date ranges,complex policies can be stated simply,Should,Conditions support amount operators and date ranges
+BR-077,Conversational,AP Manager,the system to support rules with exceptions,I can state when a rule does not apply,Should,Exception clauses are parsed and stored
+BR-078,Compliance,Compliance Auditor,the system to maintain a complete trace for every coding decision,I can reconstruct what happened,Must,Trace ID links all components of the decision
+BR-079,Compliance,Compliance Auditor,the system to record the evidence used for every prediction,I can verify the basis for the decision,Must,Retrieved evidence IDs are stored in the trace
+BR-080,Compliance,Compliance Auditor,the system to record the confidence score and threshold applied,I know why the system chose auto-post or review,Must,Score and threshold are logged at decision time
+BR-081,Compliance,Compliance Auditor,the system to record whether the invoice was auto-posted or human-reviewed,I know if a human touched it,Must,Routing path is logged: auto-post or review
+BR-082,Compliance,Compliance Auditor,the system to record the identity of any reviewer and their action,I know who approved or changed the coding,Must,User ID and action are logged with timestamp
+BR-083,Compliance,Compliance Auditor,the system to retain decision traces as long as the invoice record,retention policies are met,Must,Trace retention matches invoice retention period
+BR-084,Compliance,Compliance Auditor,the system to produce audit reports on demand for any date range,I can satisfy audit requests quickly,Must,Report generation completes within 5 minutes for any 90-day range
+BR-085,Compliance,Compliance Auditor,the system to allow full decision reconstruction from a single identifier,I do not need to hunt across systems,Must,Trace ID resolves to full decision graph
+BR-086,Compliance,System Administrator,the system to prevent tampering with audit records,records are trustworthy,Must,Audit log is append-only with hash chain
+BR-087,Compliance,Compliance Auditor,the system to support read-only audit access,auditors cannot accidentally change data,Must,Read-only role has no write permissions
+BR-088,Compliance,System Administrator,the system to log all configuration changes,I know when settings changed,Must,"Config change log includes old value, new value, user, timestamp"
+BR-089,Compliance,System Administrator,the system to log all threshold changes,I know when automation levels changed,Must,"Threshold log includes before, after, user, timestamp"
+BR-090,Compliance,Compliance Auditor,the system to support export of audit data in standard formats,I can import into audit tools,Should,Export available in CSV and PDF
+BR-091,Compliance,Data Protection Officer,the system to handle data subject access requests,privacy regulations are respected,Should,DSAR export includes all personal data within 30 days
+BR-092,Migration,AP Manager,the system to run in shadow mode alongside the existing engine,I can compare predictions without risk,Must,Shadow predictions are logged but not posted
+BR-093,Migration,Data Scientist,the system to compare predictions against actual posted outcomes,I can measure accuracy before go-live,Must,Agreement rate is calculated daily during shadow mode
+BR-094,Migration,AP Manager,the system to allow graduated migration by vendor category,I can phase the rollout,Must,Migration is configurable per vendor category
+BR-095,Migration,AP Manager,the system to allow graduated migration by value band,I can start with low-risk invoices,Must,Migration is configurable per value band
+BR-096,Migration,AP Manager,the system to allow graduated migration by legal entity,I can phase by subsidiary,Should,Migration is configurable per entity
+BR-097,Migration,AP Manager,the system to support rollback to the deterministic engine,I can reverse a bad migration,Must,Rollback restores deterministic routing within 1 hour
+BR-098,Migration,System Administrator,the system to export existing deterministic rules as seed data,the new system has a starting corpus,Should,Rule export covers all active skills
+BR-099,Migration,Data Scientist,the system to tag seed data distinctly from learned data,I know what came from rules vs what came from behaviour,Should,Seed data is tagged
+BR-100,Migration,Client Success Manager,the system to allow clients to remain on the deterministic engine,no client is forced to migrate,Should,Deterministic engine remains available
+BR-101,Migration,Data Scientist,the system to support A-B testing,I can measure impact precisely,Could,Configurable percentage of traffic routes to new system
+BR-102,Migration,AP Manager,the system to provide clear metrics to justify migration,I have evidence before I commit,Must,Accuracy comparison report is available per segment
+BR-103,Reporting,AP Manager,the system to report automation rate by vendor and category,I can see where automation is working,Should,Dashboard shows automation rate with drill-down
+BR-104,Reporting,AP Manager,the system to report correction rate by reviewer and vendor,I can identify training needs,Should,Heatmap shows correction rate by reviewer
+BR-105,Reporting,AP Manager,the system to report average review time and queue depth,I can manage capacity,Should,Real-time queue metrics are displayed
+BR-106,Reporting,Data Scientist,the system to report confidence calibration accuracy,I know if confidence scores are honest,Should,Calibration plot compares predicted vs actual accuracy
+BR-107,Reporting,Data Scientist,the system to alert when accuracy drops below thresholds,I catch problems early,Should,Alert triggers when 7-day accuracy drops below 85 percent
+BR-108,Reporting,AP Manager,the system to report drift events and resolution,I know when patterns changed,Should,"Drift log shows event, vendor, and resolution"
+BR-109,Reporting,Compliance Auditor,the system to produce compliance reports for external auditors,audit requests are satisfied,Must,Compliance report is available on demand
+BR-110,Reporting,AP Manager,the system to support scheduled and ad-hoc report generation,I can get reports when I need them,Should,"Reports can be scheduled daily, weekly, or monthly"
+BR-111,Reporting,Finance Director,the system to provide executive dashboards,I can see the business impact,Should,"Executive dashboard shows automation rate, cost savings, and accuracy"
+BR-112,Reporting,Finance Director,the system to track professional services hours saved,I can measure return on investment,Should,Hours saved are estimated from automation lift
+BR-113,Reporting,AP Manager,the system to track time to value for new vendors,I can measure onboarding speed,Should,Vendor onboarding time is tracked from first invoice to auto-post
+BR-114,Governance,AP Manager,the system to allow configurable auto-post thresholds per tenant,I can set risk levels per client,Must,Threshold is configurable per tenant
+BR-115,Governance,AP Manager,the system to allow configurable thresholds per vendor category,I can be more conservative for strategic vendors,Should,Threshold is configurable per vendor category
+BR-116,Governance,AP Manager,the system to allow configurable thresholds per value band,I can set different rules for small vs large invoices,Should,Threshold is configurable per value band
+BR-117,Governance,Finance Director,the system to require approval for threshold changes,no single person can increase risk silently,Must,Threshold changes require manager approval
+BR-118,Governance,Compliance Auditor,the system to log all threshold changes with before and after values,I can audit policy changes,Must,Change log is immutable
+BR-119,Governance,System Administrator,the system to enforce role-based access control,users only see and do what they should,Must,"RBAC covers clerk, manager, auditor, and admin roles"
+BR-120,Governance,Finance Director,the system to isolate data between tenants,client data never mixes,Must,Tenant isolation is enforced at all layers
+BR-121,Governance,System Administrator,the system to allow administrators to view and manage the learned corpus,I can inspect what the system knows,Should,Admin search interface is available
+BR-122,Governance,System Administrator,the system to allow suppression of specific learned records,I can fix bad data,Should,Suppression is reversible and audited
+BR-123,Governance,AP Manager,the system to provide a governance dashboard,I can see system health at a glance,Should,"Dashboard shows corpus size, accuracy, and alerts"
+BR-124,Governance,AP Manager,the system to support emergency shutdown of auto-post,I can stop automation in a crisis,Must,Emergency stop disables auto-post within 1 minute
+BR-125,Performance,AP Clerk,the system to process invoices within defined latency targets,my workflow is not interrupted,Must,p95 latency is under 2 seconds
+BR-126,Performance,System Administrator,the system to handle peak volumes without degradation,month-end spikes do not cause backlogs,Must,"System handles 10,000 invoices per hour"
+BR-127,Performance,AP Clerk,the system to queue write-back operations asynchronously,review is not blocked by indexing,Must,Write-back completes in background within 5 minutes
+BR-128,Performance,System Administrator,the system to provide health checks and status endpoints,I can monitor system health,Must,Health endpoint returns status code 200 when healthy
+BR-129,Performance,System Administrator,the system to log errors with sufficient detail,I can debug problems,Must,Error logs include stack trace and context
+BR-130,Performance,System Administrator,the system to support graceful degradation,failures do not break the workflow,Must,Component failure routes to deterministic fallback or review
+BR-131,Performance,System Administrator,the system to provide monitoring and alerting,I know when something is wrong,Must,"Alerts fire on error rate, latency, and queue depth"
+BR-132,Performance,System Administrator,the system to support backup and recovery,data loss is prevented,Must,Daily backups with 7-day retention
+BR-133,Performance,System Administrator,the system to handle planned maintenance,updates do not lose data,Should,Maintenance windows are scheduled with zero downtime
+BR-134,Performance,System Administrator,the system to support horizontal scaling,load growth is handled,Should,New instances can be added via container orchestration
