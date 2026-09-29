@@ -21,6 +21,13 @@ from ap_automation.core.models import (
 
 
 def get_qdrant() -> QdrantClient:
+    if settings.qdrant_api_key:
+        return QdrantClient(
+            host=settings.qdrant_host,
+            port=settings.qdrant_port,
+            api_key=settings.qdrant_api_key,
+            https=True,
+        )
     return QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port)
 
 
@@ -39,11 +46,6 @@ def ensure_collection() -> None:
 
 
 def _build_filter(vendor_id: str) -> Filter:
-    """
-    Pre-filter by vendor only.
-    POC: vendor ID is the primary signal; entity/amount/currency
-    filtering applied post-retrieval if needed.
-    """
     return Filter(
         must=[
             FieldCondition(key="vendor_id", match=MatchValue(value=vendor_id)),
@@ -56,7 +58,6 @@ def _rrf_score(rank: int, k: int = 60) -> float:
 
 
 def _recency_weight(timestamp: datetime) -> float:
-    """More recent = higher weight. Exponential decay over 2 years."""
     now = datetime.now(timezone.utc)
     if timestamp.tzinfo is None:
         timestamp = timestamp.replace(tzinfo=timezone.utc)
@@ -72,19 +73,11 @@ def retrieve(
     currency: str,
     top_k: int | None = None,
 ) -> list[RetrievedEvidence]:
-    """
-    Hybrid retrieval: dense (Qdrant cosine) + sparse (BM25) fused with RRF.
-    Re-ranked by: cosine primary, recency secondary, frequency tertiary.
-    Returns up to top_k results.
-    """
     k = top_k or settings.top_k
     client = get_qdrant()
     query_vector = embed(description)
-
-    # Filter by vendor only — broadest possible match for POC
     vendor_filter = _build_filter(vendor_id)
 
-    # --- Dense retrieval ---
     dense_response = client.query_points(
         collection_name=settings.qdrant_collection,
         query=query_vector,
@@ -95,7 +88,6 @@ def retrieve(
     )
     dense_results = dense_response.points
 
-    # If vendor filter returns nothing, fall back to unfiltered search
     if not dense_results:
         dense_response = client.query_points(
             collection_name=settings.qdrant_collection,
@@ -109,7 +101,6 @@ def retrieve(
     if not dense_results:
         return []
 
-    # --- Sparse retrieval (BM25) over the same candidate pool ---
     scroll_filter = vendor_filter if dense_results else None
     all_candidates = client.scroll(
         collection_name=settings.qdrant_collection,
@@ -119,7 +110,6 @@ def retrieve(
         with_vectors=False,
     )[0]
 
-    # Fall back to full corpus for BM25 if vendor pool is tiny
     if len(all_candidates) < 3:
         all_candidates = client.scroll(
             collection_name=settings.qdrant_collection,
@@ -145,7 +135,6 @@ def retrieve(
         str(r.id): i + 1 for i, r in enumerate(dense_results)
     }
 
-    # --- RRF fusion ---
     all_ids = set(dense_rank_map.keys()) | set(bm25_rank_map.keys())
     rrf_scores: dict[str, float] = {}
     for pid in all_ids:
@@ -160,7 +149,6 @@ def retrieve(
         if str(r.id) not in payload_map:
             payload_map[str(r.id)] = r.payload
 
-    # --- Build RetrievedEvidence list ---
     evidence: list[RetrievedEvidence] = []
     for pid in top_ids:
         payload = payload_map.get(pid)
@@ -192,7 +180,6 @@ def retrieve(
             ),
         ))
 
-    # --- Re-rank: cosine primary, recency secondary, frequency tertiary ---
     from collections import Counter
     gl_counts = Counter(e.gl_account for e in evidence)
     max_count = max(gl_counts.values(), default=1)
@@ -208,7 +195,6 @@ def retrieve(
 
 
 def index_outcome(outcome_payload: dict) -> None:
-    """Write a confirmed outcome into the Qdrant corpus."""
     client = get_qdrant()
     vector = embed(outcome_payload["description"])
     client.upsert(

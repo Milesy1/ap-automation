@@ -1,5 +1,6 @@
 """
 Streamlit UI — AP Automation POC demo.
+Polished demo version with improved layout and styling.
 """
 
 from __future__ import annotations
@@ -34,18 +35,127 @@ st.set_page_config(
     page_title="AP Automation POC",
     page_icon="🧾",
     layout="wide",
+    initial_sidebar_state="collapsed",
 )
 
-if "metrics" not in st.session_state:
-    st.session_state.metrics = {
-        "total": 0,
-        "auto_posted": 0,
-        "reviewed": 0,
-        "correct": 0,
-        "batch_results": [],
+# ── Custom CSS ────────────────────────────────────────
+st.markdown("""
+<style>
+    /* Global */
+    .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
+    
+    /* Header */
+    .poc-header {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        padding: 2rem 2.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        color: white;
     }
+    .poc-header h1 { color: white; margin: 0; font-size: 2rem; font-weight: 700; }
+    .poc-header p { color: #a8b2d8; margin: 0.3rem 0 0; font-size: 0.95rem; }
+    
+    /* Metric cards */
+    .metric-card {
+        background: white;
+        border: 1px solid #e8eaf0;
+        border-radius: 10px;
+        padding: 1.2rem 1.5rem;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .metric-card .value { font-size: 2rem; font-weight: 700; color: #1a1a2e; }
+    .metric-card .label { font-size: 0.8rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem; }
+    
+    /* Status badges */
+    .badge-auto {
+        background: #d1fae5; color: #065f46;
+        padding: 0.3rem 0.8rem; border-radius: 20px;
+        font-size: 0.85rem; font-weight: 600; display: inline-block;
+    }
+    .badge-review {
+        background: #fef3c7; color: #92400e;
+        padding: 0.3rem 0.8rem; border-radius: 20px;
+        font-size: 0.85rem; font-weight: 600; display: inline-block;
+    }
+    
+    /* Evidence table */
+    .evidence-row {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.8rem 1rem;
+        margin-bottom: 0.5rem;
+    }
+    .evidence-desc { font-weight: 500; color: #1e293b; }
+    .evidence-meta { font-size: 0.8rem; color: #64748b; margin-top: 0.2rem; }
+    
+    /* Confidence bar */
+    .conf-bar-bg {
+        background: #e2e8f0; border-radius: 4px; height: 8px; margin-top: 0.3rem;
+    }
+    .conf-bar-fill {
+        height: 8px; border-radius: 4px;
+        background: linear-gradient(90deg, #f59e0b, #10b981);
+    }
+    
+    /* Invoice card */
+    .invoice-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 1.2rem;
+        margin-bottom: 0.8rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    
+    /* Section headers */
+    .section-header {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Tab styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 4px;
+        background: #f8fafc;
+        padding: 4px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 7px;
+        padding: 0.5rem 1.2rem;
+        font-weight: 500;
+    }
+    .stTabs [aria-selected="true"] {
+        background: white !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    /* Button styling */
+    .stButton > button {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    
+    div[data-testid="stMetricValue"] { font-size: 1.8rem !important; }
+</style>
+""", unsafe_allow_html=True)
+
+# ── Session state ─────────────────────────────────────
+if "metrics" not in st.session_state:
+    st.session_state.metrics = {"total": 0, "auto_posted": 0, "batch_results": []}
 if "initialised" not in st.session_state:
     st.session_state.initialised = False
+if "last_prediction" not in st.session_state:
+    st.session_state.last_prediction = None
 
 
 def initialise() -> None:
@@ -77,7 +187,6 @@ def process_invoice(inv: InvoiceLine, auto_confirm: bool = False) -> dict:
         "amount": inv.amount,
         "currency": inv.currency,
         "predicted_gl": prediction.predicted_gl,
-        "predicted_cc": prediction.predicted_cost_centre,
         "confidence": prediction.weighted_confidence,
         "routing": prediction.routing_decision.value,
         "routing_reason": prediction.routing_reason,
@@ -105,109 +214,185 @@ def process_invoice(inv: InvoiceLine, auto_confirm: bool = False) -> dict:
 
 initialise()
 
-st.title("🧾 AP Automation POC")
-st.caption("Self-learning non-PO invoice coding — RAG + confidence gate + write-back loop")
+# ── Header ────────────────────────────────────────────
+st.markdown("""
+<div class="poc-header">
+    <h1>🧾 AP Automation</h1>
+    <p>Self-learning non-PO invoice coding — RAG + confidence gate + write-back loop</p>
+</div>
+""", unsafe_allow_html=True)
 
+# ── Top metrics ───────────────────────────────────────
+try:
+    from qdrant_client import QdrantClient
+    qc = QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port)
+    corpus_size = qc.get_collection(settings.qdrant_collection).points_count
+except Exception:
+    corpus_size = 0
+
+postings_count = len(get_postings(limit=10000))
+batch_results = st.session_state.metrics.get("batch_results", [])
+current_rate = f"{batch_results[-1]['auto_post_rate']:.0%}" if batch_results else "—"
+
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("📚 Corpus size", f"{corpus_size:,}", help="Lines indexed in Qdrant")
+col2.metric("✅ Invoices posted", f"{postings_count:,}", help="ERP ledger entries")
+col3.metric("🎯 Automation rate", current_rate, help="Current batch auto-post rate")
+col4.metric("📦 Batches run", len(batch_results), help="Number of reporting batches completed")
+
+st.divider()
+
+# ── Tabs ──────────────────────────────────────────────
 tabs = st.tabs([
-    "📄 Single Invoice",
-    "📦 Batch Processing",
-    "📊 Automation Rate",
-    "🏦 Posted Invoices",
-    "🔍 Audit Trail",
-    "⚙️ Setup",
+    "📄  Review Queue",
+    "📦  Batch Processing",
+    "📊  Performance",
+    "🏦  ERP Ledger",
+    "🔍  Audit Trail",
+    "⚙️  Setup",
 ])
 
-# ── TAB 1: Single Invoice ──────────────────────────────
+# ─────────────────────────────────────────────────────
+# TAB 1: Review Queue (replaces Single Invoice)
+# ─────────────────────────────────────────────────────
 with tabs[0]:
-    st.subheader("Submit a single invoice")
-    col1, col2 = st.columns(2)
-    with col1:
-        vendor = st.text_input("Vendor name", value="Meridian Facilities Ltd")
+    col_form, col_result = st.columns([1, 1], gap="large")
+
+    with col_form:
+        st.markdown('<div class="section-header">Submit Invoice</div>', unsafe_allow_html=True)
+
+        vendor = st.text_input("Vendor name", value="Meridian Facilities Ltd", label_visibility="visible")
         description = st.text_input("Description", value="Office cleaning services monthly")
-        amount = st.number_input("Amount", value=450.0, min_value=0.01)
-    with col2:
-        currency = st.selectbox("Currency", ["GBP", "EUR", "USD", "CHF"])
-        entity = st.selectbox("Entity", ["UK001", "UK002", "IE001"])
-        cost_centre = st.selectbox("Cost centre", ["CC100", "CC200", "CC300", "CC400", "CC500"])
 
-    if st.button("🔍 Predict", type="primary"):
-        inv = InvoiceLine(
-            invoice_id=uuid4(),
-            raw_vendor_name=vendor,
-            description=description,
-            amount=amount,
-            currency=currency,
-            entity_id=entity,
-            cost_centre=cost_centre,
-            category=InvoiceCategory.ROUTINE,
-        )
-        with st.spinner("Running pipeline..."):
-            prediction = predict(inv)
+        col_a, col_b = st.columns(2)
+        with col_a:
+            amount = st.number_input("Amount (£)", value=450.0, min_value=0.01, format="%.2f")
+            entity = st.selectbox("Entity", ["UK001", "UK002", "IE001"])
+        with col_b:
+            currency = st.selectbox("Currency", ["GBP", "EUR", "USD", "CHF"])
+            cost_centre = st.selectbox("Cost centre", ["CC100", "CC200", "CC300", "CC400", "CC500"])
 
-        if prediction.routing_decision == RoutingDecision.AUTO_POST:
-            st.success(f"✅ Auto-post — confidence {prediction.weighted_confidence:.1%}")
+        predict_btn = st.button("🔍 Predict GL Code", type="primary", use_container_width=True)
+
+        if predict_btn:
+            inv = InvoiceLine(
+                invoice_id=uuid4(),
+                raw_vendor_name=vendor,
+                description=description,
+                amount=amount,
+                currency=currency,
+                entity_id=entity,
+                cost_centre=cost_centre,
+                category=InvoiceCategory.ROUTINE,
+            )
+            with st.spinner("Running pipeline..."):
+                prediction = predict(inv)
+            st.session_state.last_prediction = prediction
+            st.session_state.last_invoice = inv
+
+    with col_result:
+        pred = st.session_state.get("last_prediction")
+        inv_ctx = st.session_state.get("last_invoice")
+
+        if pred:
+            st.markdown('<div class="section-header">Prediction</div>', unsafe_allow_html=True)
+
+            # Routing badge
+            if pred.routing_decision == RoutingDecision.AUTO_POST:
+                st.markdown('<span class="badge-auto">✅ Auto-post approved</span>', unsafe_allow_html=True)
+            else:
+                st.markdown('<span class="badge-review">👤 Routed to human review</span>', unsafe_allow_html=True)
+
+            st.caption(pred.routing_reason)
+            st.write("")
+
+            # GL + confidence
+            m1, m2, m3 = st.columns(3)
+            m1.metric("GL Account", pred.predicted_gl or "—")
+            m2.metric("Confidence", f"{pred.weighted_confidence:.1%}")
+            m3.metric("Evidence lines", len(pred.evidence))
+
+            # Confidence bar
+            pct = int(pred.weighted_confidence * 100)
+            st.markdown(f"""
+            <div class="conf-bar-bg">
+                <div class="conf-bar-fill" style="width:{pct}%"></div>
+            </div>
+            <div style="font-size:0.75rem;color:#6b7280;margin-top:0.2rem">
+                Threshold: {settings.default_confidence_threshold:.0%} &nbsp;|&nbsp; Score: {pred.weighted_confidence:.1%}
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Evidence
+            if pred.evidence:
+                st.write("")
+                st.markdown('<div class="section-header">Retrieved Evidence</div>', unsafe_allow_html=True)
+                for i, e in enumerate(pred.evidence[:3]):
+                    sim_pct = int(e.similarity_score * 100)
+                    st.markdown(f"""
+                    <div class="evidence-row">
+                        <div class="evidence-desc">{e.description}</div>
+                        <div class="evidence-meta">
+                            GL: <strong>{e.gl_account}</strong> &nbsp;·&nbsp;
+                            Similarity: <strong>{e.similarity_score:.3f}</strong> &nbsp;·&nbsp;
+                            RRF: {e.rrf_score:.5f} &nbsp;·&nbsp;
+                            Source: {e.source.value}
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            # Actions
+            st.write("")
+            st.markdown('<div class="section-header">Action</div>', unsafe_allow_html=True)
+            act1, act2 = st.columns(2)
+
+            with act1:
+                if st.button("✅ Confirm & Post to ERP", use_container_width=True, type="primary"):
+                    outcome, erp_payload = confirm(
+                        prediction=pred,
+                        confirmed_gl=pred.predicted_gl,
+                        confirmed_cc=pred.predicted_cost_centre,
+                        confirming_user_id="demo_user",
+                        source=ConfirmationSource.HUMAN_CONFIRM,
+                    )
+                    posted = post_to_erp(erp_payload.model_dump(mode="json"))
+                    write_back(outcome)
+                    st.success("✓ Posted to ERP — write-back complete")
+
+            with act2:
+                corrected_gl = st.text_input("Override GL code", value=pred.predicted_gl or "", placeholder="e.g. 6300")
+                if st.button("✏️ Submit Correction", use_container_width=True):
+                    outcome, erp_payload = confirm(
+                        prediction=pred,
+                        confirmed_gl=corrected_gl,
+                        confirmed_cc=pred.predicted_cost_centre,
+                        confirming_user_id="demo_user",
+                        source=ConfirmationSource.HUMAN_CORRECT,
+                    )
+                    post_to_erp(erp_payload.model_dump(mode="json"))
+                    write_back(outcome)
+                    st.success(f"✓ Correction submitted (GL: {corrected_gl})")
+
+            with st.expander("🔍 Full provenance JSON"):
+                st.json(pred.provenance)
         else:
-            st.warning(f"👤 Human review required — {prediction.routing_reason}")
+            st.info("Submit an invoice on the left to see the prediction.")
 
-        col_a, col_b, col_c = st.columns(3)
-        col_a.metric("Predicted GL", prediction.predicted_gl)
-        col_b.metric("Confidence", f"{prediction.weighted_confidence:.1%}")
-        col_c.metric("Evidence lines", len(prediction.evidence))
-
-        if prediction.evidence:
-            st.subheader("Top retrieved evidence")
-            st.dataframe(pd.DataFrame([{
-                "Description": e.description,
-                "GL": e.gl_account,
-                "Similarity": f"{e.similarity_score:.3f}",
-                "RRF score": f"{e.rrf_score:.5f}",
-                "Source": e.source.value,
-            } for e in prediction.evidence[:5]]), use_container_width=True)
-
-        st.subheader("Action")
-        action_col1, action_col2 = st.columns(2)
-        with action_col1:
-            if st.button("✅ Confirm prediction"):
-                outcome, erp_payload = confirm(
-                    prediction=prediction,
-                    confirmed_gl=prediction.predicted_gl,
-                    confirmed_cc=prediction.predicted_cost_centre,
-                    confirming_user_id="demo_user",
-                    source=ConfirmationSource.HUMAN_CONFIRM,
-                )
-                posted = post_to_erp(erp_payload.model_dump(mode="json"))
-                write_back(outcome)
-                st.success("Posted to ERP ✓ — write-back complete" if posted else "Write-back complete (ERP mock not running)")
-
-        with action_col2:
-            corrected_gl = st.text_input("Correct GL (if wrong)", value=prediction.predicted_gl)
-            if st.button("✏️ Submit correction"):
-                outcome, erp_payload = confirm(
-                    prediction=prediction,
-                    confirmed_gl=corrected_gl,
-                    confirmed_cc=prediction.predicted_cost_centre,
-                    confirming_user_id="demo_user",
-                    source=ConfirmationSource.HUMAN_CORRECT,
-                )
-                post_to_erp(erp_payload.model_dump(mode="json"))
-                write_back(outcome)
-                st.success(f"Correction posted (GL: {corrected_gl}) — write-back complete")
-
-        with st.expander("🔍 Full provenance JSON"):
-            st.json(prediction.provenance)
-
-# ── TAB 2: Batch Processing ────────────────────────────
+# ─────────────────────────────────────────────────────
+# TAB 2: Batch Processing
+# ─────────────────────────────────────────────────────
 with tabs[1]:
-    st.subheader("Batch invoice processing")
-    uploaded = st.file_uploader("Upload invoices CSV", type=["csv"])
-    batch_size = st.slider("Reporting batch size", 50, 200, 100)
+    st.markdown('<div class="section-header">Bulk Invoice Processing</div>', unsafe_allow_html=True)
+
+    uploaded = st.file_uploader("Upload invoices CSV", type=["csv"], label_visibility="collapsed")
+    batch_size = st.select_slider("Reporting batch size", options=[50, 100, 150, 200], value=100)
 
     if uploaded:
         df = pd.read_csv(StringIO(uploaded.getvalue().decode()))
-        st.info(f"{len(df)} invoices loaded")
+        st.info(f"**{len(df):,}** invoices loaded — ready to process")
 
-        if st.button("▶️ Run batch", type="primary"):
-            progress = st.progress(0)
+        if st.button("▶️ Run Batch", type="primary"):
+            progress = st.progress(0, text="Starting...")
             status = st.empty()
             results = []
             batch_metrics = []
@@ -227,8 +412,7 @@ with tabs[1]:
                 result = process_invoice(inv, auto_confirm=True)
                 results.append(result)
                 n = i + 1
-                progress.progress(n / len(df))
-                status.text(f"Processing {n}/{len(df)} — {result['vendor'][:40]}")
+                progress.progress(n / len(df), text=f"Processing {n:,}/{len(df):,} — {result['vendor'][:35]}")
 
                 if n % batch_size == 0 or n == len(df):
                     batch = results[-batch_size:]
@@ -241,106 +425,185 @@ with tabs[1]:
                     })
 
             st.session_state.metrics["batch_results"] = batch_metrics
-            st.success(f"Batch complete — {len(results)} invoices processed")
+            progress.empty()
+            status.empty()
+
+            auto_count = sum(1 for r in results if r["routing"] == "auto_post")
+            correct_count = sum(1 for r in results if r.get("correct") is True)
+
+            st.success(f"✅ Batch complete — {len(results):,} invoices processed")
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Auto-posted", f"{auto_count:,}", f"{auto_count/len(results):.0%}")
+            c2.metric("Human review", f"{len(results)-auto_count:,}", f"{(len(results)-auto_count)/len(results):.0%}")
+            c3.metric("Correct predictions", f"{correct_count:,}", f"{correct_count/len(results):.0%}" if results else "—")
+
             st.dataframe(pd.DataFrame([{
                 "Vendor": r["vendor"][:40],
-                "GL": r["predicted_gl"],
-                "Confidence": f"{r['confidence']:.1%}",
-                "Routing": r["routing"],
+                "Description": r["description"][:50],
+                "Amount": f"£{r['amount']:,.2f}",
+                "GL": r["predicted_gl"] or "—",
+                "Confidence": f"{r['confidence']:.0%}",
+                "Routing": "✅ Auto" if r["routing"] == "auto_post" else "👤 Review",
                 "Correct": "✓" if r.get("correct") else ("✗" if r.get("correct") is False else "—"),
-            } for r in results]), use_container_width=True)
+            } for r in results]), use_container_width=True, height=400)
 
-# ── TAB 3: Automation Rate ─────────────────────────────
+# ─────────────────────────────────────────────────────
+# TAB 3: Performance
+# ─────────────────────────────────────────────────────
 with tabs[2]:
-    st.subheader("Automation rate — write-back effect")
     batch_results = st.session_state.metrics.get("batch_results", [])
+
     if batch_results:
-        chart_df = pd.DataFrame(batch_results).set_index("batch")
-        st.line_chart(chart_df[["auto_post_rate", "accuracy"]])
-        st.caption("auto_post_rate = % straight-through | accuracy = % correct vs ground truth")
-        col1, col2, col3 = st.columns(3)
         first = batch_results[0]["auto_post_rate"]
         last = batch_results[-1]["auto_post_rate"]
-        col1.metric("Start automation rate", f"{first:.1%}")
-        col2.metric("End automation rate", f"{last:.1%}")
-        col3.metric("Improvement", f"+{(last - first):.1%}", delta=f"{(last - first):.1%}")
-    else:
-        st.info("Run a batch in the Batch Processing tab to see the automation rate chart.")
+        delta = last - first
 
-# ── TAB 4: Posted Invoices ─────────────────────────────
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Start automation rate", f"{first:.1%}")
+        c2.metric("End automation rate", f"{last:.1%}")
+        c3.metric("Write-back improvement", f"{delta:+.1%}", delta=f"{delta:+.1%}")
+
+        st.write("")
+        st.markdown('<div class="section-header">Automation Rate — Write-Back Effect</div>', unsafe_allow_html=True)
+        chart_df = pd.DataFrame(batch_results).set_index("batch")
+        st.line_chart(chart_df[["auto_post_rate", "accuracy"]])
+        st.caption("auto_post_rate = % straight-through posted | accuracy = % correct vs ground truth GL")
+
+        st.write("")
+        st.markdown('<div class="section-header">Batch Detail</div>', unsafe_allow_html=True)
+        st.dataframe(pd.DataFrame(batch_results).rename(columns={
+            "batch": "Invoice #",
+            "auto_post_rate": "Auto-post Rate",
+            "accuracy": "Accuracy",
+        }).style.format({
+            "Auto-post Rate": "{:.1%}",
+            "Accuracy": "{:.1%}",
+        }), use_container_width=True)
+    else:
+        st.info("Run a batch in the Batch Processing tab to see performance metrics.")
+
+# ─────────────────────────────────────────────────────
+# TAB 4: ERP Ledger
+# ─────────────────────────────────────────────────────
 with tabs[3]:
-    st.subheader("ERP ledger — posted invoices")
-    postings = get_postings(limit=200)
-    if postings:
-        st.dataframe(pd.DataFrame(postings), use_container_width=True)
-        st.caption(f"{len(postings)} postings in ledger")
-    else:
-        st.info("No invoices posted yet.")
+    st.markdown('<div class="section-header">Posted Invoices — ERP Ledger</div>', unsafe_allow_html=True)
+    postings = get_postings(limit=500)
 
-# ── TAB 5: Audit Trail ─────────────────────────────────
+    if postings:
+        df_postings = pd.DataFrame(postings)
+        st.dataframe(df_postings[[
+            "invoice_id", "vendor_id", "entity_id", "gl_account",
+            "cost_centre", "amount", "currency", "posted_by", "posted_at"
+        ]], use_container_width=True, height=500)
+        st.caption(f"{len(postings):,} postings in ledger")
+    else:
+        st.info("No invoices posted yet. Confirm a prediction or run a batch.")
+
+# ─────────────────────────────────────────────────────
+# TAB 5: Audit Trail
+# ─────────────────────────────────────────────────────
 with tabs[4]:
-    st.subheader("Audit trail")
+    st.markdown('<div class="section-header">Full Decision Audit Trail</div>', unsafe_allow_html=True)
     from ap_automation.core.database import get_audit_records
     records = get_audit_records(limit=100)
+
     if records:
-        for rec in records[:10]:
-            with st.expander(f"Invoice {rec['invoice_id'][:8]}… — GL {rec['confirmed_gl']} — {rec['source']}"):
+        for rec in records[:20]:
+            routing_icon = "✅" if rec["routing_decision"] == "auto_post" else "👤"
+            source_label = {"auto_post": "Auto-posted", "human_confirm": "Human confirmed", "human_correct": "Human corrected"}.get(rec["source"], rec["source"])
+            with st.expander(f"{routing_icon} Invoice `{rec['invoice_id'][:8]}…` — GL **{rec['confirmed_gl']}** — {source_label}"):
+                c1, c2, c3 = st.columns(3)
+                c1.metric("Predicted GL", rec["predicted_gl"])
+                c2.metric("Confirmed GL", rec["confirmed_gl"])
+                c3.metric("Confidence", f"{rec['confidence']:.1%}")
                 st.json(json.loads(rec["provenance_json"]))
     else:
         st.info("No audit records yet.")
 
-# ── TAB 6: Setup ───────────────────────────────────────
+# ─────────────────────────────────────────────────────
+# TAB 6: Setup
+# ─────────────────────────────────────────────────────
 with tabs[5]:
-    st.subheader("Setup & initialisation")
+    col_setup, col_status = st.columns([1, 1], gap="large")
 
-    st.markdown("**Step 1: Generate synthetic dataset**")
-    if st.button("Generate 1,000-invoice dataset"):
-        with st.spinner("Generating..."):
-            import random
-            random.seed(42)
-            from ap_automation.core.dataset import generate_dataset
-            invoices = generate_dataset()
-        st.success(f"Generated {len(invoices)} invoices → data/invoices.csv")
+    with col_setup:
+        st.markdown('<div class="section-header">Dataset</div>', unsafe_allow_html=True)
+        if st.button("🗂️ Generate 1,000-invoice dataset", use_container_width=True):
+            with st.spinner("Generating..."):
+                import random
+                random.seed(42)
+                from ap_automation.core.dataset import generate_dataset
+                invoices = generate_dataset()
+            st.success(f"✓ Generated {len(invoices):,} invoices → data/invoices.csv")
 
-    st.markdown("**Step 2: Seed the Qdrant corpus**")
-    seed_count = st.slider("Seed with N routine invoices (historical corpus)", 50, 300, 150)
-    if st.button("Seed corpus"):
-        path = Path("data/invoices.csv")
-        if not path.exists():
-            st.error("Generate the dataset first.")
+        st.write("")
+        st.markdown('<div class="section-header">Seed Corpus</div>', unsafe_allow_html=True)
+        seed_count = st.slider("Historical lines to seed", 50, 300, 150)
+        if st.button("🌱 Seed Qdrant corpus", use_container_width=True):
+            path = Path("data/invoices.csv")
+            if not path.exists():
+                st.error("Generate the dataset first.")
+            else:
+                load_vendor_map("data/vendor_map.csv")
+                with open(path) as f:
+                    rows = list(csv.DictReader(f))
+                routine = [r for r in rows if r["category"] == "routine"][:seed_count]
+                progress = st.progress(0)
+                for i, row in enumerate(routine):
+                    canonical_id, _ = resolve_vendor(row["raw_vendor_name"])
+                    payload = {
+                        "point_id": str(uuid4()),
+                        "invoice_id": row["invoice_id"],
+                        "vendor_id": canonical_id,
+                        "entity_id": row["entity_id"],
+                        "amount_band": "small",
+                        "currency": row["currency"],
+                        "gl_account": row["ground_truth_gl"],
+                        "cost_centre": row["cost_centre"],
+                        "tax_code": "STANDARD",
+                        "description": row["description"],
+                        "confirming_user_id": "seed",
+                        "confirmation_timestamp": "2025-01-01T00:00:00",
+                        "prediction_confidence": 1.0,
+                        "source": "human_confirm",
+                    }
+                    index_outcome(payload)
+                    progress.progress((i + 1) / len(routine))
+                st.success(f"✓ Seeded {len(routine):,} lines into Qdrant")
+
+    with col_status:
+        st.markdown('<div class="section-header">System Status</div>', unsafe_allow_html=True)
+
+        # Qdrant
+        try:
+            qc2 = QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port)
+            info = qc2.get_collection(settings.qdrant_collection)
+            st.success(f"✅ Qdrant — {info.points_count:,} points in `{settings.qdrant_collection}`")
+        except Exception as e:
+            st.error(f"❌ Qdrant — {e}")
+
+        # ERP mock
+        try:
+            r = httpx.get(f"{ERP_URL}/health", timeout=2)
+            if r.status_code == 200:
+                st.success("✅ Mock ERP — running on port 8001")
+            else:
+                st.warning("⚠️ Mock ERP — unexpected response")
+        except Exception:
+            st.warning("⚠️ Mock ERP — not running (start with `python -m ap_automation.api.erp_mock`)")
+
+        # Dataset
+        dataset_path = Path("data/invoices.csv")
+        if dataset_path.exists():
+            size = dataset_path.stat().st_size / 1024
+            st.success(f"✅ Dataset — invoices.csv ({size:.0f} KB)")
         else:
-            load_vendor_map("data/vendor_map.csv")
-            with open(path) as f:
-                rows = list(csv.DictReader(f))
-            routine = [r for r in rows if r["category"] == "routine"][:seed_count]
-            progress = st.progress(0)
-            for i, row in enumerate(routine):
-                canonical_id, _ = resolve_vendor(row["raw_vendor_name"])
-                payload = {
-                    "point_id": str(uuid4()),
-                    "invoice_id": row["invoice_id"],
-                    "vendor_id": canonical_id,
-                    "entity_id": row["entity_id"],
-                    "amount_band": "small",
-                    "currency": row["currency"],
-                    "gl_account": row["ground_truth_gl"],
-                    "cost_centre": row["cost_centre"],
-                    "tax_code": "STANDARD",
-                    "description": row["description"],
-                    "confirming_user_id": "seed",
-                    "confirmation_timestamp": "2024-01-01T00:00:00",
-                    "prediction_confidence": 1.0,
-                    "source": "human_confirm",
-                }
-                index_outcome(payload)
-                progress.progress((i + 1) / len(routine))
-            st.success(f"Seeded {len(routine)} historical lines into Qdrant")
+            st.warning("⚠️ Dataset — not generated yet")
 
-    st.markdown("**Qdrant status**")
-    try:
-        from qdrant_client import QdrantClient
-        client = QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port)
-        info = client.get_collection(settings.qdrant_collection)
-        st.success(f"Collection `{settings.qdrant_collection}` — {info.points_count} points")
-    except Exception as e:
-        st.error(f"Qdrant not reachable: {e}")
+        st.write("")
+        st.markdown('<div class="section-header">Configuration</div>', unsafe_allow_html=True)
+        st.code(f"""Confidence threshold: {settings.default_confidence_threshold}
+Min evidence lines:   {settings.min_evidence_lines}
+Top-k retrieval:      {settings.top_k}
+Embedding model:      {settings.embedding_model}
+Collection:           {settings.qdrant_collection}""")

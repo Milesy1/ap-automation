@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     openai_api_key: str
     qdrant_host: str = "localhost"
     qdrant_port: int = 6333
+    qdrant_api_key: str = ""
     qdrant_collection: str = "invoice_corpus"
     erp_db_path: str = "data/erp_ledger.db"
     audit_db_path: str = "data/audit_trail.db"
