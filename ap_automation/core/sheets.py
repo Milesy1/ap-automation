@@ -1,9 +1,11 @@
 """
 Google Sheets integration — mirrors confirmed ERP postings to a live Sheet.
+Reads credentials from Streamlit secrets (hosted) or local JSON file (local dev).
 """
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from ap_automation.core.config import settings
@@ -14,44 +16,52 @@ def _get_service():
     from google.oauth2.service_account import Credentials
     from googleapiclient.discovery import build
 
+    scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+
+    # Try Streamlit secrets first (hosted)
+    try:
+        import streamlit as st
+        if "GOOGLE_SERVICE_ACCOUNT_JSON" in st.secrets:
+            creds_dict = json.loads(st.secrets["GOOGLE_SERVICE_ACCOUNT_JSON"])
+            creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+            return build("sheets", "v4", credentials=creds)
+    except Exception:
+        pass
+
+    # Fall back to local JSON file
     creds_path = Path(settings.google_sheets_credentials)
     if not creds_path.exists():
         raise FileNotFoundError(
-            f"Google service account credentials not found at {creds_path}. "
-            "Add credentials/google_service_account.json to enable Sheets mirroring."
+            f"Google credentials not found at {creds_path}. "
+            "Add GOOGLE_SERVICE_ACCOUNT_JSON to Streamlit secrets."
         )
-
-    creds = Credentials.from_service_account_file(
-        str(creds_path),
-        scopes=["https://www.googleapis.com/auth/spreadsheets"],
-    )
+    creds = Credentials.from_service_account_file(str(creds_path), scopes=scopes)
     return build("sheets", "v4", credentials=creds)
 
 
 def ensure_sheet_headers() -> None:
-    """Write column headers to the Sheet if not already present."""
     if not settings.google_sheet_id:
         return
-
     headers = [
         "Invoice ID", "Vendor ID", "Entity", "GL Account",
         "Cost Centre", "Tax Code", "Amount", "Currency",
         "Description", "Posted By", "Posted At", "Trace ID",
     ]
-    service = _get_service()
-    service.spreadsheets().values().update(
-        spreadsheetId=settings.google_sheet_id,
-        range="Sheet1!A1",
-        valueInputOption="RAW",
-        body={"values": [headers]},
-    ).execute()
+    try:
+        service = _get_service()
+        service.spreadsheets().values().update(
+            spreadsheetId=settings.google_sheet_id,
+            range="Sheet1!A1",
+            valueInputOption="RAW",
+            body={"values": [headers]},
+        ).execute()
+    except Exception:
+        pass
 
 
 def post_to_sheet(payload: dict) -> None:
-    """Append a confirmed invoice posting to the Google Sheet."""
     if not settings.google_sheet_id:
         return
-
     row = [
         payload.get("invoice_id", ""),
         payload.get("vendor_id", ""),
@@ -66,12 +76,14 @@ def post_to_sheet(payload: dict) -> None:
         payload.get("posted_at", ""),
         payload.get("trace_id", ""),
     ]
-
-    service = _get_service()
-    service.spreadsheets().values().append(
-        spreadsheetId=settings.google_sheet_id,
-        range="Sheet1!A1",
-        valueInputOption="RAW",
-        insertDataOption="INSERT_ROWS",
-        body={"values": [row]},
-    ).execute()
+    try:
+        service = _get_service()
+        service.spreadsheets().values().append(
+            spreadsheetId=settings.google_sheet_id,
+            range="Sheet1!A1",
+            valueInputOption="RAW",
+            insertDataOption="INSERT_ROWS",
+            body={"values": [row]},
+        ).execute()
+    except Exception:
+        pass
