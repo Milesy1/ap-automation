@@ -21,8 +21,9 @@ def _get_service():
     # Try Streamlit secrets first (hosted)
     try:
         import streamlit as st
-        if "GOOGLE_SERVICE_ACCOUNT_JSON" in st.secrets:
-            creds_dict = json.loads(st.secrets["GOOGLE_SERVICE_ACCOUNT_JSON"])
+        creds_json = st.secrets.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+        if creds_json:
+            creds_dict = json.loads(creds_json)
             creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
             return build("sheets", "v4", credentials=creds)
     except Exception:
@@ -39,8 +40,21 @@ def _get_service():
     return build("sheets", "v4", credentials=creds)
 
 
+def _get_sheet_id() -> str:
+    """Get sheet ID from Streamlit secrets or config."""
+    try:
+        import streamlit as st
+        sheet_id = st.secrets.get("GOOGLE_SHEET_ID", "")
+        if sheet_id:
+            return sheet_id
+    except Exception:
+        pass
+    return settings.google_sheet_id
+
+
 def ensure_sheet_headers() -> None:
-    if not settings.google_sheet_id:
+    sheet_id = _get_sheet_id()
+    if not sheet_id:
         return
     headers = [
         "Invoice ID", "Vendor ID", "Entity", "GL Account",
@@ -50,7 +64,7 @@ def ensure_sheet_headers() -> None:
     try:
         service = _get_service()
         service.spreadsheets().values().update(
-            spreadsheetId=settings.google_sheet_id,
+            spreadsheetId=sheet_id,
             range="Sheet1!A1",
             valueInputOption="RAW",
             body={"values": [headers]},
@@ -60,7 +74,8 @@ def ensure_sheet_headers() -> None:
 
 
 def post_to_sheet(payload: dict) -> None:
-    if not settings.google_sheet_id:
+    sheet_id = _get_sheet_id()
+    if not sheet_id:
         return
     row = [
         payload.get("invoice_id", ""),
@@ -73,17 +88,14 @@ def post_to_sheet(payload: dict) -> None:
         payload.get("currency", ""),
         payload.get("description", ""),
         payload.get("posted_by", ""),
-        payload.get("posted_at", ""),
+        str(payload.get("posted_at", "")),
         payload.get("trace_id", ""),
     ]
-    try:
-        service = _get_service()
-        service.spreadsheets().values().append(
-            spreadsheetId=settings.google_sheet_id,
-            range="Sheet1!A1",
-            valueInputOption="RAW",
-            insertDataOption="INSERT_ROWS",
-            body={"values": [row]},
-        ).execute()
-    except Exception:
-        pass
+    service = _get_service()
+    service.spreadsheets().values().append(
+        spreadsheetId=sheet_id,
+        range="Sheet1!A1",
+        valueInputOption="RAW",
+        insertDataOption="INSERT_ROWS",
+        body={"values": [row]},
+    ).execute()
