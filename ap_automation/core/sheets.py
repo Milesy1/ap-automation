@@ -1,6 +1,6 @@
 """
 Google Sheets integration — mirrors confirmed ERP postings to a live Sheet.
-Reads credentials from Streamlit secrets (hosted) or local JSON file (local dev).
+Reads credentials from Streamlit secrets (TOML table format) or local JSON file.
 """
 
 from __future__ import annotations
@@ -18,12 +18,23 @@ def _get_service():
 
     scopes = ["https://www.googleapis.com/auth/spreadsheets"]
 
-    # Try Streamlit secrets first (hosted)
+    # Try Streamlit secrets — TOML table format [GOOGLE_SERVICE_ACCOUNT]
     try:
         import streamlit as st
-        creds_json = st.secrets.get("GOOGLE_SERVICE_ACCOUNT_JSON")
-        if creds_json:
-            creds_dict = json.loads(creds_json)
+        if "GOOGLE_SERVICE_ACCOUNT" in st.secrets:
+            creds_dict = dict(st.secrets["GOOGLE_SERVICE_ACCOUNT"])
+            creds_dict["type"] = "service_account"
+            creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+            return build("sheets", "v4", credentials=creds)
+    except Exception:
+        pass
+
+    # Try Streamlit secrets — JSON string format
+    try:
+        import streamlit as st
+        if "GOOGLE_SERVICE_ACCOUNT_JSON" in st.secrets:
+            raw = str(st.secrets["GOOGLE_SERVICE_ACCOUNT_JSON"])
+            creds_dict = json.loads(raw)
             creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
             return build("sheets", "v4", credentials=creds)
     except Exception:
@@ -46,7 +57,7 @@ def _get_sheet_id() -> str:
         import streamlit as st
         sheet_id = st.secrets.get("GOOGLE_SHEET_ID", "")
         if sheet_id:
-            return sheet_id
+            return str(sheet_id)
     except Exception:
         pass
     return settings.google_sheet_id
