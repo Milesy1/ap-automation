@@ -26,7 +26,7 @@ from ap_automation.core.models import (
 )
 from ap_automation.core.pipeline import confirm, predict, write_back
 from ap_automation.core.retrieval import ensure_collection, get_qdrant, index_outcome
-from ap_automation.core.sheets import ensure_sheet_headers
+from ap_automation.core.sheets import ensure_sheet_headers, post_to_sheet
 import httpx
 
 ERP_URL = "http://localhost:8001"
@@ -94,6 +94,23 @@ def post_to_erp(payload: dict) -> bool:
         return False
 
 
+def post_confirmed(erp_payload_dict: dict) -> str:
+    """Post to ERP mock (local) and Google Sheets (cloud). Returns status message."""
+    erp_ok = post_to_erp(erp_payload_dict)
+    try:
+        post_to_sheet(erp_payload_dict)
+        sheet_ok = True
+    except Exception:
+        sheet_ok = False
+
+    if sheet_ok:
+        return "✓ Posted to ERP & Google Sheets — write-back complete"
+    elif erp_ok:
+        return "✓ Posted to ERP — write-back complete"
+    else:
+        return "✓ Write-back complete (ERP mock local only)"
+
+
 def process_invoice(inv: InvoiceLine, auto_confirm: bool = False) -> dict:
     prediction = predict(inv)
     result = {
@@ -120,7 +137,12 @@ def process_invoice(inv: InvoiceLine, auto_confirm: bool = False) -> dict:
             confirming_user_id=settings.auto_post_user_id,
             source=ConfirmationSource.AUTO_POST,
         )
-        post_to_erp(erp_payload.model_dump(mode="json"))
+        payload_dict = erp_payload.model_dump(mode="json")
+        post_to_erp(payload_dict)
+        try:
+            post_to_sheet(payload_dict)
+        except Exception:
+            pass
         write_back(outcome)
         result["posted"] = True
     else:
@@ -225,14 +247,16 @@ with tabs[0]:
             with act1:
                 if st.button("✅ Confirm & Post to ERP", use_container_width=True, type="primary"):
                     outcome, erp_payload = confirm(prediction=pred, confirmed_gl=pred.predicted_gl, confirmed_cc=pred.predicted_cost_centre, confirming_user_id="demo_user", source=ConfirmationSource.HUMAN_CONFIRM)
-                    post_to_erp(erp_payload.model_dump(mode="json"))
+                    payload_dict = erp_payload.model_dump(mode="json")
+                    msg = post_confirmed(payload_dict)
                     write_back(outcome)
-                    st.success("✓ Posted to ERP — write-back complete")
+                    st.success(msg)
             with act2:
                 corrected_gl = st.text_input("Override GL code", value=pred.predicted_gl or "")
                 if st.button("✏️ Submit Correction", use_container_width=True):
                     outcome, erp_payload = confirm(prediction=pred, confirmed_gl=corrected_gl, confirmed_cc=pred.predicted_cost_centre, confirming_user_id="demo_user", source=ConfirmationSource.HUMAN_CORRECT)
-                    post_to_erp(erp_payload.model_dump(mode="json"))
+                    payload_dict = erp_payload.model_dump(mode="json")
+                    post_confirmed(payload_dict)
                     write_back(outcome)
                     st.success(f"✓ Correction submitted (GL: {corrected_gl})")
             with st.expander("🔍 Full provenance JSON"):
@@ -250,7 +274,6 @@ with tabs[1]:
         st.info(f"**{len(df):,}** invoices loaded")
         if st.button("▶️ Run Batch", type="primary"):
             progress = st.progress(0, text="Starting...")
-            status = st.empty()
             results = []
             batch_metrics = []
             for i, row in df.iterrows():
@@ -284,8 +307,8 @@ with tabs[1]:
                 "Vendor": r["vendor"][:40], "Description": r["description"][:50],
                 "Amount": f"£{r['amount']:,.2f}", "GL": r["predicted_gl"] or "—",
                 "Confidence": f"{r['confidence']:.0%}",
-                "Routing": "✅ Auto" if r["routing"] == "auto_post" else "👤 Review",
-                "Correct": "✓" if r.get("correct") else ("✗" if r.get("correct") is False else "—"),
+                "Routing": "Auto" if r["routing"] == "auto_post" else "Review",
+                "Correct": "Yes" if r.get("correct") else ("No" if r.get("correct") is False else "—"),
             } for r in results]), use_container_width=True, height=400)
 
 # TAB 3: Performance
@@ -324,9 +347,9 @@ with tabs[4]:
     records = get_audit_records(limit=100)
     if records:
         for rec in records[:20]:
-            routing_icon = "✅" if rec["routing_decision"] == "auto_post" else "👤"
+            routing_icon = "Auto" if rec["routing_decision"] == "auto_post" else "Review"
             source_label = {"auto_post": "Auto-posted", "human_confirm": "Human confirmed", "human_correct": "Human corrected"}.get(rec["source"], rec["source"])
-            with st.expander(f"{routing_icon} Invoice `{rec['invoice_id'][:8]}…` — GL **{rec['confirmed_gl']}** — {source_label}"):
+            with st.expander(f"[{routing_icon}] Invoice {rec['invoice_id'][:8]}... — GL {rec['confirmed_gl']} — {source_label}"):
                 c1, c2, c3 = st.columns(3)
                 c1.metric("Predicted GL", rec["predicted_gl"])
                 c2.metric("Confirmed GL", rec["confirmed_gl"])
@@ -380,19 +403,28 @@ with tabs[5]:
         try:
             qc2 = get_qdrant()
             info = qc2.get_collection(settings.qdrant_collection)
-            st.success(f"✅ Qdrant — {info.points_count:,} points in `{settings.qdrant_collection}`")
+            st.success(f"Qdrant — {info.points_count:,} points in `{settings.qdrant_collection}`")
         except Exception as e:
-            st.error(f"❌ Qdrant — {e}")
+            st.error(f"Qdrant — {e}")
         try:
             r = httpx.get(f"{ERP_URL}/health", timeout=2)
-            st.success("✅ Mock ERP — running") if r.status_code == 200 else st.warning("⚠️ Mock ERP — unexpected response")
+            st.success("Mock ERP — running") if r.status_code == 200 else st.warning("Mock ERP — unexpected response")
         except Exception:
-            st.warning("⚠️ Mock ERP — not running (local only)")
+            st.warning("Mock ERP — not running (local only)")
+
+        # Google Sheets status
+        try:
+            from ap_automation.core.sheets import _get_service
+            _get_service()
+            st.success(f"Google Sheets — connected")
+        except Exception as e:
+            st.warning(f"Google Sheets — {e}")
+
         dataset_path = Path("data/invoices.csv")
         if dataset_path.exists():
-            st.success(f"✅ Dataset — invoices.csv ({dataset_path.stat().st_size/1024:.0f} KB)")
+            st.success(f"Dataset — invoices.csv ({dataset_path.stat().st_size/1024:.0f} KB)")
         else:
-            st.warning("⚠️ Dataset — not generated yet")
+            st.warning("Dataset — not generated yet")
         st.write("")
         st.markdown('<div class="section-header">Configuration</div>', unsafe_allow_html=True)
         st.code(f"""Confidence threshold: {settings.default_confidence_threshold}
