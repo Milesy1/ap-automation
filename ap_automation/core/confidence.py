@@ -11,9 +11,11 @@ from ap_automation.core.models import RetrievedEvidence, RoutingDecision
 
 
 # Per-vendor confidence thresholds.
-# High-volume vendors with stable patterns get tighter gates over time.
-# POC: all vendors start at the default threshold.
 VENDOR_THRESHOLDS: dict[str, float] = {}
+
+# Weighting: agreement is the primary signal, similarity is a secondary modifier
+AGREEMENT_WEIGHT = 0.7
+SIMILARITY_WEIGHT = 0.3
 
 
 def get_threshold(vendor_id: str) -> float:
@@ -28,7 +30,13 @@ def score(evidence: list[RetrievedEvidence]) -> tuple[str, str, float, float]:
         predicted_gl: the GL account with highest weighted agreement
         predicted_cost_centre: the cost centre associated with predicted_gl
         agreement_ratio: proportion of top-k sharing predicted_gl
-        weighted_confidence: agreement_ratio × average similarity of agreeing lines
+        weighted_confidence: weighted combination of agreement ratio and avg similarity
+
+    Formula: weighted_confidence = (agreement_ratio * 0.7) + (avg_similarity * 0.3)
+
+    Agreement is the primary signal — if all evidence agrees on a GL code that is
+    conclusive regardless of exact description similarity. Similarity is a secondary
+    modifier that rewards closer semantic matches.
     """
     if not evidence:
         return "", "", 0.0, 0.0
@@ -39,7 +47,8 @@ def score(evidence: list[RetrievedEvidence]) -> tuple[str, str, float, float]:
 
     agreeing = [e for e in evidence if e.gl_account == predicted_gl]
     avg_similarity = sum(e.similarity_score for e in agreeing) / len(agreeing)
-    weighted_confidence = agreement_ratio * avg_similarity
+
+    weighted_confidence = (agreement_ratio * AGREEMENT_WEIGHT) + (avg_similarity * SIMILARITY_WEIGHT)
 
     # Cost centre: most common among agreeing lines
     cc_counts = Counter(e.cost_centre for e in agreeing)
