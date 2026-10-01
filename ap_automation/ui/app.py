@@ -510,3 +510,4 @@ Min evidence lines:   {settings.min_evidence_lines}
 Top-k retrieval:      {settings.top_k}
 Embedding model:      {settings.embedding_model}
 Collection:           {settings.qdrant_collection}""")
+
