@@ -20,6 +20,11 @@ class Settings(BaseSettings):
     google_sheets_credentials: str = "credentials/google_service_account.json"
     google_sheet_id: str = ""
 
+    # Langfuse observability
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+    langfuse_host: str = "https://cloud.langfuse.com"
+
     embedding_model: str = "text-embedding-3-small"
     embedding_dimensions: int = 1536
 

@@ -1,8 +1,11 @@
 """
 Embedding generation via OpenAI text-embedding-3-small.
+Logs token count, cost, and latency to Langfuse as span metadata.
 """
 
 from __future__ import annotations
+
+import time
 
 from openai import OpenAI
 
@@ -20,13 +23,30 @@ def get_client() -> OpenAI:
     return _client
 
 
-def embed(text: str) -> list[float]:
+def embed(text: str, langfuse_span=None) -> list[float]:
     """Embed a single text string. Preprocesses description before embedding."""
     cleaned = preprocess_description(text)
+    t0 = time.time()
     response = get_client().embeddings.create(
         model=settings.embedding_model,
         input=cleaned,
     )
+    latency_ms = int((time.time() - t0) * 1000)
+    token_count = response.usage.total_tokens if response.usage else 0
+    cost_usd = round(token_count * 0.00000002, 8)  # $0.02 per 1M tokens
+
+    if langfuse_span is not None:
+        try:
+            langfuse_span.update(metadata={
+                "embedding_model": settings.embedding_model,
+                "embedding_tokens": token_count,
+                "embedding_cost_usd": cost_usd,
+                "embedding_latency_ms": latency_ms,
+                "input_text": cleaned[:200],
+            })
+        except Exception:
+            pass
+
     return response.data[0].embedding
 
 
