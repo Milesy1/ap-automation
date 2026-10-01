@@ -25,41 +25,72 @@ from ap_automation.core.models import (
 from ap_automation.core.retrieval import retrieve, index_outcome
 
 
+# Module-level Langfuse client — initialised once
+_lf_client = None
+_lf_init_attempted = False
+
+
 def _get_langfuse():
     """
     Return a Langfuse client or None.
-    Reads keys from Streamlit secrets first (hosted), then falls back to .env.
+    Initialised once at module level — reads from st.secrets first, then .env.
+    Logs every step to stdout so Streamlit logs show exactly what happens.
     """
+    global _lf_client, _lf_init_attempted
+
+    if _lf_init_attempted:
+        return _lf_client
+
+    _lf_init_attempted = True
+    print("[Langfuse] Initialising client...")
+
     try:
-        # Step 1: try Streamlit secrets (hosted app)
+        # Step 1: Streamlit secrets (hosted app)
         try:
             import streamlit as st
             pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "")
             sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "")
             host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com")
             if pub and sec:
+                print(f"[Langfuse] Keys found in st.secrets. Host: {host}")
                 os.environ["LANGFUSE_PUBLIC_KEY"] = pub
                 os.environ["LANGFUSE_SECRET_KEY"] = sec
                 os.environ["LANGFUSE_HOST"] = host
-        except Exception:
-            pass
+            else:
+                print(f"[Langfuse] st.secrets present but keys empty. pub={bool(pub)} sec={bool(sec)}")
+        except Exception as e:
+            print(f"[Langfuse] st.secrets not available: {e}")
 
-        # Step 2: fall back to pydantic settings / .env
+        # Step 2: pydantic settings / .env
         if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
-            from ap_automation.core.config import settings
-            pub = getattr(settings, "langfuse_public_key", "") or ""
-            sec = getattr(settings, "langfuse_secret_key", "") or ""
-            if pub and sec:
-                os.environ["LANGFUSE_PUBLIC_KEY"] = pub
-                os.environ["LANGFUSE_SECRET_KEY"] = sec
-                os.environ["LANGFUSE_HOST"] = getattr(settings, "langfuse_host", "https://cloud.langfuse.com")
+            print("[Langfuse] Trying pydantic settings...")
+            try:
+                from ap_automation.core.config import settings
+                pub = getattr(settings, "langfuse_public_key", "") or ""
+                sec = getattr(settings, "langfuse_secret_key", "") or ""
+                if pub and sec:
+                    print(f"[Langfuse] Keys found in settings.")
+                    os.environ["LANGFUSE_PUBLIC_KEY"] = pub
+                    os.environ["LANGFUSE_SECRET_KEY"] = sec
+                    os.environ["LANGFUSE_HOST"] = getattr(settings, "langfuse_host", "https://cloud.langfuse.com")
+                else:
+                    print(f"[Langfuse] Settings keys empty. pub={bool(pub)} sec={bool(sec)}")
+            except Exception as e:
+                print(f"[Langfuse] Settings error: {e}")
 
         if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
+            print("[Langfuse] No keys found — tracing disabled.")
             return None
 
         from langfuse import get_client
-        return get_client()
-    except Exception:
+        client = get_client()
+        auth_ok = client.auth_check()
+        print(f"[Langfuse] Client ready. Auth check: {auth_ok}")
+        _lf_client = client
+        return _lf_client
+
+    except Exception as e:
+        print(f"[Langfuse] Fatal init error: {e}")
         return None
 
 
@@ -141,6 +172,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
     # ── Langfuse trace ────────────────────────────────
     if lf:
         try:
+            print(f"[Langfuse] Sending trace for invoice {str(invoice.invoice_id)[:8]}...")
             with lf.start_as_current_observation(
                 as_type="span",
                 name="invoice_prediction",
@@ -177,8 +209,9 @@ def predict(invoice: InvoiceLine) -> Prediction:
                     }
                 )
             lf.flush()
-        except Exception:
-            pass
+            print(f"[Langfuse] Trace flushed OK.")
+        except Exception as e:
+            print(f"[Langfuse] Trace error: {e}")
 
     return Prediction(
         prediction_id=uuid4(),
@@ -243,8 +276,8 @@ def confirm(
                         comment=f"Auto-post corrected: {prediction.predicted_gl} -> {confirmed_gl}",
                     )
             lf.flush()
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[Langfuse] Confirmation trace error: {e}")
 
     outcome = ConfirmedOutcome(
         prediction_id=prediction.prediction_id,
@@ -323,5 +356,5 @@ def write_back(outcome: ConfirmedOutcome) -> None:
             ):
                 pass
             lf.flush()
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[Langfuse] Write-back trace error: {e}")
