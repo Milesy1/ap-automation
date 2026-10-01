@@ -1,6 +1,6 @@
 """
 Main prediction pipeline — orchestrates MDM → retrieval → confidence → routing.
-Full Langfuse tracing on every invoice prediction.
+Full Langfuse v4 tracing on every invoice prediction.
 """
 
 from __future__ import annotations
@@ -31,12 +31,12 @@ def _get_langfuse():
         from ap_automation.core.config import settings
         if not getattr(settings, 'langfuse_public_key', '') or not getattr(settings, 'langfuse_secret_key', ''):
             return None
-        from langfuse import Langfuse
-        return Langfuse(
-            public_key=settings.langfuse_public_key,
-            secret_key=settings.langfuse_secret_key,
-            host=getattr(settings, 'langfuse_host', 'https://cloud.langfuse.com'),
-        )
+        import os
+        os.environ['LANGFUSE_PUBLIC_KEY'] = settings.langfuse_public_key
+        os.environ['LANGFUSE_SECRET_KEY'] = settings.langfuse_secret_key
+        os.environ['LANGFUSE_HOST'] = getattr(settings, 'langfuse_host', 'https://cloud.langfuse.com')
+        from langfuse import get_client
+        return get_client()
     except Exception:
         return None
 
@@ -44,47 +44,15 @@ def _get_langfuse():
 def predict(invoice: InvoiceLine) -> Prediction:
     """
     Full prediction pipeline for a single invoice line.
-
-    Steps:
-    1. MDM resolution
-    2. Hybrid retrieval (dense + BM25 + RRF + re-rank)
-    3. Confidence scoring
-    4. Routing decision
-    5. Build provenance JSON
+    Steps: MDM → retrieval → confidence → routing → provenance
     """
     lf = _get_langfuse()
-    trace = None
-    if lf:
-        try:
-            trace = lf.trace(
-                name="invoice_prediction",
-                input={
-                    "invoice_id": str(invoice.invoice_id),
-                    "vendor_raw": invoice.raw_vendor_name,
-                    "description": invoice.description,
-                    "amount": invoice.amount,
-                    "currency": invoice.currency,
-                    "entity_id": invoice.entity_id,
-                },
-            )
-        except Exception:
-            trace = None
 
     # ── Step 1: MDM resolution ────────────────────────
     t0 = time.time()
-    span_mdm = trace.span(name="mdm_resolution", input={"vendor_raw": invoice.raw_vendor_name}) if trace else None
     canonical_vendor_id, mdm_confidence = resolve_vendor(invoice.raw_vendor_name)
     amount_band = amount_to_band(invoice.amount)
-    if span_mdm:
-        try:
-            span_mdm.end(output={
-                "canonical_id": canonical_vendor_id,
-                "mdm_confidence": mdm_confidence,
-                "amount_band": amount_band.value,
-                "latency_ms": int((time.time() - t0) * 1000),
-            })
-        except Exception:
-            pass
+    mdm_ms = int((time.time() - t0) * 1000)
 
     resolved = ResolvedInvoiceLine(
         invoice_line=invoice,
@@ -95,12 +63,6 @@ def predict(invoice: InvoiceLine) -> Prediction:
 
     # ── Step 2: Retrieval ─────────────────────────────
     t0 = time.time()
-    span_retrieval = trace.span(name="qdrant_retrieval", input={
-        "description": invoice.description,
-        "vendor_id": canonical_vendor_id,
-        "entity_id": invoice.entity_id,
-    }) if trace else None
-
     evidence = retrieve(
         description=invoice.description,
         vendor_id=canonical_vendor_id,
@@ -108,55 +70,24 @@ def predict(invoice: InvoiceLine) -> Prediction:
         amount_band=amount_band,
         currency=invoice.currency,
     )
-
-    if span_retrieval:
-        try:
-            span_retrieval.end(output={
-                "evidence_count": len(evidence),
-                "top_similarity_scores": [round(e.similarity_score, 4) for e in evidence[:3]],
-                "top_rrf_scores": [round(e.rrf_score, 6) for e in evidence[:3]],
-                "top_gl_codes": [e.gl_account for e in evidence[:3]],
-                "latency_ms": int((time.time() - t0) * 1000),
-            })
-        except Exception:
-            pass
+    retrieval_ms = int((time.time() - t0) * 1000)
 
     # ── Step 3: Confidence scoring ────────────────────
     t0 = time.time()
-    span_conf = trace.span(name="confidence_scoring", input={"evidence_count": len(evidence)}) if trace else None
     predicted_gl, predicted_cc, agreement_ratio, weighted_confidence = conf_module.score(evidence)
-    if span_conf:
-        try:
-            span_conf.end(output={
-                "predicted_gl": predicted_gl,
-                "agreement_ratio": round(agreement_ratio, 4),
-                "weighted_confidence": round(weighted_confidence, 4),
-                "latency_ms": int((time.time() - t0) * 1000),
-            })
-        except Exception:
-            pass
+    conf_ms = int((time.time() - t0) * 1000)
 
     # ── Step 4: Routing ───────────────────────────────
-    t0 = time.time()
-    span_route = trace.span(name="routing_decision") if trace else None
     routing_decision, routing_reason = conf_module.route(
         evidence=evidence,
         vendor_id=canonical_vendor_id,
         weighted_confidence=weighted_confidence,
     )
-    if span_route:
-        try:
-            span_route.end(output={
-                "routing_decision": routing_decision.value,
-                "routing_reason": routing_reason,
-                "latency_ms": int((time.time() - t0) * 1000),
-            })
-        except Exception:
-            pass
 
     # ── Step 5: Provenance JSON ───────────────────────
+    prediction_id = str(uuid4())
     provenance = {
-        "prediction_id": str(uuid4()),
+        "prediction_id": prediction_id,
         "invoice_id": str(invoice.invoice_id),
         "vendor_raw": invoice.raw_vendor_name,
         "vendor_canonical": canonical_vendor_id,
@@ -185,22 +116,44 @@ def predict(invoice: InvoiceLine) -> Prediction:
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
-    # Update trace output
-    if trace:
+    # ── Langfuse trace ────────────────────────────────
+    if lf:
         try:
-            trace.update(
-                output={
-                    "predicted_gl": predicted_gl,
-                    "routing_decision": routing_decision.value,
-                    "weighted_confidence": round(weighted_confidence, 4),
-                    "evidence_count": len(evidence),
+            with lf.start_as_current_observation(
+                as_type="span",
+                name="invoice_prediction",
+                input={
+                    "invoice_id": str(invoice.invoice_id),
+                    "vendor_raw": invoice.raw_vendor_name,
+                    "description": invoice.description,
+                    "amount": invoice.amount,
+                    "currency": invoice.currency,
+                    "entity_id": invoice.entity_id,
                 },
                 metadata={
+                    "canonical_vendor_id": canonical_vendor_id,
                     "mdm_confidence": mdm_confidence,
+                    "mdm_latency_ms": mdm_ms,
+                    "evidence_count": len(evidence),
+                    "top_similarity": round(evidence[0].similarity_score, 4) if evidence else 0,
+                    "top_gl_codes": [e.gl_account for e in evidence[:3]],
+                    "retrieval_latency_ms": retrieval_ms,
                     "agreement_ratio": round(agreement_ratio, 4),
+                    "weighted_confidence": round(weighted_confidence, 4),
+                    "confidence_latency_ms": conf_ms,
+                    "routing_decision": routing_decision.value,
+                    "routing_reason": routing_reason,
                     "amount_band": amount_band.value,
-                }
-            )
+                },
+            ):
+                lf.update_current_span(
+                    output={
+                        "predicted_gl": predicted_gl,
+                        "routing_decision": routing_decision.value,
+                        "weighted_confidence": round(weighted_confidence, 4),
+                        "evidence_count": len(evidence),
+                    }
+                )
             lf.flush()
         except Exception:
             pass
@@ -234,7 +187,14 @@ def confirm(
     lf = _get_langfuse()
     if lf:
         try:
-            trace = lf.trace(
+            is_correct = prediction.predicted_gl == confirmed_gl if prediction.predicted_gl else None
+            is_false_positive = (
+                prediction.routing_decision == RoutingDecision.AUTO_POST
+                and source == ConfirmationSource.HUMAN_CORRECT
+                and prediction.predicted_gl != confirmed_gl
+            )
+            with lf.start_as_current_observation(
+                as_type="span",
                 name="invoice_confirmation",
                 input={
                     "invoice_id": str(invoice.invoice_id),
@@ -242,20 +202,21 @@ def confirm(
                     "confirmed_gl": confirmed_gl,
                     "source": source.value,
                     "confirming_user": confirming_user_id,
-                    "confidence": round(prediction.weighted_confidence, 4),
                 },
-            )
-            # Score: was prediction correct?
-            if prediction.predicted_gl and confirmed_gl:
-                lf.score(
-                    trace_id=trace.id,
+                metadata={
+                    "confidence": round(prediction.weighted_confidence, 4),
+                    "routing_decision": prediction.routing_decision.value,
+                    "correct": is_correct,
+                    "false_positive": is_false_positive,
+                },
+            ):
+                lf.score_current_trace(
                     name="gate.correct",
-                    value=1.0 if prediction.predicted_gl == confirmed_gl else 0.0,
+                    value=1.0 if is_correct else 0.0,
                     comment=f"Predicted {prediction.predicted_gl}, confirmed {confirmed_gl}",
                 )
-                if prediction.predicted_gl != confirmed_gl and source == ConfirmationSource.HUMAN_CORRECT:
-                    lf.score(
-                        trace_id=trace.id,
+                if is_false_positive:
+                    lf.score_current_trace(
                         name="gate.false_positive",
                         value=1.0,
                         comment=f"Auto-post corrected: {prediction.predicted_gl} → {confirmed_gl}",
@@ -300,9 +261,7 @@ def confirm(
 
 def write_back(outcome: ConfirmedOutcome) -> None:
     """Index a confirmed outcome into Qdrant for future retrieval."""
-    from uuid import uuid4
     from ap_automation.core.retrieval import _collection_size
-
     corpus_before = _collection_size()
 
     payload = {
@@ -328,16 +287,14 @@ def write_back(outcome: ConfirmedOutcome) -> None:
     if lf:
         try:
             corpus_after = _collection_size()
-            lf.trace(
+            with lf.start_as_current_observation(
+                as_type="span",
                 name="write_back",
-                input={"vendor_id": outcome.canonical_vendor_id, "gl_account": outcome.gl_account},
-                output={
-                    "corpus_before": corpus_before,
-                    "corpus_after": corpus_after,
-                    "delta": corpus_after - corpus_before,
-                    "source": outcome.source.value,
-                },
-            )
+                input={"vendor_id": outcome.canonical_vendor_id, "gl_account": outcome.gl_account, "source": outcome.source.value},
+                metadata={"corpus_before": corpus_before, "corpus_after": corpus_after, "delta": corpus_after - corpus_before},
+            ):
+                pass
             lf.flush()
         except Exception:
             pass
+
