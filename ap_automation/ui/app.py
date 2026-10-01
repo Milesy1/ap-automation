@@ -504,6 +504,35 @@ with tabs[5]:
         else:
             st.warning("Dataset â€” not generated yet")
         st.write("")
+        # Langfuse status
+        st.write("")
+        st.markdown('<div class="section-header">Langfuse Observability</div>', unsafe_allow_html=True)
+        try:
+            import os as _os
+            _pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "")
+            _sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "")
+            _host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com")
+            if _pub and _sec:
+                _os.environ["LANGFUSE_PUBLIC_KEY"] = _pub
+                _os.environ["LANGFUSE_SECRET_KEY"] = _sec
+                _os.environ["LANGFUSE_HOST"] = _host
+                from langfuse import get_client as _lf_get
+                _lf = _lf_get()
+                _auth = _lf.auth_check()
+                if _auth:
+                    st.success(f"Langfuse — connected ({_host})")
+                    if st.button("Send test trace to Langfuse", use_container_width=True):
+                        with _lf.start_as_current_observation(as_type="span", name="test_trace", input={"source": "setup_tab"}):
+                            _lf.update_current_span(output={"result": "ok"})
+                        _lf.flush()
+                        st.success("Test trace sent — check cloud.langfuse.com")
+                else:
+                    st.error("Langfuse — auth check failed")
+            else:
+                st.warning(f"Langfuse — keys missing (pub={bool(_pub)}, sec={bool(_sec)})")
+        except Exception as _e:
+            st.error(f"Langfuse — {_e}")
+        st.write("")
         st.markdown('<div class="section-header">Configuration</div>', unsafe_allow_html=True)
         st.code(f"""Confidence threshold: {settings.default_confidence_threshold}
 Min evidence lines:   {settings.min_evidence_lines}
