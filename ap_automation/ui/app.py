@@ -511,3 +511,4 @@ Top-k retrieval:      {settings.top_k}
 Embedding model:      {settings.embedding_model}
 Collection:           {settings.qdrant_collection}""")
 
+
