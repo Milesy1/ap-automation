@@ -1,4 +1,4 @@
-﻿"""
+"""
 Streamlit UI — AP Automation POC demo.
 Polished demo version with improved layout, plain-English explanations, and narrative captions.
 """
@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 from datetime import datetime, timezone
 from io import StringIO
 from pathlib import Path
@@ -75,6 +76,18 @@ if "last_prediction" not in st.session_state:
     st.session_state.last_prediction = None
 
 
+def _get_langfuse_keys():
+    """Read Langfuse keys from st.secrets, stripping any whitespace or newlines."""
+    try:
+        all_keys = dict(st.secrets)
+        pub = str(all_keys.get("LANGFUSE_PUBLIC_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
+        sec = str(all_keys.get("LANGFUSE_SECRET_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
+        host = str(all_keys.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com").replace("\n", "").replace("\r", "").strip()
+        return pub, sec, host
+    except Exception:
+        return "", "", "https://cloud.langfuse.com"
+
+
 def initialise() -> None:
     if not st.session_state.initialised:
         init_db()
@@ -108,9 +121,7 @@ def post_confirmed(erp_payload_dict: dict) -> str:
 
 
 def generate_explanation(prediction) -> str:
-    """Generate a plain-English explanation of why this prediction was made."""
     from collections import Counter
-
     evidence = prediction.evidence
     predicted_gl = prediction.predicted_gl
     confidence = prediction.weighted_confidence
@@ -276,7 +287,6 @@ with tabs[0]:
         if pred:
             st.markdown('<div class="section-header">Prediction</div>', unsafe_allow_html=True)
 
-            # Routing badge — with cold-start detection
             is_cold_start = len(pred.evidence) == 0
             if is_cold_start:
                 st.markdown('<span class="badge-coldstart">🔴 Cold start — no vendor history</span>', unsafe_allow_html=True)
@@ -300,13 +310,11 @@ with tabs[0]:
                 Threshold: {settings.default_confidence_threshold:.0%} &nbsp;|&nbsp; Score: {pred.weighted_confidence:.1%}
             </div>""", unsafe_allow_html=True)
 
-            # Plain-English explanation
             st.write("")
             st.markdown('<div class="section-header">Why this prediction?</div>', unsafe_allow_html=True)
             explanation = generate_explanation(pred)
             st.markdown(f'<div class="why-box"><p>{explanation}</p></div>', unsafe_allow_html=True)
 
-            # Evidence
             if pred.evidence:
                 st.write("")
                 st.markdown('<div class="section-header">Retrieved Evidence</div>', unsafe_allow_html=True)
@@ -317,7 +325,6 @@ with tabs[0]:
                         <div class="evidence-meta">GL: <strong>{e.gl_account}</strong> &nbsp;·&nbsp; Similarity: <strong>{e.similarity_score:.3f}</strong> &nbsp;·&nbsp; RRF: {e.rrf_score:.5f} &nbsp;·&nbsp; Source: {e.source.value}</div>
                     </div>""", unsafe_allow_html=True)
 
-            # Actions
             st.write("")
             st.markdown('<div class="section-header">Action</div>', unsafe_allow_html=True)
             act1, act2 = st.columns(2)
@@ -372,6 +379,17 @@ with tabs[1]:
                     correct = sum(1 for r in batch if r.get("correct") is True)
                     batch_metrics.append({"batch": n, "auto_post_rate": auto / len(batch), "accuracy": correct / len(batch) if batch else 0})
             st.session_state.metrics["batch_results"] = batch_metrics
+            # Flush Langfuse traces
+            try:
+                pub, sec, host = _get_langfuse_keys()
+                if pub and sec:
+                    os.environ["LANGFUSE_PUBLIC_KEY"] = pub
+                    os.environ["LANGFUSE_SECRET_KEY"] = sec
+                    os.environ["LANGFUSE_HOST"] = host
+                    from langfuse import get_client as _lf_gc
+                    _lf_gc().flush()
+            except Exception:
+                pass
             progress.empty()
             auto_count = sum(1 for r in results if r["routing"] == "auto_post")
             correct_count = sum(1 for r in results if r.get("correct") is True)
@@ -503,54 +521,22 @@ with tabs[5]:
             st.success(f"Dataset — invoices.csv ({dataset_path.stat().st_size/1024:.0f} KB)")
         else:
             st.warning("Dataset — not generated yet")
-        st.write("")
-        # Langfuse status
-        st.write("")
-        st.markdown('<div class="section-header">Langfuse Observability</div>', unsafe_allow_html=True)
-        try:
-            import os as _os
-            _pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "")
-            _sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "")
-            _host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com")
-            if _pub and _sec:
-                _os.environ["LANGFUSE_PUBLIC_KEY"] = _pub
-                _os.environ["LANGFUSE_SECRET_KEY"] = _sec
-                _os.environ["LANGFUSE_HOST"] = _host
-                from langfuse import get_client as _lf_get
-                _lf = _lf_get()
-                _auth = _lf.auth_check()
-                if _auth:
-                    st.success(f"Langfuse � connected ({_host})")
-                    if st.button("Send test trace to Langfuse", use_container_width=True):
-                        with _lf.start_as_current_observation(as_type="span", name="test_trace", input={"source": "setup_tab"}):
-                            _lf.update_current_span(output={"result": "ok"})
-                        _lf.flush()
-                        st.success("Test trace sent � check cloud.langfuse.com")
-                else:
-                    st.error("Langfuse � auth check failed")
-            else:
-                st.warning(f"Langfuse � keys missing (pub={bool(_pub)}, sec={bool(_sec)})")
-        except Exception as _e:
-            st.error(f"Langfuse � {_e}")
-        st.write("")
 
         # Langfuse status
         st.write("")
         st.markdown('<div class="section-header">Langfuse Observability</div>', unsafe_allow_html=True)
         try:
-            import os as _os
-            _pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "")
-            _sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "")
-            _host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com")
-            if _pub and _sec:
-                _os.environ["LANGFUSE_PUBLIC_KEY"] = _pub
-                _os.environ["LANGFUSE_SECRET_KEY"] = _sec
-                _os.environ["LANGFUSE_HOST"] = _host
+            pub, sec, host = _get_langfuse_keys()
+            st.caption(f"pub_len={len(pub)} sec_len={len(sec)} pub_start={pub[:12]!r}")
+            if pub and sec:
+                os.environ["LANGFUSE_PUBLIC_KEY"] = pub
+                os.environ["LANGFUSE_SECRET_KEY"] = sec
+                os.environ["LANGFUSE_HOST"] = host
                 from langfuse import get_client as _lf_get
                 _lf = _lf_get()
                 _auth = _lf.auth_check()
                 if _auth:
-                    st.success(f"Langfuse connected ({_host})")
+                    st.success(f"Langfuse connected ({host})")
                     if st.button("Send test trace to Langfuse", use_container_width=True):
                         with _lf.start_as_current_observation(as_type="span", name="test_trace", input={"source": "setup_tab"}):
                             _lf.update_current_span(output={"result": "ok"})
@@ -559,9 +545,10 @@ with tabs[5]:
                 else:
                     st.error("Langfuse auth check failed")
             else:
-                st.warning(f"Langfuse keys missing (pub={bool(_pub)}, sec={bool(_sec)})")
+                st.warning(f"Langfuse keys missing (pub_len={len(pub)}, sec_len={len(sec)})")
         except Exception as _e:
             st.error(f"Langfuse error: {_e}")
+
         st.write("")
         st.markdown('<div class="section-header">Configuration</div>', unsafe_allow_html=True)
         st.code(f"""Confidence threshold: {settings.default_confidence_threshold}
@@ -569,5 +556,3 @@ Min evidence lines:   {settings.min_evidence_lines}
 Top-k retrieval:      {settings.top_k}
 Embedding model:      {settings.embedding_model}
 Collection:           {settings.qdrant_collection}""")
-
-
