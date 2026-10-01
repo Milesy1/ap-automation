@@ -5,6 +5,7 @@ Full Langfuse v4 tracing on every invoice prediction.
 
 from __future__ import annotations
 
+import os
 import time
 from datetime import datetime, timezone
 from uuid import uuid4
@@ -12,7 +13,6 @@ from uuid import uuid4
 from ap_automation.core import confidence as conf_module
 from ap_automation.core.mdm import resolve_vendor
 from ap_automation.core.models import (
-    AmountBand,
     ConfirmationSource,
     ConfirmedOutcome,
     ERPPostingPayload,
@@ -26,15 +26,37 @@ from ap_automation.core.retrieval import retrieve, index_outcome
 
 
 def _get_langfuse():
-    """Return a Langfuse client or None if not configured."""
+    """
+    Return a Langfuse client or None.
+    Reads keys from Streamlit secrets first (hosted), then falls back to .env.
+    """
     try:
-        from ap_automation.core.config import settings
-        if not getattr(settings, 'langfuse_public_key', '') or not getattr(settings, 'langfuse_secret_key', ''):
+        # Step 1: try Streamlit secrets (hosted app)
+        try:
+            import streamlit as st
+            pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "")
+            sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "")
+            host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com")
+            if pub and sec:
+                os.environ["LANGFUSE_PUBLIC_KEY"] = pub
+                os.environ["LANGFUSE_SECRET_KEY"] = sec
+                os.environ["LANGFUSE_HOST"] = host
+        except Exception:
+            pass
+
+        # Step 2: fall back to pydantic settings / .env
+        if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
+            from ap_automation.core.config import settings
+            pub = getattr(settings, "langfuse_public_key", "") or ""
+            sec = getattr(settings, "langfuse_secret_key", "") or ""
+            if pub and sec:
+                os.environ["LANGFUSE_PUBLIC_KEY"] = pub
+                os.environ["LANGFUSE_SECRET_KEY"] = sec
+                os.environ["LANGFUSE_HOST"] = getattr(settings, "langfuse_host", "https://cloud.langfuse.com")
+
+        if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
             return None
-        import os
-        os.environ['LANGFUSE_PUBLIC_KEY'] = settings.langfuse_public_key
-        os.environ['LANGFUSE_SECRET_KEY'] = settings.langfuse_secret_key
-        os.environ['LANGFUSE_HOST'] = getattr(settings, 'langfuse_host', 'https://cloud.langfuse.com')
+
         from langfuse import get_client
         return get_client()
     except Exception:
@@ -183,7 +205,6 @@ def confirm(
     invoice = prediction.resolved_line.invoice_line
     now = datetime.now(timezone.utc)
 
-    # Log confirmation to Langfuse
     lf = _get_langfuse()
     if lf:
         try:
@@ -219,7 +240,7 @@ def confirm(
                     lf.score_current_trace(
                         name="gate.false_positive",
                         value=1.0,
-                        comment=f"Auto-post corrected: {prediction.predicted_gl} → {confirmed_gl}",
+                        comment=f"Auto-post corrected: {prediction.predicted_gl} -> {confirmed_gl}",
                     )
             lf.flush()
         except Exception:
@@ -282,7 +303,6 @@ def write_back(outcome: ConfirmedOutcome) -> None:
     }
     index_outcome(payload)
 
-    # Log write-back to Langfuse
     lf = _get_langfuse()
     if lf:
         try:
@@ -290,12 +310,18 @@ def write_back(outcome: ConfirmedOutcome) -> None:
             with lf.start_as_current_observation(
                 as_type="span",
                 name="write_back",
-                input={"vendor_id": outcome.canonical_vendor_id, "gl_account": outcome.gl_account, "source": outcome.source.value},
-                metadata={"corpus_before": corpus_before, "corpus_after": corpus_after, "delta": corpus_after - corpus_before},
+                input={
+                    "vendor_id": outcome.canonical_vendor_id,
+                    "gl_account": outcome.gl_account,
+                    "source": outcome.source.value,
+                },
+                metadata={
+                    "corpus_before": corpus_before,
+                    "corpus_after": corpus_after,
+                    "delta": corpus_after - corpus_before,
+                },
             ):
                 pass
             lf.flush()
         except Exception:
             pass
-
-
