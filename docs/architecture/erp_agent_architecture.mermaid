@@ -1,0 +1,84 @@
+flowchart TD
+    User(["User in Slack"]) -->|"1 . message"| Slack["Slack Bolt Interface"]
+    Slack -->|"HTTP event"| API["FastAPI Middleware<br/>(multi-tenant router)"]
+
+    subgraph TenantCtx["Tenant Resolution"]
+        API --> TenantResolve["Resolve tenant_id from<br/>Slack workspace / channel"]
+        TenantResolve --> TenantCreds[("Tenant credential store<br/>(isolated per tenant)")]
+    end
+
+    TenantResolve --> Agent["LangGraph Agent Orchestrator"]
+
+    subgraph Orchestration["2-4 . Plan & Select"]
+        Agent --> Intent["Parse intent /<br/>plan sub-tasks"]
+        Intent --> ToolSelect["Select tool from<br/>90+ tool schema catalogue"]
+        ToolSelect --> ParamBuild["Construct & validate<br/>parameters (Pydantic schema)"]
+    end
+
+    ParamBuild --> ToolType{"Tool type?"}
+
+    %% READ PATH — auto-execute
+    ToolType -->|"Read-only"| ReadExec["Auto-execute directly<br/>(no approval needed)"]
+    ReadExec --> ERP_R[("Live ERP API<br/>(read)")]
+    ERP_R --> ResultCap
+
+    %% WRITE PATH — gated
+    ToolType -->|"Write"| MDM["5 . Semantic MDM Layer<br/>Duplicate-detection check"]
+
+    MDM --> Qdrant[("Qdrant Vector Store<br/>Fuzzy match on entity")]
+    Qdrant --> MDMResult{"Likely duplicate?"}
+
+    MDMResult -->|"Yes — high confidence"| Flag["Flag candidate match(es)<br/>to human in approval card"]
+    MDMResult -->|"No / low confidence"| Gate
+
+    Flag --> Gate["6 . Present planned action<br/>for human approval<br/>(Slack Block Kit buttons)"]
+
+    Gate --> PG[("PostgreSQL<br/>approval_request row<br/>status=pending")]
+    Gate -->|"7 . await response"| HumanDecision{"Human decision"}
+
+    HumanDecision -->|"Approve"| FourEyes{"Four-eyes check:<br/>approver ≠ requester?"}
+    HumanDecision -->|"Reject"| Denied["Mark denied<br/>Notify requester"]
+    HumanDecision -->|"Timeout (TTL)"| Expired["Mark expired<br/>No action taken"]
+
+    FourEyes -->|"Pass"| WriteExec["8 . Execute write<br/>against live ERP"]
+    FourEyes -->|"Fail (self-approval)"| SelfBlock["Ephemeral rejection:<br/>cannot approve own request"]
+    SelfBlock --> Gate
+
+    WriteExec --> CB{"Circuit breaker:<br/>ERP healthy?"}
+    CB -->|"Open (failing)"| Fallback["Fallback path:<br/>queue for retry /<br/>notify human of outage"]
+    CB -->|"Closed (healthy)"| ERP_W[("Live ERP API<br/>(write)")]
+
+    Fallback --> ResultCap
+    ERP_W --> ResultCap["9 . Capture result"]
+
+    subgraph Tracing["Three-Tier Distributed Tracing (Langfuse)"]
+        T1["Tier 1: Message-level trace<br/>(full Slack turn)"]
+        T2["Tier 2: Tool-execution trace<br/>(per tool call, params, MDM result)"]
+        T3["Tier 3: Downstream API trace<br/>(actual ERP request/response)"]
+        T1 --> T2 --> T3
+    end
+
+    ResultCap -.->|"span"| Tracing
+    Intent -.->|"span"| T1
+    WriteExec -.->|"span"| T2
+    ERP_W -.->|"span"| T3
+
+    ResultCap --> StateUpdate["10 . Update durable state"]
+    StateUpdate --> PG
+    StateUpdate --> Redis[("Redis Cache<br/>hot-path lookups")]
+
+    StateUpdate --> Reply["Post result back to<br/>Slack thread"]
+    Reply --> User
+
+    Denied --> Reply
+    Expired --> Reply
+
+    classDef gate fill:#fff3cd,stroke:#856404,stroke-width:2px
+    classDef data fill:#d1ecf1,stroke:#0c5460,stroke-width:1px
+    classDef danger fill:#f8d7da,stroke:#721c24,stroke-width:1px
+    classDef trace fill:#e2e3f3,stroke:#3a3a8c,stroke-width:1px
+
+    class Gate,HumanDecision,FourEyes gate
+    class PG,Redis,Qdrant,TenantCreds,ERP_R,ERP_W data
+    class SelfBlock,Denied,Expired,Fallback danger
+    class T1,T2,T3 trace

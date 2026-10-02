@@ -1,0 +1,11 @@
+invoice_id,raw_vendor_name,description,amount,currency,entity_id,cost_centre,category,ground_truth_gl
+inv-001,Meridian Facilities Ltd,Office cleaning services monthly,450.00,GBP,UK001,CC100,routine,6300
+inv-002,Swift Travel Services,Flight and hotel Q3,1302.54,GBP,UK001,CC100,routine,6500
+inv-003,LearnForward Ltd,Staff training programme Q3,861.99,GBP,UK001,CC200,routine,6800
+inv-004,Global Office Supplies,Monthly office supplies order,245.12,GBP,UK001,CC100,routine,6100
+inv-005,Apex Equipment Co,Server hardware purchase,4286.94,GBP,UK001,CC300,routine,7100
+inv-006,Horizon Group Ltd,HR consulting project,3016.15,GBP,UK001,CC200,routine,6400
+inv-007,Zephyr Global Holdings,Professional advisory services Q3,15000.00,GBP,UK001,CC100,hard_edge,6400
+inv-008,Meridian Facilities Ltd,Building maintenance and repairs,890.00,GBP,UK001,CC100,routine,6300
+inv-009,Swift Travel Services,Rail travel October,412.00,GBP,UK001,CC100,routine,6500
+inv-010,LearnForward Ltd,Compliance training Q1,1915.33,GBP,UK001,CC200,routine,6800

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AP Automation — Architecture</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1a2332;--blue:#2d7dd2;--amber:#e8a020;--white:#f8f8f6;
+  --surface:#ffffff;--border:#e2e6ea;--text:#1a2332;--muted:#6b7280;--light:#f8fafc;
+  --radius:8px;--font:system-ui,-apple-system,sans-serif;--mono:ui-monospace,monospace;
+}
+@media(prefers-color-scheme:dark){
+  :root{--surface:#222220;--border:rgba(255,255,255,0.1);--text:#f0f0ee;--muted:#8a8a85;--light:#2a2a28}
+  body{background:#1a1a18}
+}
+body{font-family:var(--font);color:var(--text);background:var(--light);padding:32px 24px;min-height:100vh}
+.page{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.header{background:var(--navy);color:var(--white);border-radius:12px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between}
+.header-left h1{font-size:22px;font-weight:600}
+.header-left p{font-size:13px;color:#a8b2d8;margin-top:4px}
+.header-right{display:flex;gap:24px}
+.kpi{text-align:right}
+.kpi-val{font-size:28px;font-weight:700;color:var(--blue)}
+.kpi-val.amber{color:var(--amber)}
+.kpi-lbl{font-size:11px;color:#8a9bb0;margin-top:2px}
+.pipeline{display:flex;align-items:stretch;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.stage{flex:1;padding:18px 14px;display:flex;flex-direction:column;gap:6px;border-right:1px solid var(--border)}
+.stage:last-child{border-right:none}
+.stage-num{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.08em}
+.stage-num.amber{color:var(--amber)}
+.stage-title{font-size:14px;font-weight:600}
+.stage-desc{font-size:12px;color:var(--muted);line-height:1.45}
+.arrow{display:flex;align-items:center;color:var(--muted);font-size:18px;flex-shrink:0;padding:0 4px;background:var(--surface)}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.card h3{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:12px}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.card ul li{font-size:13px;color:var(--text);padding-left:16px;position:relative;line-height:1.4}
+.card ul li::before{content:'•';position:absolute;left:0;color:var(--blue)}
+.card ul li.amber::before{color:var(--amber)}
+.metrics-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 12px;text-align:center}
+.metric-val{font-size:22px;font-weight:700;color:var(--blue)}
+.metric-val.amber{color:var(--amber)}
+.metric-val.green{color:#0f6e56}
+.metric-lbl{font-size:11px;color:var(--muted);margin-top:3px}
+.stack-row{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--light);color:var(--text);font-family:var(--mono)}
+.footer{text-align:center;font-size:12px;color:var(--muted);padding:8px 0}
+.section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:10px}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.phase{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:6px}
+.phase-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;width:fit-content}
+.phase-badge.done{background:#d1fae5;color:#065f46}
+.phase-badge.next{background:#dbeafe;color:#1e40af}
+.phase-badge.future{background:#f3f4f6;color:#6b7280}
+.phase h4{font-size:13px;font-weight:600;margin-top:4px}
+.phase p{font-size:12px;color:var(--muted);line-height:1.4}
+.phase-time{font-size:11px;color:var(--blue);font-weight:500;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>AP Automation — Architecture Overview</h1>
+      <p>Self-learning non-PO invoice GL coding · RAG + confidence gate + write-back loop</p>
+    </div>
+    <div class="header-right">
+      <div class="kpi"><div class="kpi-val">99%</div><div class="kpi-lbl">Automation rate</div></div>
+      <div class="kpi"><div class="kpi-val amber">99%</div><div class="kpi-lbl">Accuracy</div></div>
+      <div class="kpi"><div class="kpi-val">0%</div><div class="kpi-lbl">False positives</div></div>
+    </div>
+  </div>
+
+  <!-- Pipeline -->
+  <div>
+    <div class="section-label">Core pipeline</div>
+    <div class="pipeline">
+      <div class="stage">
+        <div class="stage-num">01</div>
+        <div class="stage-title">Ingestion & MDM</div>
+        <div class="stage-desc">Invoice received · vendor resolved to canonical ID · description preprocessed · amount band assigned</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">02</div>
+        <div class="stage-title">Hybrid Retrieval</div>
+        <div class="stage-desc">Dense + BM25 + RRF fusion · vendor & entity pre-filter · top-10 evidence lines returned from Qdrant</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">03</div>
+        <div class="stage-title">Confidence Scoring</div>
+        <div class="stage-desc">Agreement ratio (70%) + avg similarity (30%) · per-vendor threshold · sparse gate: min 3 lines</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num">04</div>
+        <div class="stage-title">Confidence Gate</div>
+        <div class="stage-desc">≥50% → auto-post to ERP · &lt;50% → human review · cold-start → always review · high-value → always review</div>
+      </div>
+      <div class="stage">
+        <div class="stage-num amber">05</div>
+        <div class="stage-title">Write-Back Loop</div>
+        <div class="stage-desc">Every confirmed invoice indexed to Qdrant · corpus grows automatically · no PS intervention required</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proven metrics -->
+  <div>
+    <div class="section-label">Proven POC metrics — verified in Langfuse (3,186+ traces)</div>
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-val green">99%</div><div class="metric-lbl">Automation rate</div></div>
+      <div class="metric"><div class="metric-val green">99%</div><div class="metric-lbl">Prediction accuracy</div></div>
+      <div class="metric"><div class="metric-val green">100%</div><div class="metric-lbl">Auto-post accuracy</div></div>
+      <div class="metric"><div class="metric-val green">0%</div><div class="metric-lbl">False positive rate</div></div>
+      <div class="metric"><div class="metric-val">1ms</div><div class="metric-lbl">Retrieval latency p95</div></div>
+      <div class="metric"><div class="metric-val amber">+826</div><div class="metric-lbl">Corpus growth</div></div>
+    </div>
+  </div>
+
+  <!-- Three column cards -->
+  <div class="grid">
+    <div class="card">
+      <h3>Governance</h3>
+      <ul>
+        <li>Confidence gate — never removes oversight</li>
+        <li>Sparse retrieval hard rule — min 3 lines</li>
+        <li>Cold-start protection — always routes to review</li>
+        <li>High-value invoice override</li>
+        <li>Append-only audit log — cryptographically hashed</li>
+        <li>Full provenance per decision — trace ID reconstructable</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Middleware layer</h3>
+      <ul>
+        <li>FastAPI — async, Python 3.12+</li>
+        <li>Multi-tenant router — JWT per tenant</li>
+        <li>Tool abstraction — typed ERP connectors</li>
+        <li>LangGraph agentic layer — ambiguous invoices</li>
+        <li>Async write-back dispatcher</li>
+        <li>Circuit breakers on all external calls</li>
+        <li class="amber">Langfuse hooks — full distributed tracing</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Observability</h3>
+      <ul>
+        <li>Langfuse — 3,186+ traces, every prediction logged</li>
+        <li>gate.correct — 1,212 scores, avg 1.000</li>
+        <li>gate.false_positive_rate — 0.000</li>
+        <li>retrieval.recall_at_10 — per prediction</li>
+        <li>gate.calibration — confidence vs accuracy bands</li>
+        <li class="amber">Prometheus + Grafana — business metrics</li>
+        <li class="amber">PagerDuty — SLA breach alerting</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Stack -->
+  <div class="card">
+    <h3>Technology stack</h3>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:12px;color:var(--muted);width:100px;flex-shrink:0">Retrieval</span>
+        <div class="stack-row"><span class="tag">Qdrant Cloud</span><span class="tag">text-embedding-3-small</span><span class="tag">BM25</span><span class="tag">RRF fusion</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:12px;color:var(--muted);width:100px;flex-shrink:0">Middleware</span>
+        <div class="stack-row"><span class="tag">FastAPI</span><span class="tag">LangGraph</span><span class="tag">Postgres + pgvector</span><span class="tag">Redis</span><span class="tag">Celery</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:12px;color:var(--muted);width:100px;flex-shrink:0">Observability</span>
+        <div class="stack-row"><span class="tag">Langfuse v4</span><span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">PagerDuty</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:12px;color:var(--muted);width:100px;flex-shrink:0">Frontend</span>
+        <div class="stack-row"><span class="tag">Next.js</span><span class="tag">Tailwind</span><span class="tag">shadcn/ui</span><span class="tag">Streamlit (POC)</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:12px;color:var(--muted);width:100px;flex-shrink:0">Infrastructure</span>
+        <div class="stack-row"><span class="tag">AWS ECS</span><span class="tag">RDS Postgres</span><span class="tag">S3</span><span class="tag">HashiCorp Vault</span><span class="tag">Docker</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Roadmap -->
+  <div>
+    <div class="section-label">Production roadmap</div>
+    <div class="roadmap">
+      <div class="phase">
+        <span class="phase-badge done">✓ Complete</span>
+        <h4>Phase 0 — POC</h4>
+        <p>RAG pipeline, confidence gate, write-back loop, Langfuse tracing, hosted Streamlit demo</p>
+        <div class="phase-time">Done · October 2026</div>
+      </div>
+      <div class="phase">
+        <span class="phase-badge next">Next</span>
+        <h4>Phase 1 — Production v1</h4>
+        <p>FastAPI middleware, iplicit ERP connector, Next.js review queue UI, Postgres, multi-tenancy</p>
+        <div class="phase-time">6 weeks</div>
+      </div>
+      <div class="phase">
+        <span class="phase-badge future">Phase 2</span>
+        <h4>Agentic layer</h4>
+        <p>LangGraph orchestrator, tool registry, plain-English explanations for low-confidence invoices</p>
+        <div class="phase-time">Weeks 7–10</div>
+      </div>
+      <div class="phase">
+        <span class="phase-badge future">Phase 3</span>
+        <h4>Scale</h4>
+        <p>Additional ERP connectors, advanced reporting, BI integration, shadow mode onboarding</p>
+        <div class="phase-time">Months 4–6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    AP Automation POC · miles.waite@akkoda.com · github.com/Milesy1/ap-automation · ap-automation-tjfgztux7pwux2mu8v7ewj.streamlit.app
+  </div>
+
+</div>
+</body>
+</html>

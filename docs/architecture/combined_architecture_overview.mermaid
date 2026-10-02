@@ -1,0 +1,48 @@
+flowchart TB
+    SlackUser(["User in Slack"])
+
+    SlackUser -->|"write request<br/>(create, update, post...)"| WriteAgent
+    SlackUser -->|"question<br/>(ask about docs/data)"| QAAgent
+
+    subgraph WriteAgent["Agentic Write System"]
+        direction TB
+        Write_Core["Intent parsing → tool selection →<br/>MDM check → human approval gate →<br/>ERP write execution"]
+    end
+
+    subgraph QAAgent["RAG QA System"]
+        direction TB
+        QA_Core["Query embedding → vector retrieval →<br/>rerank → grounded generation →<br/>cited answer"]
+    end
+
+    WriteAgent -->|"result"| SlackUser
+    QAAgent -->|"answer"| SlackUser
+
+    subgraph Shared["Shared Infrastructure"]
+        direction LR
+        Qdrant[("Vector Store<br/>(per-tenant collections)")]
+        Tracing["Distributed Tracing<br/>(both systems)"]
+        TenantLayer["Multi-tenant<br/>credential isolation"]
+    end
+
+    Write_Core -.->|"MDM duplicate<br/>search"| Qdrant
+    QA_Core -.->|"retrieval<br/>search"| Qdrant
+
+    Write_Core -.->|"traces"| Tracing
+    QA_Core -.->|"traces"| Tracing
+
+    Write_Core -.->|"resolve tenant"| TenantLayer
+    QA_Core -.->|"resolve tenant"| TenantLayer
+
+    ERP[("Live ERP<br/>(write target)")]
+    KB[("Knowledge base<br/>source documents")]
+
+    Write_Core -->|"writes"| ERP
+    KB -.->|"ingested into"| Qdrant
+
+    classDef system fill:#e8f4f8,stroke:#2c5f7c,stroke-width:2px
+    classDef shared fill:#f0f0f0,stroke:#666,stroke-width:1px
+    classDef store fill:#d1ecf1,stroke:#0c5460,stroke-width:1px
+
+    class Write_Core,QA_Core system
+    class Qdrant,Tracing,TenantLayer shared
+    class ERP,KB store

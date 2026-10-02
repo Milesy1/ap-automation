@@ -1,0 +1,201 @@
+invoice_id,raw_vendor_name,description,amount,currency,entity_id,cost_centre,category,ground_truth_gl
+inv-001,Meridian Facilities Ltd,Office cleaning services monthly,450.00,GBP,UK001,CC100,routine,6300
+inv-002,Meridian Facilities Ltd,Building maintenance and repairs,890.00,GBP,UK001,CC100,routine,6300
+inv-003,Meridian Facilities Ltd,Facility management services Q3,1200.00,GBP,UK001,CC100,routine,6300
+inv-004,Meridian Facilities Ltd,Office cleaning and hygiene services,375.00,GBP,UK001,CC100,routine,6300
+inv-005,Meridian Facilities Ltd,Premises maintenance monthly,675.00,GBP,UK001,CC100,routine,6300
+inv-006,Swift Travel Services,Flight and hotel Q3,1302.54,GBP,UK001,CC100,routine,6500
+inv-007,Swift Travel Services,Rail travel and expenses,412.00,GBP,UK001,CC100,routine,6500
+inv-008,Swift Travel Services,Conference accommodation and travel,2229.74,GBP,UK001,CC100,routine,6500
+inv-009,Swift Travel Services,Business travel flights October,1845.00,GBP,UK001,CC100,routine,6500
+inv-010,Swift Travel Services,Hotel accommodation client visit,980.00,GBP,UK001,CC100,routine,6500
+inv-011,LearnForward Ltd,Staff training programme Q3,861.99,GBP,UK001,CC200,routine,6800
+inv-012,LearnForward Ltd,Compliance training Q1,1915.33,GBP,UK001,CC200,routine,6800
+inv-013,LearnForward Ltd,Professional development programme,4215.81,GBP,UK001,CC200,routine,6800
+inv-014,LearnForward Ltd,Leadership skills workshop,2100.00,GBP,UK001,CC200,routine,6800
+inv-015,LearnForward Ltd,Team training and development Q4,1650.00,GBP,UK001,CC200,routine,6800
+inv-016,Learn Forward Training,Compliance training Q1,1915.33,GBP,UK001,CC200,routine,6800
+inv-017,Learn Forward Training,Staff development programme,3200.00,GBP,UK001,CC200,routine,6800
+inv-018,Learn Forward Training,Management training October,1750.00,GBP,UK001,CC200,routine,6800
+inv-019,Global Office Supplies,Monthly office supplies order,245.12,GBP,UK001,CC100,routine,6100
+inv-020,Global Office Supplies,Office stationery and printer consumables,180.36,GBP,UK001,CC100,routine,6100
+inv-021,Global Office Supplies,Printer cartridges and paper supplies,320.00,GBP,UK001,CC100,routine,6100
+inv-022,Global Office Supplies,Office equipment and stationery,415.00,GBP,UK001,CC100,routine,6100
+inv-023,Global Office Supplies,Monthly stationery order October,198.50,GBP,UK001,CC100,routine,6100
+inv-024,TechSource IT Solutions,Cloud infrastructure services Q2,11252.48,GBP,UK001,CC300,routine,6200
+inv-025,TechSource IT Solutions,Software licences annual renewal,8500.00,GBP,UK001,CC300,routine,6200
+inv-026,TechSource IT Solutions,IT support and maintenance Q3,4200.00,GBP,UK001,CC300,routine,6200
+inv-027,TechSource IT Solutions,Cloud hosting services monthly,2100.00,GBP,UK001,CC300,routine,6200
+inv-028,TechSource IT Solutions,Network infrastructure upgrade,15000.00,GBP,UK001,CC300,routine,6200
+inv-029,Horizon Group Ltd,HR consulting project,3016.15,GBP,UK001,CC200,routine,6400
+inv-030,Horizon Group Ltd,Recruitment support services,5500.00,GBP,UK001,CC200,routine,6400
+inv-031,Horizon Group Ltd,HR advisory services Q3,4100.00,GBP,UK001,CC200,routine,6400
+inv-032,Horizon Consulting,HR consulting project,4350.84,GBP,UK001,CC200,routine,6400
+inv-033,Horizon Consulting,People and culture advisory,3800.00,GBP,UK001,CC200,routine,6400
+inv-034,Apex Equipment Co,Server hardware purchase,4286.94,GBP,UK001,CC300,routine,7100
+inv-035,Apex Equipment Co,Network equipment installation,6990.20,GBP,UK001,CC300,routine,7100
+inv-036,Apex Equipment Co,IT hardware and equipment Q3,8200.00,GBP,UK001,CC300,routine,7100
+inv-037,Apex Co.,Network equipment installation,6990.20,GBP,UK001,CC300,routine,7100
+inv-038,Apex Co.,Server and storage hardware,12500.00,GBP,UK001,CC300,routine,7100
+inv-039,BrandWorks Ltd,PR retainer monthly,15288.19,GBP,UK001,CC400,routine,6700
+inv-040,BrandWorks Ltd,Marketing campaign management,8500.00,GBP,UK001,CC400,routine,6700
+inv-041,BrandWorks Ltd,Brand strategy and design Q3,12000.00,GBP,UK001,CC400,routine,6700
+inv-042,Brandworks Agency,Marketing retainer October,9500.00,GBP,UK001,CC400,routine,6700
+inv-043,Brandworks Agency,Digital marketing services,7200.00,GBP,UK001,CC400,routine,6700
+inv-044,GreenPath Utilities,Gas and electricity Q3,885.82,GBP,UK001,CC100,routine,6600
+inv-045,GreenPath Utilities,Monthly energy supply October,920.00,GBP,UK001,CC100,routine,6600
+inv-046,GreenPath Utilities,Electricity supply and standing charge,845.00,GBP,UK001,CC100,routine,6600
+inv-047,GreenPath Utilities,Gas supply Q4,780.00,GBP,UK001,CC100,routine,6600
+inv-048,GreenPath Utilities,Utilities monthly October,950.00,GBP,UK001,CC100,routine,6600
+inv-049,Solaris Energy Partners,Gas and electricity Q3,885.82,GBP,UK001,CC100,routine,6600
+inv-050,Solaris Energy Partners,Monthly energy supply,920.00,GBP,UK001,CC100,routine,6600
+inv-051,Solaris Energy Partners,Electricity and gas October,845.00,GBP,UK001,CC100,routine,6600
+inv-052,Solaris Energy Partners,Utilities Q4 supply,780.00,GBP,UK001,CC100,routine,6600
+inv-053,Meridian Facilities Ltd,Window cleaning and maintenance,520.00,GBP,UK001,CC100,routine,6300
+inv-054,Swift Travel Services,International travel Q4,3200.00,GBP,UK001,CC100,routine,6500
+inv-055,LearnForward Ltd,Online learning platform subscription,1200.00,GBP,UK001,CC200,routine,6800
+inv-056,Global Office Supplies,Breakroom and kitchen supplies,145.00,GBP,UK001,CC100,routine,6100
+inv-057,TechSource IT Solutions,Cybersecurity software annual,6500.00,GBP,UK001,CC300,routine,6200
+inv-058,Horizon Group Ltd,Payroll consulting services,2800.00,GBP,UK001,CC200,routine,6400
+inv-059,BrandWorks Ltd,Social media management monthly,4500.00,GBP,UK001,CC400,routine,6700
+inv-060,GreenPath Utilities,Water and waste services Q3,320.00,GBP,UK001,CC100,routine,6600
+inv-061,Meridian Facilities Ltd,Security services monthly,1100.00,GBP,UK001,CC100,routine,6300
+inv-062,Swift Travel Services,Train tickets team offsite,890.00,GBP,UK001,CC100,routine,6500
+inv-063,LearnForward Ltd,Onboarding training new starters,980.00,GBP,UK001,CC200,routine,6800
+inv-064,Global Office Supplies,Office furniture and equipment,2100.00,GBP,UK001,CC100,routine,6100
+inv-065,TechSource IT Solutions,Data backup and recovery services,3400.00,GBP,UK001,CC300,routine,6200
+inv-066,Horizon Consulting,Organisational design advisory,5200.00,GBP,UK001,CC200,routine,6400
+inv-067,Apex Equipment Co,Laptop and workstation purchase,18500.00,GBP,UK001,CC300,routine,7100
+inv-068,Brandworks Agency,PR and communications Q4,11000.00,GBP,UK001,CC400,routine,6700
+inv-069,Solaris Energy Partners,Solar panel maintenance contract,1200.00,GBP,UK001,CC100,routine,6600
+inv-070,Meridian Facilities Ltd,Lift maintenance and servicing,750.00,GBP,UK001,CC100,routine,6300
+inv-071,Swift Travel Services,Airport transfers and taxis,380.00,GBP,UK001,CC100,routine,6500
+inv-072,LearnForward Ltd,Health and safety training,1450.00,GBP,UK001,CC200,routine,6800
+inv-073,Global Office Supplies,Coffee machine and supplies,890.00,GBP,UK001,CC100,routine,6100
+inv-074,TechSource IT Solutions,Microsoft 365 licences annual,12000.00,GBP,UK001,CC300,routine,6200
+inv-075,Horizon Group Ltd,Talent acquisition support,6800.00,GBP,UK001,CC200,routine,6400
+inv-076,Apex Co.,Printer and scanner hardware,4200.00,GBP,UK001,CC300,routine,7100
+inv-077,BrandWorks Ltd,Event management and sponsorship,22000.00,GBP,UK001,CC400,routine,6700
+inv-078,GreenPath Utilities,Environmental compliance services,450.00,GBP,UK001,CC100,routine,6600
+inv-079,Meridian Facilities Ltd,Pest control services quarterly,280.00,GBP,UK001,CC100,routine,6300
+inv-080,Swift Travel Services,Overseas conference travel,4800.00,GBP,UK001,CC100,routine,6500
+inv-081,Learn Forward Training,Data protection training,980.00,GBP,UK001,CC200,routine,6800
+inv-082,Global Office Supplies,Archiving and storage supplies,320.00,GBP,UK001,CC100,routine,6100
+inv-083,TechSource IT Solutions,Help desk software subscription,1800.00,GBP,UK001,CC300,routine,6200
+inv-084,Horizon Consulting,Change management advisory,7500.00,GBP,UK001,CC200,routine,6400
+inv-085,Apex Equipment Co,UPS and power equipment,3800.00,GBP,UK001,CC300,routine,7100
+inv-086,Brandworks Agency,Video production and editing,8900.00,GBP,UK001,CC400,routine,6700
+inv-087,Solaris Energy Partners,EV charging installation,2400.00,GBP,UK001,CC100,routine,6600
+inv-088,Meridian Facilities Ltd,Waste management services,420.00,GBP,UK001,CC100,routine,6300
+inv-089,Swift Travel Services,European rail travel Q4,1650.00,GBP,UK001,CC100,routine,6500
+inv-090,LearnForward Ltd,Finance team training,2200.00,GBP,UK001,CC200,routine,6800
+inv-091,Global Office Supplies,First aid supplies and equipment,180.00,GBP,UK001,CC100,routine,6100
+inv-092,TechSource IT Solutions,VPN and security licences,2900.00,GBP,UK001,CC300,routine,6200
+inv-093,Horizon Group Ltd,Benefits administration support,3100.00,GBP,UK001,CC200,routine,6400
+inv-094,Apex Co.,CCTV and security hardware,5600.00,GBP,UK001,CC300,routine,7100
+inv-095,BrandWorks Ltd,Content creation and copywriting,6500.00,GBP,UK001,CC400,routine,6700
+inv-096,GreenPath Utilities,Boiler service and maintenance,680.00,GBP,UK001,CC100,routine,6600
+inv-097,Meridian Facilities Ltd,Grounds maintenance and landscaping,890.00,GBP,UK001,CC100,routine,6300
+inv-098,Swift Travel Services,Domestic flights team travel,2100.00,GBP,UK001,CC100,routine,6500
+inv-099,Learn Forward Training,Mental health first aid training,1350.00,GBP,UK001,CC200,routine,6800
+inv-100,Global Office Supplies,Whiteboard and presentation supplies,460.00,GBP,UK001,CC100,routine,6100
+inv-101,TechSource IT Solutions,Server room cooling maintenance,4100.00,GBP,UK001,CC300,routine,6200
+inv-102,Horizon Consulting,Employee engagement survey,2800.00,GBP,UK001,CC200,routine,6400
+inv-103,Apex Equipment Co,Network switches and cabling,7200.00,GBP,UK001,CC300,routine,7100
+inv-104,Brandworks Agency,Email marketing campaign,3400.00,GBP,UK001,CC400,routine,6700
+inv-105,Solaris Energy Partners,Energy audit and reporting,1100.00,GBP,UK001,CC100,routine,6600
+inv-106,Meridian Facilities Ltd,HVAC servicing and maintenance,1800.00,GBP,UK001,CC100,routine,6300
+inv-107,Swift Travel Services,Client entertainment travel,1450.00,GBP,UK001,CC100,routine,6500
+inv-108,LearnForward Ltd,Project management certification,3500.00,GBP,UK001,CC200,routine,6800
+inv-109,Global Office Supplies,Ergonomic equipment and accessories,780.00,GBP,UK001,CC100,routine,6100
+inv-110,TechSource IT Solutions,Firewall and network security,8900.00,GBP,UK001,CC300,routine,6200
+inv-111,Horizon Group Ltd,HR system implementation support,12000.00,GBP,UK001,CC200,routine,6400
+inv-112,Apex Co.,Audio visual equipment,9500.00,GBP,UK001,CC300,routine,7100
+inv-113,BrandWorks Ltd,Website design and development,18000.00,GBP,UK001,CC400,routine,6700
+inv-114,GreenPath Utilities,Renewable energy certificates,580.00,GBP,UK001,CC100,routine,6600
+inv-115,Meridian Facilities Ltd,Fire safety inspection and equipment,1200.00,GBP,UK001,CC100,routine,6300
+inv-116,Swift Travel Services,Away day venue and transport,3800.00,GBP,UK001,CC100,routine,6500
+inv-117,Learn Forward Training,First aid certification,650.00,GBP,UK001,CC200,routine,6800
+inv-118,Global Office Supplies,Cleaning and janitorial supplies,290.00,GBP,UK001,CC100,routine,6100
+inv-119,TechSource IT Solutions,Endpoint protection software,4500.00,GBP,UK001,CC300,routine,6200
+inv-120,Horizon Consulting,Succession planning advisory,6200.00,GBP,UK001,CC200,routine,6400
+inv-121,Apex Equipment Co,Warehouse racking and shelving,11000.00,GBP,UK001,CC300,routine,7100
+inv-122,Brandworks Agency,Influencer marketing campaign,14000.00,GBP,UK001,CC400,routine,6700
+inv-123,Solaris Energy Partners,Smart meter installation,850.00,GBP,UK001,CC100,routine,6600
+inv-124,Meridian Facilities Ltd,Office refurbishment cleaning,2100.00,GBP,UK001,CC100,routine,6300
+inv-125,Swift Travel Services,New York business trip,8500.00,GBP,UK001,CC100,routine,6500
+inv-126,LearnForward Ltd,Agile and scrum training,2800.00,GBP,UK001,CC200,routine,6800
+inv-127,Global Office Supplies,Meeting room supplies and equipment,920.00,GBP,UK001,CC100,routine,6100
+inv-128,TechSource IT Solutions,Cloud migration services,25000.00,GBP,UK001,CC300,routine,6200
+inv-129,Horizon Group Ltd,Diversity and inclusion consulting,4500.00,GBP,UK001,CC200,routine,6400
+inv-130,Apex Co.,Telecoms infrastructure,6800.00,GBP,UK001,CC300,routine,7100
+inv-131,BrandWorks Ltd,Trade show and exhibition,35000.00,GBP,UK001,CC400,routine,6700
+inv-132,GreenPath Utilities,Carbon offset services,480.00,GBP,UK001,CC100,routine,6600
+inv-133,Meridian Facilities Ltd,Roof inspection and repair,4500.00,GBP,UK001,CC100,routine,6300
+inv-134,Swift Travel Services,Singapore conference travel,12000.00,GBP,UK001,CC100,routine,6500
+inv-135,Learn Forward Training,Excel and data analysis training,1100.00,GBP,UK001,CC200,routine,6800
+inv-136,Global Office Supplies,Postage and courier supplies,340.00,GBP,UK001,CC100,routine,6100
+inv-137,TechSource IT Solutions,Database administration services,7800.00,GBP,UK001,CC300,routine,6200
+inv-138,Horizon Consulting,Performance management framework,5100.00,GBP,UK001,CC200,routine,6400
+inv-139,Apex Equipment Co,Backup power generator,28000.00,GBP,UK001,CC300,routine,7100
+inv-140,Brandworks Agency,Photography and creative services,5500.00,GBP,UK001,CC400,routine,6700
+inv-141,Solaris Energy Partners,Heat pump maintenance,1450.00,GBP,UK001,CC100,routine,6600
+inv-142,Meridian Facilities Ltd,External window cleaning,680.00,GBP,UK001,CC100,routine,6300
+inv-143,Swift Travel Services,Client site visits travel,2200.00,GBP,UK001,CC100,routine,6500
+inv-144,LearnForward Ltd,Customer service excellence training,1800.00,GBP,UK001,CC200,routine,6800
+inv-145,Global Office Supplies,Desk accessories and organisation,560.00,GBP,UK001,CC100,routine,6100
+inv-146,TechSource IT Solutions,Software development tools,3200.00,GBP,UK001,CC300,routine,6200
+inv-147,Horizon Group Ltd,Wellbeing programme support,2400.00,GBP,UK001,CC200,routine,6400
+inv-148,Apex Co.,Server rack and cooling,8900.00,GBP,UK001,CC300,routine,7100
+inv-149,BrandWorks Ltd,Annual report design,12000.00,GBP,UK001,CC400,routine,6700
+inv-150,GreenPath Utilities,Air quality monitoring,380.00,GBP,UK001,CC100,routine,6600
+inv-151,Meridian Facilities Ltd,Plumbing repairs and maintenance,920.00,GBP,UK001,CC100,routine,6300
+inv-152,Swift Travel Services,Board meeting travel expenses,3400.00,GBP,UK001,CC100,routine,6500
+inv-153,Learn Forward Training,Presentation skills workshop,850.00,GBP,UK001,CC200,routine,6800
+inv-154,Global Office Supplies,Labels and filing supplies,210.00,GBP,UK001,CC100,routine,6100
+inv-155,TechSource IT Solutions,IT asset management software,2100.00,GBP,UK001,CC300,routine,6200
+inv-156,Horizon Consulting,Job evaluation and grading,4800.00,GBP,UK001,CC200,routine,6400
+inv-157,Apex Equipment Co,Tablet and mobile device purchase,6500.00,GBP,UK001,CC300,routine,7100
+inv-158,Brandworks Agency,Brand refresh and guidelines,16000.00,GBP,UK001,CC400,routine,6700
+inv-159,Solaris Energy Partners,LED lighting upgrade,3200.00,GBP,UK001,CC100,routine,6600
+inv-160,Meridian Facilities Ltd,Car park maintenance,560.00,GBP,UK001,CC100,routine,6300
+inv-161,Swift Travel Services,Sales conference travel,5600.00,GBP,UK001,CC100,routine,6500
+inv-162,LearnForward Ltd,Sales and negotiation training,2600.00,GBP,UK001,CC200,routine,6800
+inv-163,Global Office Supplies,Toner and ink cartridges,480.00,GBP,UK001,CC100,routine,6100
+inv-164,TechSource IT Solutions,API integration development,18000.00,GBP,UK001,CC300,routine,6200
+inv-165,Horizon Group Ltd,Compensation benchmarking,3900.00,GBP,UK001,CC200,routine,6400
+inv-166,Apex Co.,Interactive display screens,14000.00,GBP,UK001,CC300,routine,7100
+inv-167,BrandWorks Ltd,Podcast production and editing,4200.00,GBP,UK001,CC400,routine,6700
+inv-168,GreenPath Utilities,Water treatment services,620.00,GBP,UK001,CC100,routine,6600
+inv-169,Meridian Facilities Ltd,Electrical testing and inspection,1400.00,GBP,UK001,CC100,routine,6300
+inv-170,Swift Travel Services,Paris client meeting travel,2800.00,GBP,UK001,CC100,routine,6500
+inv-171,Learn Forward Training,Time management and productivity,750.00,GBP,UK001,CC200,routine,6800
+inv-172,Global Office Supplies,Shredder bags and consumables,95.00,GBP,UK001,CC100,routine,6100
+inv-173,TechSource IT Solutions,Penetration testing services,9500.00,GBP,UK001,CC300,routine,6200
+inv-174,Horizon Consulting,Leadership assessment centre,8500.00,GBP,UK001,CC200,routine,6400
+inv-175,Apex Equipment Co,Drone and inspection equipment,22000.00,GBP,UK001,CC300,routine,7100
+inv-176,Brandworks Agency,SEO and content strategy,5800.00,GBP,UK001,CC400,routine,6700
+inv-177,Solaris Energy Partners,Thermal imaging survey,1800.00,GBP,UK001,CC100,routine,6600
+inv-178,Meridian Facilities Ltd,Access control maintenance,1650.00,GBP,UK001,CC100,routine,6300
+inv-179,Swift Travel Services,Team building event travel,1900.00,GBP,UK001,CC100,routine,6500
+inv-180,LearnForward Ltd,Coaching and mentoring programme,4800.00,GBP,UK001,CC200,routine,6800
+inv-181,Global Office Supplies,Reception and lobby supplies,380.00,GBP,UK001,CC100,routine,6100
+inv-182,TechSource IT Solutions,DevOps toolchain setup,14000.00,GBP,UK001,CC300,routine,6200
+inv-183,Horizon Group Ltd,Graduate recruitment support,7500.00,GBP,UK001,CC200,routine,6400
+inv-184,Apex Co.,Conference room AV system,18500.00,GBP,UK001,CC300,routine,7100
+inv-185,BrandWorks Ltd,Christmas campaign creative,9800.00,GBP,UK001,CC400,routine,6700
+inv-186,GreenPath Utilities,Waste recycling and disposal,540.00,GBP,UK001,CC100,routine,6600
+inv-187,Meridian Facilities Ltd,Signage and wayfinding maintenance,890.00,GBP,UK001,CC100,routine,6300
+inv-188,Swift Travel Services,Dublin office visit travel,1650.00,GBP,UK001,CC100,routine,6500
+inv-189,Learn Forward Training,Conflict resolution training,920.00,GBP,UK001,CC200,routine,6800
+inv-190,Global Office Supplies,Breakout area and lounge supplies,650.00,GBP,UK001,CC100,routine,6100
+inv-191,TechSource IT Solutions,Disaster recovery planning,11000.00,GBP,UK001,CC300,routine,6200
+inv-192,Horizon Consulting,Restructuring advisory,15000.00,GBP,UK001,CC200,routine,6400
+inv-193,Apex Equipment Co,Forklift and warehouse equipment,45000.00,GBP,UK001,CC300,routine,7100
+inv-194,Brandworks Agency,Christmas card and gift design,2800.00,GBP,UK001,CC400,routine,6700
+inv-195,Solaris Energy Partners,Energy management system,4500.00,GBP,UK001,CC100,routine,6600
+inv-196,Meridian Facilities Ltd,Snow and ice clearance,320.00,GBP,UK001,CC100,routine,6300
+inv-197,Swift Travel Services,Edinburgh conference travel,2100.00,GBP,UK001,CC100,routine,6500
+inv-198,LearnForward Ltd,Innovation and creativity workshop,1900.00,GBP,UK001,CC200,routine,6800
+inv-199,Global Office Supplies,Year end stationery and supplies,820.00,GBP,UK001,CC100,routine,6100
+inv-200,TechSource IT Solutions,Year end IT review and audit,6800.00,GBP,UK001,CC300,routine,6200

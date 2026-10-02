@@ -1,0 +1,67 @@
+flowchart TD
+    subgraph QueryFlow["Query / Answer Flow"]
+        User(["User in Slack"]) -->|"question"| Slack["Slack Bolt Interface"]
+        Slack --> API["FastAPI Backend"]
+        API --> TenantRoute["Resolve tenant &<br/>target collection"]
+
+        TenantRoute --> ThreadCtx{"Existing thread<br/>context?"}
+        ThreadCtx -->|"Yes"| LoadCtx["Load prior thread<br/>context (memory)"]
+        ThreadCtx -->|"No"| Embed
+        LoadCtx --> Embed["Embed query<br/>(OpenAI text-embedding)"]
+
+        Embed --> Cache{"Cache hit?<br/>(Redis, query hash)"}
+        Cache -->|"Yes"| CachedAnswer["Return cached answer"]
+        Cache -->|"No"| VSearch["Similarity search<br/>against Qdrant collection"]
+
+        VSearch --> Qdrant[("Qdrant Vector Store<br/>per-tenant collection")]
+        Qdrant --> TopK["Top-K candidate chunks"]
+
+        TopK --> Rerank["Rerank<br/>(Cohere reranking)"]
+        Rerank --> Context["Assemble grounded<br/>context window"]
+
+        Context --> LLM["LLM generation<br/>(context + query + thread history)"]
+        LLM --> Cite["Attach source citations<br/>per chunk used"]
+
+        Cite --> CacheWrite["Write to Redis cache<br/>(TTL)"]
+        CacheWrite --> Reply["Post answer + citations<br/>to Slack thread"]
+        CachedAnswer --> Reply
+        Reply --> User
+    end
+
+    subgraph IngestFlow["Ingestion Flow"]
+        Source(["Source document<br/>(upload / Confluence / file)"]) --> IngestAPI["Ingestion endpoint<br/>(API-key authenticated)"]
+        IngestAPI --> S3[("S3 raw document<br/>storage")]
+        IngestAPI --> Transform["Transform to<br/>KB-standard markdown"]
+
+        Transform --> Chunk["Chunk document<br/>(semantic boundaries)"]
+        Chunk --> Dedup{"Version / duplicate<br/>check against<br/>existing KB"}
+
+        Dedup -->|"New / updated"| EmbedIngest["Embed each chunk"]
+        Dedup -->|"Unchanged"| Skip["Skip — already current"]
+
+        EmbedIngest --> Upsert["Upsert into Qdrant<br/>(tenant collection)"]
+        Upsert --> IngestDone(["Ingestion complete"])
+        Skip --> IngestDone
+    end
+
+    subgraph Tracing["Observability (Langfuse)"]
+        TraceQ["Trace: query → retrieval →<br/>rerank → generation → answer"]
+        TraceI["Trace: ingest → transform →<br/>chunk → embed → upsert"]
+    end
+
+    Embed -.->|"span"| TraceQ
+    VSearch -.->|"span"| TraceQ
+    Rerank -.->|"span"| TraceQ
+    LLM -.->|"span"| TraceQ
+
+    Transform -.->|"span"| TraceI
+    Chunk -.->|"span"| TraceI
+    Upsert -.->|"span"| TraceI
+
+    classDef store fill:#d1ecf1,stroke:#0c5460,stroke-width:1px
+    classDef decision fill:#fff3cd,stroke:#856404,stroke-width:2px
+    classDef trace fill:#e2e3f3,stroke:#3a3a8c,stroke-width:1px
+
+    class Qdrant,S3 store
+    class ThreadCtx,Cache,Dedup decision
+    class TraceQ,TraceI trace
