@@ -48,9 +48,9 @@ def _get_langfuse():
         # Step 1: Streamlit secrets (hosted app)
         try:
             import streamlit as st
-            pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "")
-            sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "")
-            host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com")
+            pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
+            sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
+            host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com").replace("\n", "").replace("\r", "").strip()
             if pub and sec:
                 print(f"[Langfuse] Keys found in st.secrets. Host: {host}")
                 os.environ["LANGFUSE_PUBLIC_KEY"] = pub
@@ -183,6 +183,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
                     "amount": invoice.amount,
                     "currency": invoice.currency,
                     "entity_id": invoice.entity_id,
+                    "ground_truth_gl": invoice.ground_truth_gl or "",
                 },
                 metadata={
                     "canonical_vendor_id": canonical_vendor_id,
@@ -256,6 +257,7 @@ def confirm(
                     "confirmed_gl": confirmed_gl,
                     "source": source.value,
                     "confirming_user": confirming_user_id,
+                    "ground_truth_gl": invoice.ground_truth_gl or "",
                 },
                 metadata={
                     "confidence": round(prediction.weighted_confidence, 4),
@@ -274,6 +276,21 @@ def confirm(
                         name="gate.false_positive",
                         value=1.0,
                         comment=f"Auto-post corrected: {prediction.predicted_gl} -> {confirmed_gl}",
+                    )
+                # Recall@10: was predicted GL correct vs ground truth?
+                if invoice.ground_truth_gl:
+                    recall = 1.0 if prediction.predicted_gl == invoice.ground_truth_gl else 0.0
+                    lf.score_current_trace(
+                        name="retrieval.recall_at_10",
+                        value=recall,
+                        comment=f"Predicted: {prediction.predicted_gl}, Ground truth: {invoice.ground_truth_gl}",
+                    )
+                    # Calibration: log confidence band vs correctness
+                    conf_band = f"{int(prediction.weighted_confidence * 10) * 10}-{int(prediction.weighted_confidence * 10) * 10 + 10}pct"
+                    lf.score_current_trace(
+                        name="gate.calibration",
+                        value=1.0 if is_correct else 0.0,
+                        comment=f"Confidence band: {conf_band}, correct: {is_correct}",
                     )
             lf.flush()
         except Exception as e:
