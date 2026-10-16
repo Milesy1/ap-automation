@@ -1,5 +1,5 @@
 """
-Main prediction pipeline — orchestrates MDM → retrieval → confidence → routing.
+Main prediction pipeline — orchestrates MDM → retrieval → confidence → routing → A2A agents.
 Full Langfuse v4 tracing on every invoice prediction.
 """
 
@@ -23,18 +23,18 @@ from ap_automation.core.models import (
     amount_to_band,
 )
 from ap_automation.core.retrieval import retrieve, index_outcome
+from ap_automation.agents.orchestrator import AgentOrchestrator
 
-
-# Module-level Langfuse client — initialised once
+# Module-level singletons
 _lf_client = None
 _lf_init_attempted = False
+_orchestrator = AgentOrchestrator()
 
 
 def _get_langfuse():
     """
     Return a Langfuse client or None.
     Initialised once at module level — reads from st.secrets first, then .env.
-    Logs every step to stdout so Streamlit logs show exactly what happens.
     """
     global _lf_client, _lf_init_attempted
 
@@ -45,7 +45,6 @@ def _get_langfuse():
     print("[Langfuse] Initialising client...")
 
     try:
-        # Step 1: Streamlit secrets (hosted app)
         try:
             import streamlit as st
             pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
@@ -57,11 +56,10 @@ def _get_langfuse():
                 os.environ["LANGFUSE_SECRET_KEY"] = sec
                 os.environ["LANGFUSE_HOST"] = host
             else:
-                print(f"[Langfuse] st.secrets present but keys empty. pub={bool(pub)} sec={bool(sec)}")
+                print(f"[Langfuse] st.secrets present but keys empty.")
         except Exception as e:
             print(f"[Langfuse] st.secrets not available: {e}")
 
-        # Step 2: pydantic settings / .env
         if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
             print("[Langfuse] Trying pydantic settings...")
             try:
@@ -73,8 +71,6 @@ def _get_langfuse():
                     os.environ["LANGFUSE_PUBLIC_KEY"] = pub
                     os.environ["LANGFUSE_SECRET_KEY"] = sec
                     os.environ["LANGFUSE_HOST"] = getattr(settings, "langfuse_host", "https://cloud.langfuse.com")
-                else:
-                    print(f"[Langfuse] Settings keys empty. pub={bool(pub)} sec={bool(sec)}")
             except Exception as e:
                 print(f"[Langfuse] Settings error: {e}")
 
@@ -97,7 +93,7 @@ def _get_langfuse():
 def predict(invoice: InvoiceLine) -> Prediction:
     """
     Full prediction pipeline for a single invoice line.
-    Steps: MDM → retrieval → confidence → routing → provenance
+    Steps: MDM → retrieval → confidence → routing → A2A agents → provenance
     """
     lf = _get_langfuse()
 
@@ -137,6 +133,23 @@ def predict(invoice: InvoiceLine) -> Prediction:
         weighted_confidence=weighted_confidence,
     )
 
+    # ── Step 4b: A2A Agent Orchestration ─────────────
+    agent_context = {
+        "predicted_gl": predicted_gl,
+        "predicted_cost_centre": predicted_cc,
+        "description": invoice.description,
+        "amount": invoice.amount,
+        "currency": invoice.currency,
+        "vendor_id": canonical_vendor_id,
+        "entity_id": invoice.entity_id,
+        "routing_decision": routing_decision.value,
+        "weighted_confidence": weighted_confidence,
+    }
+
+    t0 = time.time()
+    agent_result = _orchestrator.run(agent_context, langfuse_client=lf)
+    agent_ms = int((time.time() - t0) * 1000)
+
     # ── Step 5: Provenance JSON ───────────────────────
     prediction_id = str(uuid4())
     provenance = {
@@ -153,6 +166,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
         "weighted_confidence": round(weighted_confidence, 4),
         "routing_decision": routing_decision.value,
         "routing_reason": routing_reason,
+        "a2a_agents": agent_result.to_dict(),
         "retrieved_evidence": [
             {
                 "description": e.description,
@@ -199,6 +213,11 @@ def predict(invoice: InvoiceLine) -> Prediction:
                     "routing_decision": routing_decision.value,
                     "routing_reason": routing_reason,
                     "amount_band": amount_band.value,
+                    "a2a_agents_called": agent_result.to_dict().get("agents_called", 0),
+                    "a2a_latency_ms": agent_ms,
+                    "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else None,
+                    "cost_centre_mismatch": agent_result.cost_centre.data.get("cost_centre_mismatch") if agent_result.cost_centre and agent_result.cost_centre.success else None,
+                    "entity_valid": agent_result.entity.data.get("entity_valid") if agent_result.entity and agent_result.entity.success else None,
                 },
             ):
                 lf.update_current_span(
@@ -207,6 +226,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
                         "routing_decision": routing_decision.value,
                         "weighted_confidence": round(weighted_confidence, 4),
                         "evidence_count": len(evidence),
+                        "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else "unknown",
                     }
                 )
             lf.flush()
@@ -277,7 +297,6 @@ def confirm(
                         value=1.0,
                         comment=f"Auto-post corrected: {prediction.predicted_gl} -> {confirmed_gl}",
                     )
-                # Recall@10: was predicted GL correct vs ground truth?
                 if invoice.ground_truth_gl:
                     recall = 1.0 if prediction.predicted_gl == invoice.ground_truth_gl else 0.0
                     lf.score_current_trace(
@@ -285,7 +304,6 @@ def confirm(
                         value=recall,
                         comment=f"Predicted: {prediction.predicted_gl}, Ground truth: {invoice.ground_truth_gl}",
                     )
-                    # Calibration: log confidence band vs correctness
                     conf_band = f"{int(prediction.weighted_confidence * 10) * 10}-{int(prediction.weighted_confidence * 10) * 10 + 10}pct"
                     lf.score_current_trace(
                         name="gate.calibration",
