@@ -74,10 +74,11 @@ class AgentOrchestrator:
         context: dict[str, Any],
         langfuse_client=None,
         trace_id: str | None = None,
+        parent_observation_id: str | None = None,
     ) -> AgentOrchestrationResult:
         """
         Call all relevant agents in parallel, then log child spans sequentially
-        under the parent trace so Langfuse nests them correctly.
+        under the parent span so Langfuse nests them correctly in the trace tree.
         """
         eligible = [a for a in self._registry if a.can_handle(context)]
 
@@ -94,13 +95,14 @@ class AgentOrchestrator:
             for future in as_completed(futures):
                 results.append(future.result())
 
-        # Log child spans sequentially on the main thread so context propagates
-        if langfuse_client:
+        # Log child spans sequentially on the main thread
+        if langfuse_client and trace_id:
             for result in results:
                 try:
                     span = langfuse_client.span(
                         name=f"a2a.{result.agent_name}",
                         trace_id=trace_id,
+                        parent_observation_id=parent_observation_id,
                         input={k: str(v)[:200] for k, v in context.items()},
                         metadata={
                             "agent": result.agent_name,

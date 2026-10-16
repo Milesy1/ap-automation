@@ -94,8 +94,33 @@ def predict(invoice: InvoiceLine) -> Prediction:
     """
     Full prediction pipeline for a single invoice line.
     Steps: MDM → retrieval → confidence → routing → A2A agents → provenance
+
+    The parent Langfuse span is opened before any work begins so its observation
+    ID can be passed to the A2A orchestrator, allowing child spans to nest
+    correctly under it in the Langfuse trace tree.
     """
     lf = _get_langfuse()
+    prediction_id = str(uuid4())
+
+    # Open the parent span immediately so we have its ID for child nesting
+    parent_span = None
+    if lf:
+        try:
+            parent_span = lf.span(
+                name="invoice_prediction",
+                trace_id=prediction_id,
+                input={
+                    "invoice_id": str(invoice.invoice_id),
+                    "vendor_raw": invoice.raw_vendor_name,
+                    "description": invoice.description,
+                    "amount": invoice.amount,
+                    "currency": invoice.currency,
+                    "entity_id": invoice.entity_id,
+                    "ground_truth_gl": invoice.ground_truth_gl or "",
+                },
+            )
+        except Exception as e:
+            print(f"[Langfuse] Failed to open parent span: {e}")
 
     # ── Step 1: MDM resolution ────────────────────────
     t0 = time.time()
@@ -134,7 +159,6 @@ def predict(invoice: InvoiceLine) -> Prediction:
     )
 
     # ── Step 4b: A2A Agent Orchestration ─────────────
-    prediction_id = str(uuid4())
     agent_context = {
         "predicted_gl": predicted_gl,
         "predicted_cost_centre": predicted_cc,
@@ -148,7 +172,13 @@ def predict(invoice: InvoiceLine) -> Prediction:
     }
 
     t0 = time.time()
-    agent_result = _orchestrator.run(agent_context, langfuse_client=lf, trace_id=prediction_id)
+    parent_observation_id = parent_span.id if parent_span else None
+    agent_result = _orchestrator.run(
+        agent_context,
+        langfuse_client=lf,
+        trace_id=prediction_id,
+        parent_observation_id=parent_observation_id,
+    )
     agent_ms = int((time.time() - t0) * 1000)
 
     # ── Step 5: Provenance JSON ───────────────────────
@@ -183,21 +213,16 @@ def predict(invoice: InvoiceLine) -> Prediction:
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
-    # ── Langfuse trace ────────────────────────────────
-    if lf:
+    # ── Close parent span with full output ────────────
+    if parent_span:
         try:
-            print(f"[Langfuse] Sending trace for invoice {str(invoice.invoice_id)[:8]}...")
-            with lf.start_as_current_observation(
-                as_type="span",
-                name="invoice_prediction",
-                input={
-                    "invoice_id": str(invoice.invoice_id),
-                    "vendor_raw": invoice.raw_vendor_name,
-                    "description": invoice.description,
-                    "amount": invoice.amount,
-                    "currency": invoice.currency,
-                    "entity_id": invoice.entity_id,
-                    "ground_truth_gl": invoice.ground_truth_gl or "",
+            parent_span.end(
+                output={
+                    "predicted_gl": predicted_gl,
+                    "routing_decision": routing_decision.value,
+                    "weighted_confidence": round(weighted_confidence, 4),
+                    "evidence_count": len(evidence),
+                    "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else "unknown",
                 },
                 metadata={
                     "canonical_vendor_id": canonical_vendor_id,
@@ -219,16 +244,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
                     "cost_centre_mismatch": agent_result.cost_centre.data.get("cost_centre_mismatch") if agent_result.cost_centre and agent_result.cost_centre.success else None,
                     "entity_valid": agent_result.entity.data.get("entity_valid") if agent_result.entity and agent_result.entity.success else None,
                 },
-            ):
-                lf.update_current_span(
-                    output={
-                        "predicted_gl": predicted_gl,
-                        "routing_decision": routing_decision.value,
-                        "weighted_confidence": round(weighted_confidence, 4),
-                        "evidence_count": len(evidence),
-                        "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else "unknown",
-                    }
-                )
+            )
             lf.flush()
             print(f"[Langfuse] Trace flushed OK.")
         except Exception as e:
