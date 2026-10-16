@@ -2,7 +2,7 @@
 A2A Agent Orchestrator.
 Holds a registry of specialist agents, calls all relevant ones in parallel,
 and merges results into a single AgentOrchestrationResult.
-Each agent call is traced as a child span in Langfuse.
+Each agent call is traced as a child span in Langfuse under the parent trace.
 """
 from __future__ import annotations
 
@@ -73,47 +73,44 @@ class AgentOrchestrator:
         self,
         context: dict[str, Any],
         langfuse_client=None,
+        trace_id: str | None = None,
     ) -> AgentOrchestrationResult:
         """
-        Call all relevant agents in parallel.
-        Each agent that returns can_handle(context) = True is called.
-        Results are collected, Langfuse child spans created per agent.
-        Never raises — all exceptions caught per agent.
+        Call all relevant agents in parallel, then log child spans sequentially
+        under the parent trace so Langfuse nests them correctly.
         """
         eligible = [a for a in self._registry if a.can_handle(context)]
 
         if not eligible:
             return AgentOrchestrationResult([])
 
+        # Run agents in parallel (no Langfuse calls inside threads)
         results: list[AgentResult] = []
-
         with ThreadPoolExecutor(max_workers=len(eligible)) as executor:
             futures = {
                 executor.submit(self._call_agent, agent, context): agent
                 for agent in eligible
             }
             for future in as_completed(futures):
-                result = future.result()
-                results.append(result)
+                results.append(future.result())
 
-                # Langfuse child span per agent
-                if langfuse_client:
-                    try:
-                        with langfuse_client.start_as_current_observation(
-                            as_type="span",
-                            name=f"a2a.{result.agent_name}",
-                            input=context,
-                            metadata={
-                                "agent": result.agent_name,
-                                "success": result.success,
-                                "latency_ms": result.latency_ms,
-                            },
-                        ):
-                            langfuse_client.update_current_span(
-                                output=result.to_dict()
-                            )
-                    except Exception:
-                        pass  # never let observability break the pipeline
+        # Log child spans sequentially on the main thread so context propagates
+        if langfuse_client:
+            for result in results:
+                try:
+                    span = langfuse_client.span(
+                        name=f"a2a.{result.agent_name}",
+                        trace_id=trace_id,
+                        input={k: str(v)[:200] for k, v in context.items()},
+                        metadata={
+                            "agent": result.agent_name,
+                            "success": result.success,
+                            "latency_ms": result.latency_ms,
+                        },
+                    )
+                    span.end(output=result.to_dict())
+                except Exception:
+                    pass
 
         return AgentOrchestrationResult(results)
 
