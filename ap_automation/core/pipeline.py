@@ -27,24 +27,25 @@ from ap_automation.agents.orchestrator import AgentOrchestrator
 
 # Module-level singletons
 _lf_client = None
-_lf_init_attempted = False
 _orchestrator = AgentOrchestrator()
 
 
 def _get_langfuse():
     """
     Return a Langfuse client or None.
-    Initialised once at module level — reads from st.secrets first, then .env.
+    Retries on every call until a client is successfully created.
+    Once created, returns the cached client immediately.
     """
-    global _lf_client, _lf_init_attempted
+    global _lf_client
 
-    if _lf_init_attempted:
+    # Return cached client if already initialised
+    if _lf_client is not None:
         return _lf_client
 
-    _lf_init_attempted = True
     print("[Langfuse] Initialising client...")
 
     try:
+        # Try st.secrets first
         try:
             import streamlit as st
             pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
@@ -60,6 +61,7 @@ def _get_langfuse():
         except Exception as e:
             print(f"[Langfuse] st.secrets not available: {e}")
 
+        # Fall back to pydantic settings
         if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
             print("[Langfuse] Trying pydantic settings...")
             try:
@@ -75,7 +77,7 @@ def _get_langfuse():
                 print(f"[Langfuse] Settings error: {e}")
 
         if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
-            print("[Langfuse] No keys found — tracing disabled.")
+            print("[Langfuse] No keys found — tracing disabled for this call.")
             return None
 
         from langfuse import get_client
@@ -119,6 +121,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
                     "ground_truth_gl": invoice.ground_truth_gl or "",
                 },
             )
+            print(f"[Langfuse] Parent span opened: {parent_span.id}")
         except Exception as e:
             print(f"[Langfuse] Failed to open parent span: {e}")
 
@@ -246,7 +249,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
                 },
             )
             lf.flush()
-            print(f"[Langfuse] Trace flushed OK.")
+            print(f"[Langfuse] Trace flushed OK for prediction {prediction_id[:8]}.")
         except Exception as e:
             print(f"[Langfuse] Trace error: {e}")
 
