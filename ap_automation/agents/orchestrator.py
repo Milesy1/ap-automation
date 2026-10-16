@@ -62,11 +62,9 @@ class AgentOrchestrator:
         ]
 
     def register(self, agent: A2AAgent) -> None:
-        """Register a new specialist agent at runtime."""
         self._registry.append(agent)
 
     def agent_cards(self) -> list[dict]:
-        """Return AgentCards for all registered agents."""
         return [a.agent_card() for a in self._registry]
 
     def run(
@@ -77,8 +75,9 @@ class AgentOrchestrator:
         parent_observation_id: str | None = None,
     ) -> AgentOrchestrationResult:
         """
-        Call all relevant agents in parallel, then log child spans sequentially
-        under the parent span so Langfuse nests them correctly in the trace tree.
+        Call all relevant agents in parallel, then log child spans sequentially.
+        Uses start_as_current_observation so spans nest under the active parent
+        context automatically — no manual parent_observation_id needed.
         """
         eligible = [a for a in self._registry if a.can_handle(context)]
 
@@ -95,22 +94,23 @@ class AgentOrchestrator:
             for future in as_completed(futures):
                 results.append(future.result())
 
-        # Log child spans sequentially on the main thread
-        if langfuse_client and trace_id:
+        # Log child spans sequentially — inherits active OTel context from parent
+        if langfuse_client:
             for result in results:
                 try:
-                    span = langfuse_client.span(
+                    with langfuse_client.start_as_current_observation(
+                        as_type="span",
                         name=f"a2a.{result.agent_name}",
-                        trace_id=trace_id,
-                        parent_observation_id=parent_observation_id,
                         input={k: str(v)[:200] for k, v in context.items()},
                         metadata={
                             "agent": result.agent_name,
                             "success": result.success,
                             "latency_ms": result.latency_ms,
                         },
-                    )
-                    span.end(output=result.to_dict())
+                    ):
+                        langfuse_client.update_current_span(
+                            output=result.to_dict()
+                        )
                 except Exception:
                     pass
 
@@ -118,7 +118,6 @@ class AgentOrchestrator:
 
     @staticmethod
     def _call_agent(agent: A2AAgent, context: dict[str, Any]) -> AgentResult:
-        """Call a single agent — catches all exceptions."""
         t0 = time.time()
         try:
             result = agent.run(context)

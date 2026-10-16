@@ -31,86 +31,103 @@ _orchestrator = AgentOrchestrator()
 
 
 def _get_langfuse():
-    """
-    Return a Langfuse client or None.
-    Retries on every call until a client is successfully created.
-    Once created, returns the cached client immediately.
-    """
+    """Return a Langfuse client or None. Retries until successful."""
     global _lf_client
 
-    # Return cached client if already initialised
     if _lf_client is not None:
         return _lf_client
 
     print("[Langfuse] Initialising client...")
 
     try:
-        # Try st.secrets first
         try:
             import streamlit as st
-            pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
-            sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "").replace("\n", "").replace("\r", "").strip()
-            host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com").replace("\n", "").replace("\r", "").strip()
+            pub = str(st.secrets.get("LANGFUSE_PUBLIC_KEY", "") or "").strip()
+            sec = str(st.secrets.get("LANGFUSE_SECRET_KEY", "") or "").strip()
+            host = str(st.secrets.get("LANGFUSE_HOST", "https://cloud.langfuse.com") or "https://cloud.langfuse.com").strip()
             if pub and sec:
-                print(f"[Langfuse] Keys found in st.secrets. Host: {host}")
+                print(f"[Langfuse] Keys from st.secrets. Host: {host}")
                 os.environ["LANGFUSE_PUBLIC_KEY"] = pub
                 os.environ["LANGFUSE_SECRET_KEY"] = sec
                 os.environ["LANGFUSE_HOST"] = host
             else:
-                print(f"[Langfuse] st.secrets present but keys empty.")
+                print("[Langfuse] st.secrets empty.")
         except Exception as e:
-            print(f"[Langfuse] st.secrets not available: {e}")
-
-        # Fall back to pydantic settings
-        if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
-            print("[Langfuse] Trying pydantic settings...")
-            try:
-                from ap_automation.core.config import settings
-                pub = getattr(settings, "langfuse_public_key", "") or ""
-                sec = getattr(settings, "langfuse_secret_key", "") or ""
-                if pub and sec:
-                    print(f"[Langfuse] Keys found in settings.")
-                    os.environ["LANGFUSE_PUBLIC_KEY"] = pub
-                    os.environ["LANGFUSE_SECRET_KEY"] = sec
-                    os.environ["LANGFUSE_HOST"] = getattr(settings, "langfuse_host", "https://cloud.langfuse.com")
-            except Exception as e:
-                print(f"[Langfuse] Settings error: {e}")
+            print(f"[Langfuse] st.secrets unavailable: {e}")
 
         if not os.environ.get("LANGFUSE_PUBLIC_KEY"):
-            print("[Langfuse] No keys found — tracing disabled for this call.")
+            print("[Langfuse] No keys — tracing disabled.")
             return None
 
         from langfuse import get_client
         client = get_client()
-        auth_ok = client.auth_check()
-        print(f"[Langfuse] Client ready. Auth check: {auth_ok}")
+        print(f"[Langfuse] Auth check: {client.auth_check()}")
         _lf_client = client
         return _lf_client
 
     except Exception as e:
-        print(f"[Langfuse] Fatal init error: {e}")
+        print(f"[Langfuse] Init error: {e}")
         return None
 
 
 def predict(invoice: InvoiceLine) -> Prediction:
     """
     Full prediction pipeline for a single invoice line.
-    Steps: MDM → retrieval → confidence → routing → A2A agents → provenance
-
-    The parent Langfuse span is opened before any work begins so its observation
-    ID can be passed to the A2A orchestrator, allowing child spans to nest
-    correctly under it in the Langfuse trace tree.
+    Uses start_as_current_observation to open the parent span first,
+    then passes its id to the orchestrator for correct child nesting.
     """
     lf = _get_langfuse()
     prediction_id = str(uuid4())
 
-    # Open the parent span immediately so we have its ID for child nesting
-    parent_span = None
+    def _run_pipeline():
+        # ── Step 1: MDM resolution ────────────────────────
+        t0 = time.time()
+        canonical_vendor_id, mdm_confidence = resolve_vendor(invoice.raw_vendor_name)
+        amount_band = amount_to_band(invoice.amount)
+        mdm_ms = int((time.time() - t0) * 1000)
+
+        resolved = ResolvedInvoiceLine(
+            invoice_line=invoice,
+            canonical_vendor_id=canonical_vendor_id,
+            mdm_confidence=mdm_confidence,
+            amount_band=amount_band,
+        )
+
+        # ── Step 2: Retrieval ─────────────────────────────
+        t0 = time.time()
+        evidence = retrieve(
+            description=invoice.description,
+            vendor_id=canonical_vendor_id,
+            entity_id=invoice.entity_id,
+            amount_band=amount_band,
+            currency=invoice.currency,
+        )
+        retrieval_ms = int((time.time() - t0) * 1000)
+
+        # ── Step 3: Confidence scoring ────────────────────
+        t0 = time.time()
+        predicted_gl, predicted_cc, agreement_ratio, weighted_confidence = conf_module.score(evidence)
+        conf_ms = int((time.time() - t0) * 1000)
+
+        # ── Step 4: Routing ───────────────────────────────
+        routing_decision, routing_reason = conf_module.route(
+            evidence=evidence,
+            vendor_id=canonical_vendor_id,
+            weighted_confidence=weighted_confidence,
+        )
+
+        return (
+            resolved, evidence, predicted_gl, predicted_cc,
+            agreement_ratio, weighted_confidence, routing_decision,
+            routing_reason, canonical_vendor_id, mdm_confidence,
+            amount_band, mdm_ms, retrieval_ms, conf_ms,
+        )
+
     if lf:
         try:
-            parent_span = lf.span(
+            with lf.start_as_current_observation(
+                as_type="span",
                 name="invoice_prediction",
-                trace_id=prediction_id,
                 input={
                     "invoice_id": str(invoice.invoice_id),
                     "vendor_raw": invoice.raw_vendor_name,
@@ -120,71 +137,111 @@ def predict(invoice: InvoiceLine) -> Prediction:
                     "entity_id": invoice.entity_id,
                     "ground_truth_gl": invoice.ground_truth_gl or "",
                 },
-            )
-            print(f"[Langfuse] Parent span opened: {parent_span.id}")
+            ) as parent_span:
+                print(f"[Langfuse] Parent span opened: {parent_span.id}")
+
+                (
+                    resolved, evidence, predicted_gl, predicted_cc,
+                    agreement_ratio, weighted_confidence, routing_decision,
+                    routing_reason, canonical_vendor_id, mdm_confidence,
+                    amount_band, mdm_ms, retrieval_ms, conf_ms,
+                ) = _run_pipeline()
+
+                # ── Step 4b: A2A agents (nested under parent) ─
+                agent_context = {
+                    "predicted_gl": predicted_gl,
+                    "predicted_cost_centre": predicted_cc,
+                    "description": invoice.description,
+                    "amount": invoice.amount,
+                    "currency": invoice.currency,
+                    "vendor_id": canonical_vendor_id,
+                    "entity_id": invoice.entity_id,
+                    "routing_decision": routing_decision.value,
+                    "weighted_confidence": weighted_confidence,
+                }
+                t0 = time.time()
+                agent_result = _orchestrator.run(
+                    agent_context,
+                    langfuse_client=lf,
+                    trace_id=prediction_id,
+                    parent_observation_id=parent_span.id,
+                )
+                agent_ms = int((time.time() - t0) * 1000)
+
+                lf.update_current_span(
+                    output={
+                        "predicted_gl": predicted_gl,
+                        "routing_decision": routing_decision.value,
+                        "weighted_confidence": round(weighted_confidence, 4),
+                        "evidence_count": len(evidence),
+                        "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else "unknown",
+                    },
+                    metadata={
+                        "canonical_vendor_id": canonical_vendor_id,
+                        "mdm_confidence": mdm_confidence,
+                        "mdm_latency_ms": mdm_ms,
+                        "evidence_count": len(evidence),
+                        "top_similarity": round(evidence[0].similarity_score, 4) if evidence else 0,
+                        "top_gl_codes": [e.gl_account for e in evidence[:3]],
+                        "retrieval_latency_ms": retrieval_ms,
+                        "agreement_ratio": round(agreement_ratio, 4),
+                        "weighted_confidence": round(weighted_confidence, 4),
+                        "confidence_latency_ms": conf_ms,
+                        "routing_decision": routing_decision.value,
+                        "routing_reason": routing_reason,
+                        "amount_band": amount_band.value,
+                        "a2a_agents_called": agent_result.to_dict().get("agents_called", 0),
+                        "a2a_latency_ms": agent_ms,
+                        "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else None,
+                        "cost_centre_mismatch": agent_result.cost_centre.data.get("cost_centre_mismatch") if agent_result.cost_centre and agent_result.cost_centre.success else None,
+                        "entity_valid": agent_result.entity.data.get("entity_valid") if agent_result.entity and agent_result.entity.success else None,
+                    },
+                )
+
+            lf.flush()
+            print(f"[Langfuse] Trace flushed for {prediction_id[:8]}.")
+
         except Exception as e:
-            print(f"[Langfuse] Failed to open parent span: {e}")
+            print(f"[Langfuse] Trace error: {e}")
+            # Fall through — still run pipeline without tracing
+            (
+                resolved, evidence, predicted_gl, predicted_cc,
+                agreement_ratio, weighted_confidence, routing_decision,
+                routing_reason, canonical_vendor_id, mdm_confidence,
+                amount_band, mdm_ms, retrieval_ms, conf_ms,
+            ) = _run_pipeline()
+            agent_result = _orchestrator.run({
+                "predicted_gl": predicted_gl,
+                "predicted_cost_centre": predicted_cc,
+                "description": invoice.description,
+                "amount": invoice.amount,
+                "currency": invoice.currency,
+                "vendor_id": canonical_vendor_id,
+                "entity_id": invoice.entity_id,
+                "routing_decision": routing_decision.value,
+                "weighted_confidence": weighted_confidence,
+            })
+    else:
+        # No Langfuse — run pipeline untraced
+        (
+            resolved, evidence, predicted_gl, predicted_cc,
+            agreement_ratio, weighted_confidence, routing_decision,
+            routing_reason, canonical_vendor_id, mdm_confidence,
+            amount_band, mdm_ms, retrieval_ms, conf_ms,
+        ) = _run_pipeline()
+        agent_result = _orchestrator.run({
+            "predicted_gl": predicted_gl,
+            "predicted_cost_centre": predicted_cc,
+            "description": invoice.description,
+            "amount": invoice.amount,
+            "currency": invoice.currency,
+            "vendor_id": canonical_vendor_id,
+            "entity_id": invoice.entity_id,
+            "routing_decision": routing_decision.value,
+            "weighted_confidence": weighted_confidence,
+        })
 
-    # ── Step 1: MDM resolution ────────────────────────
-    t0 = time.time()
-    canonical_vendor_id, mdm_confidence = resolve_vendor(invoice.raw_vendor_name)
-    amount_band = amount_to_band(invoice.amount)
-    mdm_ms = int((time.time() - t0) * 1000)
-
-    resolved = ResolvedInvoiceLine(
-        invoice_line=invoice,
-        canonical_vendor_id=canonical_vendor_id,
-        mdm_confidence=mdm_confidence,
-        amount_band=amount_band,
-    )
-
-    # ── Step 2: Retrieval ─────────────────────────────
-    t0 = time.time()
-    evidence = retrieve(
-        description=invoice.description,
-        vendor_id=canonical_vendor_id,
-        entity_id=invoice.entity_id,
-        amount_band=amount_band,
-        currency=invoice.currency,
-    )
-    retrieval_ms = int((time.time() - t0) * 1000)
-
-    # ── Step 3: Confidence scoring ────────────────────
-    t0 = time.time()
-    predicted_gl, predicted_cc, agreement_ratio, weighted_confidence = conf_module.score(evidence)
-    conf_ms = int((time.time() - t0) * 1000)
-
-    # ── Step 4: Routing ───────────────────────────────
-    routing_decision, routing_reason = conf_module.route(
-        evidence=evidence,
-        vendor_id=canonical_vendor_id,
-        weighted_confidence=weighted_confidence,
-    )
-
-    # ── Step 4b: A2A Agent Orchestration ─────────────
-    agent_context = {
-        "predicted_gl": predicted_gl,
-        "predicted_cost_centre": predicted_cc,
-        "description": invoice.description,
-        "amount": invoice.amount,
-        "currency": invoice.currency,
-        "vendor_id": canonical_vendor_id,
-        "entity_id": invoice.entity_id,
-        "routing_decision": routing_decision.value,
-        "weighted_confidence": weighted_confidence,
-    }
-
-    t0 = time.time()
-    parent_observation_id = parent_span.id if parent_span else None
-    agent_result = _orchestrator.run(
-        agent_context,
-        langfuse_client=lf,
-        trace_id=prediction_id,
-        parent_observation_id=parent_observation_id,
-    )
-    agent_ms = int((time.time() - t0) * 1000)
-
-    # ── Step 5: Provenance JSON ───────────────────────
+    # ── Provenance JSON ───────────────────────────────
     provenance = {
         "prediction_id": prediction_id,
         "invoice_id": str(invoice.invoice_id),
@@ -215,43 +272,6 @@ def predict(invoice: InvoiceLine) -> Prediction:
         ],
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
-
-    # ── Close parent span with full output ────────────
-    if parent_span:
-        try:
-            parent_span.end(
-                output={
-                    "predicted_gl": predicted_gl,
-                    "routing_decision": routing_decision.value,
-                    "weighted_confidence": round(weighted_confidence, 4),
-                    "evidence_count": len(evidence),
-                    "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else "unknown",
-                },
-                metadata={
-                    "canonical_vendor_id": canonical_vendor_id,
-                    "mdm_confidence": mdm_confidence,
-                    "mdm_latency_ms": mdm_ms,
-                    "evidence_count": len(evidence),
-                    "top_similarity": round(evidence[0].similarity_score, 4) if evidence else 0,
-                    "top_gl_codes": [e.gl_account for e in evidence[:3]],
-                    "retrieval_latency_ms": retrieval_ms,
-                    "agreement_ratio": round(agreement_ratio, 4),
-                    "weighted_confidence": round(weighted_confidence, 4),
-                    "confidence_latency_ms": conf_ms,
-                    "routing_decision": routing_decision.value,
-                    "routing_reason": routing_reason,
-                    "amount_band": amount_band.value,
-                    "a2a_agents_called": agent_result.to_dict().get("agents_called", 0),
-                    "a2a_latency_ms": agent_ms,
-                    "vat_treatment": agent_result.vat.data.get("vat_treatment") if agent_result.vat and agent_result.vat.success else None,
-                    "cost_centre_mismatch": agent_result.cost_centre.data.get("cost_centre_mismatch") if agent_result.cost_centre and agent_result.cost_centre.success else None,
-                    "entity_valid": agent_result.entity.data.get("entity_valid") if agent_result.entity and agent_result.entity.success else None,
-                },
-            )
-            lf.flush()
-            print(f"[Langfuse] Trace flushed OK for prediction {prediction_id[:8]}.")
-        except Exception as e:
-            print(f"[Langfuse] Trace error: {e}")
 
     return Prediction(
         prediction_id=uuid4(),
