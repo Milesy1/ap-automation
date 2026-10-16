@@ -1,4 +1,4 @@
-﻿"""
+"""
 Main prediction pipeline — orchestrates MDM → retrieval → confidence → routing → A2A agents.
 Full Langfuse v4 tracing on every invoice prediction.
 """
@@ -134,6 +134,7 @@ def predict(invoice: InvoiceLine) -> Prediction:
     )
 
     # ── Step 4b: A2A Agent Orchestration ─────────────
+    prediction_id = str(uuid4())
     agent_context = {
         "predicted_gl": predicted_gl,
         "predicted_cost_centre": predicted_cc,
@@ -151,7 +152,6 @@ def predict(invoice: InvoiceLine) -> Prediction:
     agent_ms = int((time.time() - t0) * 1000)
 
     # ── Step 5: Provenance JSON ───────────────────────
-    prediction_id = str(uuid4())
     provenance = {
         "prediction_id": prediction_id,
         "invoice_id": str(invoice.invoice_id),
