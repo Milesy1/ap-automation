@@ -1,5 +1,5 @@
-"""
-Streamlit UI — AP Automation POC demo.
+﻿"""
+Streamlit UI â€” AP Automation POC demo.
 Polished demo version with improved layout, plain-English explanations, and narrative captions.
 """
 
@@ -35,7 +35,7 @@ ERP_URL = "http://localhost:8001"
 
 st.set_page_config(
     page_title="AP Automation POC",
-    page_icon="🧾",
+    page_icon="ðŸ§¾",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -117,7 +117,7 @@ def post_confirmed(erp_payload_dict: dict) -> str:
     post_to_erp(erp_payload_dict)
     try:
         post_to_sheet(erp_payload_dict)
-        return "Posted to ERP & Google Sheets — write-back complete"
+        return "Posted to ERP & Google Sheets â€” write-back complete"
     except Exception:
         return "Write-back complete (ERP & Sheets local only)"
 
@@ -130,7 +130,7 @@ def generate_explanation(prediction) -> str:
 
     if not evidence:
         return (
-            "This is a cold-start invoice — the vendor has no history in the corpus. "
+            "This is a cold-start invoice â€” the vendor has no history in the corpus. "
             "There is no evidence to retrieve, so the system cannot make a confident prediction. "
             "The invoice has been routed to human review so a clerk can assign the correct GL code. "
             "Once confirmed, this outcome will be written back into the corpus and future invoices "
@@ -148,7 +148,7 @@ def generate_explanation(prediction) -> str:
             f"The system retrieved {len(evidence)} historical invoice lines similar to this one. "
             f"{agreement_pct}% of them were coded to GL {predicted_gl}, and the closest match "
             f"(\"{best_match.description}\") scored {top_sim:.0%} similarity. "
-            f"With a confidence score of {confidence:.0%} — above the {settings.default_confidence_threshold:.0%} threshold — "
+            f"With a confidence score of {confidence:.0%} â€” above the {settings.default_confidence_threshold:.0%} threshold â€” "
             f"the system is sufficiently confident to auto-post without human review."
         )
     else:
@@ -156,14 +156,14 @@ def generate_explanation(prediction) -> str:
             return (
                 f"The system retrieved only {len(evidence)} historical lines for this vendor "
                 f"(minimum {settings.min_evidence_lines} required to auto-post). "
-                f"This is a near cold-start situation — not enough evidence to be confident. "
+                f"This is a near cold-start situation â€” not enough evidence to be confident. "
                 f"The invoice has been routed to human review."
             )
         return (
             f"The system retrieved {len(evidence)} historical invoice lines, but only "
             f"{agreement_pct}% agreed on GL {predicted_gl}. "
             f"The confidence score of {confidence:.0%} is below the {settings.default_confidence_threshold:.0%} threshold "
-            f"— the evidence is too mixed to auto-post safely. "
+            f"â€” the evidence is too mixed to auto-post safely. "
             f"A human reviewer should confirm the correct GL code."
         )
 
@@ -219,7 +219,7 @@ def answer_question(question: str) -> str:
         try:
             qc = get_qdrant()
             count = qc.get_collection(settings.qdrant_collection).points_count
-            return f"The corpus currently contains **{count:,} points**. Every confirmed invoice adds to this — the system learns automatically with each confirmation."
+            return f"The corpus currently contains **{count:,} points**. Every confirmed invoice adds to this â€” the system learns automatically with each confirmation."
         except Exception:
             return "I couldn't retrieve the corpus size right now."
 
@@ -240,19 +240,19 @@ def answer_question(question: str) -> str:
                     "solaris": ("Solaris Energy Partners", "6600", "Utilities & energy"),
                 }
                 vendor_name, gl, category = vendor_map[vendor_hint]
-                return f"**{vendor_name}** is typically coded to **GL {gl}** ({category}). This is based on historical evidence in the corpus — the system will auto-post future invoices from this vendor when confidence exceeds 50%."
+                return f"**{vendor_name}** is typically coded to **GL {gl}** ({category}). This is based on historical evidence in the corpus â€” the system will auto-post future invoices from this vendor when confidence exceeds 50%."
 
     # Automation rate
     if any(w in q for w in ["automation", "auto-post", "rate", "percentage", "how many posted"]):
         batch_results = st.session_state.metrics.get("batch_results", [])
         if batch_results:
             last = batch_results[-1]["auto_post_rate"]
-            return f"The current automation rate is **{last:.0%}**. On the optimised dataset (established vendors), the system achieved **99% auto-post rate** at **99% accuracy**. On a cold corpus with unknown vendors, it achieved **60%** — which is the harder test."
+            return f"The current automation rate is **{last:.0%}**. On the optimised dataset (established vendors), the system achieved **99% auto-post rate** at **99% accuracy**. On a cold corpus with unknown vendors, it achieved **60%** â€” which is the harder test."
         return "No batch has been run yet. Upload a CSV in the Batch Processing tab to see the automation rate."
 
     # Accuracy
     if any(w in q for w in ["accurate", "accuracy", "correct", "wrong", "error"]):
-        return "Across all runs, the system achieved **98-99% prediction accuracy**. Importantly, the **auto-post accuracy is 100%** — the system has never auto-posted an incorrect GL code. When it is uncertain, it routes to human review rather than guessing."
+        return "Across all runs, the system achieved **98-99% prediction accuracy**. Importantly, the **auto-post accuracy is 100%** â€” the system has never auto-posted an incorrect GL code. When it is uncertain, it routes to human review rather than guessing."
 
     # False positives
     if any(w in q for w in ["false positive", "wrong auto", "incorrect post"]):
@@ -260,25 +260,25 @@ def answer_question(question: str) -> str:
 
     # Cold start
     if any(w in q for w in ["cold start", "new vendor", "unknown vendor", "cold-start"]):
-        return "When a vendor has no history in the corpus, the system flags it as a **cold start** and routes it to human review — it never guesses. Once the clerk confirms the GL code, that outcome is written back into the corpus. The next invoice from that vendor will have evidence to draw from."
+        return "When a vendor has no history in the corpus, the system flags it as a **cold start** and routes it to human review â€” it never guesses. Once the clerk confirms the GL code, that outcome is written back into the corpus. The next invoice from that vendor will have evidence to draw from."
 
     # How it works
     if any(w in q for w in ["how does", "how it works", "explain", "what is"]):
         return (
             "The system works in four steps:\n\n"
-            "1. **Retrieval** — when an invoice arrives, the description is embedded and the most similar historical invoices are retrieved from the corpus\n"
-            "2. **Confidence scoring** — the agreement across retrieved lines is calculated. If 90% of retrieved lines all code to GL 6300, confidence is high\n"
-            "3. **Routing** — if confidence exceeds 50%, the invoice auto-posts. If not, it goes to human review\n"
-            "4. **Write-back** — every confirmed invoice is added to the corpus, making future predictions more confident"
+            "1. **Retrieval** â€” when an invoice arrives, the description is embedded and the most similar historical invoices are retrieved from the corpus\n"
+            "2. **Confidence scoring** â€” the agreement across retrieved lines is calculated. If 90% of retrieved lines all code to GL 6300, confidence is high\n"
+            "3. **Routing** â€” if confidence exceeds 50%, the invoice auto-posts. If not, it goes to human review\n"
+            "4. **Write-back** â€” every confirmed invoice is added to the corpus, making future predictions more confident"
         )
 
     # Latency
     if any(w in q for w in ["fast", "speed", "latency", "slow", "quick"]):
-        return "Retrieval latency is **sub-millisecond** — typically 1ms per invoice. The full pipeline (retrieval + confidence scoring + routing) runs in under 100ms per invoice."
+        return "Retrieval latency is **sub-millisecond** â€” typically 1ms per invoice. The full pipeline (retrieval + confidence scoring + routing) runs in under 100ms per invoice."
 
     # Cost
     if any(w in q for w in ["cost", "price", "expensive", "cheap", "budget"]):
-        return "Infrastructure costs approximately **£300/month** at 10,000 invoices/month. The dominant cost is the OpenAI embedding and LLM API. At higher volumes the cost per invoice drops significantly."
+        return "Infrastructure costs approximately **Â£300/month** at 10,000 invoices/month. The dominant cost is the OpenAI embedding and LLM API. At higher volumes the cost per invoice drops significantly."
 
     # Postings / ERP
     if any(w in q for w in ["posted", "erp", "ledger", "how many invoices"]):
@@ -293,7 +293,7 @@ def answer_question(question: str) -> str:
         "- *How does the system work?*\n"
         "- *What is the false positive rate?*\n"
         "- *How many invoices have been posted?*\n\n"
-        "*(Claude API integration coming soon — answers will become much richer)*"
+        "*(Claude API integration coming soon â€” answers will become much richer)*"
     )
 
 
@@ -301,8 +301,8 @@ initialise()
 
 st.markdown("""
 <div class="poc-header">
-    <h1>🧾 AP Automation</h1>
-    <p>Self-learning non-PO invoice coding — RAG + confidence gate + write-back loop</p>
+    <h1>ðŸ§¾ AP Automation</h1>
+    <p>Self-learning non-PO invoice coding â€” RAG + confidence gate + write-back loop</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -314,27 +314,27 @@ except Exception:
 
 postings_count = len(get_postings(limit=10000))
 batch_results = st.session_state.metrics.get("batch_results", [])
-current_rate = f"{batch_results[-1]['auto_post_rate']:.0%}" if batch_results else "—"
+current_rate = f"{batch_results[-1]['auto_post_rate']:.0%}" if batch_results else "â€”"
 
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("📚 Corpus size", f"{corpus_size:,}")
-col2.metric("✅ Invoices posted", f"{postings_count:,}")
-col3.metric("🎯 Automation rate", current_rate)
-col4.metric("📦 Batches run", len(batch_results))
+col1.metric("ðŸ“š Corpus size", f"{corpus_size:,}")
+col2.metric("âœ… Invoices posted", f"{postings_count:,}")
+col3.metric("ðŸŽ¯ Automation rate", current_rate)
+col4.metric("ðŸ“¦ Batches run", len(batch_results))
 
 st.divider()
 
 tabs = st.tabs([
-    "📄  Review Queue",
-    "📦  Batch Processing",
-    "📊  Performance",
-    "🏦  ERP Ledger",
-    "🔍  Audit Trail",
-    "💬  Ask AP",
-    "⚙️  Setup",
+    "ðŸ“„  Review Queue",
+    "ðŸ“¦  Batch Processing",
+    "ðŸ“Š  Performance",
+    "ðŸ¦  ERP Ledger",
+    "ðŸ”  Audit Trail",
+    "ðŸ’¬  Ask AP",
+    "âš™ï¸  Setup",
 ])
 
-# ── TAB 1: Review Queue ────────────────────────────────
+# â”€â”€ TAB 1: Review Queue â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tabs[0]:
     st.markdown('<div class="narrative">Submit an invoice to see the system predict a GL code from historical evidence. Confirm the prediction to post it to the ERP and write it back into the learning corpus.</div>', unsafe_allow_html=True)
 
@@ -345,7 +345,7 @@ with tabs[0]:
         description = st.text_input("Description", value="Office cleaning services monthly")
         col_a, col_b = st.columns(2)
         with col_a:
-            amount = st.number_input("Amount (£)", value=450.0, min_value=0.01, format="%.2f")
+            amount = st.number_input("Amount (Â£)", value=450.0, min_value=0.01, format="%.2f")
             entity = st.selectbox("Entity", ["UK001", "UK002", "IE001"])
         with col_b:
             currency = st.selectbox("Currency", ["GBP", "EUR", "USD", "CHF"])
@@ -353,7 +353,7 @@ with tabs[0]:
 
         st.markdown("---")
         st.markdown("**Try a hard-edge invoice (unknown vendor):**")
-        if st.button("🔴 Load hard-edge example", use_container_width=True):
+        if st.button("ðŸ”´ Load hard-edge example", use_container_width=True):
             st.session_state["hard_edge_vendor"] = "Zephyr Global Holdings"
             st.session_state["hard_edge_desc"] = "Professional advisory services Q3"
             st.rerun()
@@ -362,7 +362,7 @@ with tabs[0]:
             vendor = st.session_state.pop("hard_edge_vendor")
             description = st.session_state.pop("hard_edge_desc")
 
-        if st.button("🔍 Predict GL Code", type="primary", use_container_width=True):
+        if st.button("ðŸ” Predict GL Code", type="primary", use_container_width=True):
             inv = InvoiceLine(
                 invoice_id=uuid4(), raw_vendor_name=vendor, description=description,
                 amount=amount, currency=currency, entity_id=entity,
@@ -380,17 +380,17 @@ with tabs[0]:
 
             is_cold_start = len(pred.evidence) == 0
             if is_cold_start:
-                st.markdown('<span class="badge-coldstart">🔴 Cold start — no vendor history</span>', unsafe_allow_html=True)
+                st.markdown('<span class="badge-coldstart">ðŸ”´ Cold start â€” no vendor history</span>', unsafe_allow_html=True)
             elif pred.routing_decision == RoutingDecision.AUTO_POST:
-                st.markdown('<span class="badge-auto">✅ Auto-post approved</span>', unsafe_allow_html=True)
+                st.markdown('<span class="badge-auto">âœ… Auto-post approved</span>', unsafe_allow_html=True)
             else:
-                st.markdown('<span class="badge-review">👤 Routed to human review</span>', unsafe_allow_html=True)
+                st.markdown('<span class="badge-review">ðŸ‘¤ Routed to human review</span>', unsafe_allow_html=True)
 
             st.caption(pred.routing_reason)
             st.write("")
 
             m1, m2, m3 = st.columns(3)
-            m1.metric("GL Account", pred.predicted_gl or "—")
+            m1.metric("GL Account", pred.predicted_gl or "â€”")
             m2.metric("Confidence", f"{pred.weighted_confidence:.1%}")
             m3.metric("Evidence lines", len(pred.evidence))
 
@@ -413,41 +413,41 @@ with tabs[0]:
                     st.markdown(f"""
                     <div class="evidence-row">
                         <div class="evidence-desc">{e.description}</div>
-                        <div class="evidence-meta">GL: <strong>{e.gl_account}</strong> &nbsp;·&nbsp; Similarity: <strong>{e.similarity_score:.3f}</strong> &nbsp;·&nbsp; RRF: {e.rrf_score:.5f} &nbsp;·&nbsp; Source: {e.source.value}</div>
+                        <div class="evidence-meta">GL: <strong>{e.gl_account}</strong> &nbsp;Â·&nbsp; Similarity: <strong>{e.similarity_score:.3f}</strong> &nbsp;Â·&nbsp; RRF: {e.rrf_score:.5f} &nbsp;Â·&nbsp; Source: {e.source.value}</div>
                     </div>""", unsafe_allow_html=True)
 
             st.write("")
             st.markdown('<div class="section-header">Action</div>', unsafe_allow_html=True)
             act1, act2 = st.columns(2)
             with act1:
-                if st.button("✅ Confirm & Post to ERP", use_container_width=True, type="primary"):
+                if st.button("âœ… Confirm & Post to ERP", use_container_width=True, type="primary"):
                     outcome, erp_payload = confirm(prediction=pred, confirmed_gl=pred.predicted_gl, confirmed_cc=pred.predicted_cost_centre, confirming_user_id="demo_user", source=ConfirmationSource.HUMAN_CONFIRM)
                     msg = post_confirmed(erp_payload.model_dump(mode="json"))
                     write_back(outcome)
-                    st.success(f"✓ {msg}")
+                    st.success(f"âœ“ {msg}")
             with act2:
                 corrected_gl = st.text_input("Override GL code", value=pred.predicted_gl or "", placeholder="e.g. 6300")
-                if st.button("✏️ Submit Correction", use_container_width=True):
+                if st.button("âœï¸ Submit Correction", use_container_width=True):
                     outcome, erp_payload = confirm(prediction=pred, confirmed_gl=corrected_gl, confirmed_cc=pred.predicted_cost_centre, confirming_user_id="demo_user", source=ConfirmationSource.HUMAN_CORRECT)
                     post_confirmed(erp_payload.model_dump(mode="json"))
                     write_back(outcome)
-                    st.success(f"✓ Correction submitted (GL: {corrected_gl}) — write-back complete")
+                    st.success(f"âœ“ Correction submitted (GL: {corrected_gl}) â€” write-back complete")
 
-            with st.expander("🔍 Full provenance JSON"):
+            with st.expander("ðŸ” Full provenance JSON"):
                 st.json(pred.provenance)
         else:
             st.info("Submit an invoice on the left to see the prediction. Try the hard-edge example to see cold-start handling.")
 
-# ── TAB 2: Batch Processing ────────────────────────────
+# â”€â”€ TAB 2: Batch Processing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tabs[1]:
-    st.markdown('<div class="narrative">Upload a CSV of invoices and run them through the full pipeline in bulk. Auto-posted invoices are written to the ERP and Google Sheets in real time. Every confirmed invoice grows the corpus — watch the automation rate climb in the Performance tab.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="narrative">Upload a CSV of invoices and run them through the full pipeline in bulk. Auto-posted invoices are written to the ERP and Google Sheets in real time. Every confirmed invoice grows the corpus â€” watch the automation rate climb in the Performance tab.</div>', unsafe_allow_html=True)
 
     uploaded = st.file_uploader("Upload invoices CSV", type=["csv"], label_visibility="collapsed")
     batch_size = st.select_slider("Reporting batch size", options=[50, 100, 150, 200], value=100)
     if uploaded:
         df = pd.read_csv(StringIO(uploaded.getvalue().decode()))
         st.info(f"**{len(df):,}** invoices loaded")
-        if st.button("▶️ Run Batch", type="primary"):
+        if st.button("â–¶ï¸ Run Batch", type="primary"):
             progress = st.progress(0, text="Starting...")
             results = []
             batch_metrics = []
@@ -463,7 +463,7 @@ with tabs[1]:
                 result = process_invoice(inv, auto_confirm=True)
                 results.append(result)
                 n = i + 1
-                progress.progress(n / len(df), text=f"Processing {n:,}/{len(df):,} — {result['vendor'][:35]}")
+                progress.progress(n / len(df), text=f"Processing {n:,}/{len(df):,} â€” {result['vendor'][:35]}")
                 if n % batch_size == 0 or n == len(df):
                     batch = results[-batch_size:]
                     auto = sum(1 for r in batch if r["routing"] == "auto_post")
@@ -483,22 +483,22 @@ with tabs[1]:
             progress.empty()
             auto_count = sum(1 for r in results if r["routing"] == "auto_post")
             correct_count = sum(1 for r in results if r.get("correct") is True)
-            st.success(f"✅ Batch complete — {len(results):,} invoices processed")
+            st.success(f"âœ… Batch complete â€” {len(results):,} invoices processed")
             c1, c2, c3 = st.columns(3)
             c1.metric("Auto-posted", f"{auto_count:,}", f"{auto_count/len(results):.0%}")
             c2.metric("Human review", f"{len(results)-auto_count:,}")
             c3.metric("Correct predictions", f"{correct_count:,}", f"{correct_count/len(results):.0%}")
             st.dataframe(pd.DataFrame([{
                 "Vendor": r["vendor"][:40], "Description": r["description"][:50],
-                "Amount": f"£{r['amount']:,.2f}", "GL": r["predicted_gl"] or "—",
+                "Amount": f"Â£{r['amount']:,.2f}", "GL": r["predicted_gl"] or "â€”",
                 "Confidence": f"{r['confidence']:.0%}",
                 "Routing": "Auto" if r["routing"] == "auto_post" else "Review",
-                "Correct": "Yes" if r.get("correct") else ("No" if r.get("correct") is False else "—"),
+                "Correct": "Yes" if r.get("correct") else ("No" if r.get("correct") is False else "â€”"),
             } for r in results]), use_container_width=True, height=400)
 
-# ── TAB 3: Performance ─────────────────────────────────
+# â”€â”€ TAB 3: Performance â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tabs[2]:
-    st.markdown('<div class="narrative">This chart proves the write-back loop works. As more invoices are confirmed, the corpus grows and the system becomes more confident — auto-posting a higher proportion of invoices without any manual rule authoring.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="narrative">This chart proves the write-back loop works. As more invoices are confirmed, the corpus grows and the system becomes more confident â€” auto-posting a higher proportion of invoices without any manual rule authoring.</div>', unsafe_allow_html=True)
 
     batch_results = st.session_state.metrics.get("batch_results", [])
     if batch_results:
@@ -516,9 +516,9 @@ with tabs[2]:
     else:
         st.info("Run a batch in the Batch Processing tab to see performance metrics.")
 
-# ── TAB 4: ERP Ledger ──────────────────────────────────
+# â”€â”€ TAB 4: ERP Ledger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tabs[3]:
-    st.markdown('<div class="narrative">Every auto-posted and human-confirmed invoice is written here and mirrored to Google Sheets in real time. This is the ERP write proof — the system is posting to a live system, not just predicting.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="narrative">Every auto-posted and human-confirmed invoice is written here and mirrored to Google Sheets in real time. This is the ERP write proof â€” the system is posting to a live system, not just predicting.</div>', unsafe_allow_html=True)
 
     postings = get_postings(limit=500)
     if postings:
@@ -528,9 +528,9 @@ with tabs[3]:
     else:
         st.info("No invoices posted yet.")
 
-# ── TAB 5: Audit Trail ─────────────────────────────────
+# â”€â”€ TAB 5: Audit Trail â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tabs[4]:
-    st.markdown('<div class="narrative">Every prediction carries full provenance — which historical lines drove it, what confidence score it produced, and who confirmed it. This is the compliance-grade audit trail: stronger traceability than a deterministic rules system.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="narrative">Every prediction carries full provenance â€” which historical lines drove it, what confidence score it produced, and who confirmed it. This is the compliance-grade audit trail: stronger traceability than a deterministic rules system.</div>', unsafe_allow_html=True)
 
     from ap_automation.core.database import get_audit_records
     records = get_audit_records(limit=100)
@@ -538,7 +538,7 @@ with tabs[4]:
         for rec in records[:20]:
             routing_label = "Auto-posted" if rec["routing_decision"] == "auto_post" else "Human review"
             source_label = {"auto_post": "Auto-posted", "human_confirm": "Human confirmed", "human_correct": "Human corrected"}.get(rec["source"], rec["source"])
-            with st.expander(f"[{routing_label}] Invoice {rec['invoice_id'][:8]}... — GL {rec['confirmed_gl']} — {source_label}"):
+            with st.expander(f"[{routing_label}] Invoice {rec['invoice_id'][:8]}... â€” GL {rec['confirmed_gl']} â€” {source_label}"):
                 c1, c2, c3 = st.columns(3)
                 c1.metric("Predicted GL", rec["predicted_gl"])
                 c2.metric("Confirmed GL", rec["confirmed_gl"])
@@ -547,7 +547,7 @@ with tabs[4]:
     else:
         st.info("No audit records yet.")
 
-# ── TAB 6: Ask AP ──────────────────────────────────────
+# â”€â”€ TAB 6: Ask AP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tabs[5]:
     st.markdown('<div class="narrative">Ask questions about the AP Automation system in plain English. Query the corpus, check GL codes, understand routing decisions, and get performance summaries. Claude API integration coming soon for richer, more conversational answers.</div>', unsafe_allow_html=True)
 
@@ -592,22 +592,22 @@ with tabs[5]:
             st.session_state.chat_history = []
             st.rerun()
 
-# ── TAB 7: Setup ───────────────────────────────────────
+# â”€â”€ TAB 7: Setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tabs[6]:
     col_setup, col_status = st.columns([1, 1], gap="large")
     with col_setup:
         st.markdown('<div class="section-header">Dataset</div>', unsafe_allow_html=True)
-        if st.button("🗂️ Generate 1,000-invoice dataset", use_container_width=True):
+        if st.button("ðŸ—‚ï¸ Generate 1,000-invoice dataset", use_container_width=True):
             with st.spinner("Generating..."):
                 import random
                 random.seed(42)
                 from ap_automation.core.dataset import generate_dataset
                 invoices = generate_dataset()
-            st.success(f"✓ Generated {len(invoices):,} invoices → data/invoices.csv")
+            st.success(f"âœ“ Generated {len(invoices):,} invoices â†’ data/invoices.csv")
         st.write("")
         st.markdown('<div class="section-header">Seed Corpus</div>', unsafe_allow_html=True)
         seed_count = st.slider("Historical lines to seed", 50, 300, 150)
-        if st.button("🌱 Seed Qdrant corpus", use_container_width=True):
+        if st.button("ðŸŒ± Seed Qdrant corpus", use_container_width=True):
             path = Path("data/invoices.csv")
             if not path.exists():
                 st.error("Generate the dataset first.")
@@ -630,32 +630,32 @@ with tabs[6]:
                     }
                     index_outcome(payload)
                     progress.progress((i + 1) / len(routine))
-                st.success(f"✓ Seeded {len(routine):,} lines into Qdrant")
+                st.success(f"âœ“ Seeded {len(routine):,} lines into Qdrant")
 
     with col_status:
         st.markdown('<div class="section-header">System Status</div>', unsafe_allow_html=True)
         try:
             qc2 = get_qdrant()
             info = qc2.get_collection(settings.qdrant_collection)
-            st.success(f"Qdrant — {info.points_count:,} points in `{settings.qdrant_collection}`")
+            st.success(f"Qdrant â€” {info.points_count:,} points in `{settings.qdrant_collection}`")
         except Exception as e:
-            st.error(f"Qdrant — {e}")
+            st.error(f"Qdrant â€” {e}")
         try:
             r = httpx.get(f"{ERP_URL}/health", timeout=2)
-            st.success("Mock ERP — running") if r.status_code == 200 else st.warning("Mock ERP — unexpected response")
+            st.success("Mock ERP â€” running") if r.status_code == 200 else st.warning("Mock ERP â€” unexpected response")
         except Exception:
-            st.warning("Mock ERP — not running (local only)")
+            st.warning("Mock ERP â€” not running (local only)")
         try:
             from ap_automation.core.sheets import _get_service
             _get_service()
-            st.success("Google Sheets — connected")
+            st.success("Google Sheets â€” connected")
         except Exception as e:
-            st.warning(f"Google Sheets — {e}")
+            st.warning(f"Google Sheets â€” {e}")
         dataset_path = Path("data/invoices.csv")
         if dataset_path.exists():
-            st.success(f"Dataset — invoices.csv ({dataset_path.stat().st_size/1024:.0f} KB)")
+            st.success(f"Dataset â€” invoices.csv ({dataset_path.stat().st_size/1024:.0f} KB)")
         else:
-            st.warning("Dataset — not generated yet")
+            st.warning("Dataset â€” not generated yet")
 
         st.write("")
         st.markdown('<div class="section-header">Langfuse Observability</div>', unsafe_allow_html=True)
@@ -690,3 +690,4 @@ Min evidence lines:   {settings.min_evidence_lines}
 Top-k retrieval:      {settings.top_k}
 Embedding model:      {settings.embedding_model}
 Collection:           {settings.qdrant_collection}""")
+
