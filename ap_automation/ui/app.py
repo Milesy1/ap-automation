@@ -1,4 +1,4 @@
-"""
+﻿"""
 Streamlit UI  AP Automation POC demo.
 Polished demo version with improved layout, plain-English explanations, and narrative captions.
 """
@@ -341,8 +341,8 @@ with tabs[0]:
     col_form, col_result = st.columns([1, 1], gap="large")
     with col_form:
         st.markdown('<div class="section-header">Submit Invoice</div>', unsafe_allow_html=True)
-        vendor = st.text_input("Vendor name", value="Meridian Facilities Ltd")
-        description = st.text_input("Description", value="Office cleaning services monthly")
+        vendor = st.text_input("Vendor name", value=st.session_state.get("vendor_input", "Meridian Facilities Ltd"), key="vendor_input")
+        description = st.text_input("Description", value=st.session_state.get("desc_input", "Office cleaning services monthly"), key="desc_input")
         col_a, col_b = st.columns(2)
         with col_a:
             amount = st.number_input("Amount (£)", value=450.0, min_value=0.01, format="%.2f")
