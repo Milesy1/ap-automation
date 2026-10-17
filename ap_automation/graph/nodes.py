@@ -251,19 +251,11 @@ Your task:
 
     try:
         import httpx
-        # Try st.secrets first, then env var
-        api_key = ""
-        try:
-            import streamlit as st
-            all_secrets = dict(st.secrets)
-            print(f"[LLM Gate] Available secret keys: {list(all_secrets.keys())}")
-            api_key = str(all_secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
-            print(f"[LLM Gate] API key found: {bool(api_key)}, length: {len(api_key)}")
-        except Exception as se:
-            print(f"[LLM Gate] st.secrets error: {se}")
+        # Use pre-resolved key from state (set by pipeline.py which has st.secrets access)
+        api_key = state.get("_api_key", "")
         if not api_key:
             api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-            print(f"[LLM Gate] env var API key found: {bool(api_key)}")
+        print(f"[LLM Gate] API key available: {bool(api_key)}, length: {len(api_key)}")
 
         if not api_key:
             raise ValueError("No ANTHROPIC_API_KEY found")

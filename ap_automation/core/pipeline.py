@@ -282,6 +282,18 @@ def predict(invoice: InvoiceLine) -> Prediction:
         "entity_valid": _entity_valid,
         "vat_treatment": _vat_treatment,
     }
+    # Resolve API key at pipeline level where st.secrets is accessible
+    _api_key = ""
+    try:
+        import streamlit as _st
+        _api_key = str(_st.secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
+    except Exception:
+        pass
+    if not _api_key:
+        import os as _os
+        _api_key = _os.environ.get("ANTHROPIC_API_KEY", "")
+    print(f"[Pipeline] API key resolved: {bool(_api_key)}, length: {len(_api_key)}")
+    _llm_state["_api_key"] = _api_key
     _llm_result = _llm_gate_fn(_llm_state)
     llm_reasoning = _llm_result.get("llm_reasoning", "")
     llm_reasoning_confidence = _llm_result.get("llm_reasoning_confidence", 0.0)
