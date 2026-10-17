@@ -251,11 +251,8 @@ Your task:
 
     try:
         import httpx
-        # Use pre-resolved key from state (set by pipeline.py which has st.secrets access)
-        api_key = state.get("_api_key", "")
-        if not api_key:
-            api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-        print(f"[LLM Gate] API key available: {bool(api_key)}, length: {len(api_key)}")
+        # Key pre-resolved at pipeline level; env var as fallback
+        api_key = state.get("_api_key", "") or os.environ.get("ANTHROPIC_API_KEY", "")
 
         if not api_key:
             raise ValueError("No ANTHROPIC_API_KEY found")
