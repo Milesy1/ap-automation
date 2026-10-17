@@ -93,6 +93,18 @@ def _get_langfuse_keys():
         return "", "", "https://cloud.langfuse.com"
 
 
+def _expose_secrets_to_env() -> None:
+    """Copy Streamlit secrets into os.environ so non-UI modules can read them."""
+    import os
+    keys = ["ANTHROPIC_API_KEY", "LANGFUSE_PUBLIC_KEY", "LANGFUSE_SECRET_KEY", "LANGFUSE_HOST"]
+    for k in keys:
+        try:
+            val = str(st.secrets.get(k, "") or "").strip()
+            if val:
+                os.environ[k] = val
+        except Exception:
+            pass
+
 def initialise() -> None:
     if not st.session_state.initialised:
         init_db()
@@ -300,6 +312,7 @@ def answer_question(question: str) -> str:
     )
 
 
+_expose_secrets_to_env()
 initialise()
 
 st.markdown("""
