@@ -251,15 +251,15 @@ Your task:
 
     try:
         import httpx
-        api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-
-        # Try streamlit secrets if no env var
+        # Try st.secrets first, then env var
+        api_key = ""
+        try:
+            import streamlit as st
+            api_key = str(st.secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
+        except Exception:
+            pass
         if not api_key:
-            try:
-                import streamlit as st
-                api_key = str(st.secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
-            except Exception:
-                pass
+            api_key = os.environ.get("ANTHROPIC_API_KEY", "")
 
         if not api_key:
             raise ValueError("No ANTHROPIC_API_KEY found")
