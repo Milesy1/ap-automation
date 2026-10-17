@@ -386,7 +386,8 @@ with tabs[0]:
                 cost_centre=cost_centre, category=InvoiceCategory.ROUTINE,
             )
             with st.spinner("Running pipeline..."):
-                prediction = predict(inv)
+                _anthropic_key = str(st.secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
+                prediction = predict(inv, anthropic_api_key=_anthropic_key)
             st.session_state.last_prediction = prediction
             prov = prediction.provenance or {}
             a2a = prov.get("a2a_agents", {})

@@ -71,7 +71,7 @@ def _get_langfuse():
         return None
 
 
-def predict(invoice: InvoiceLine) -> Prediction:
+def predict(invoice: InvoiceLine, anthropic_api_key: str = "") -> Prediction:
     """
     Full prediction pipeline for a single invoice line.
     Uses start_as_current_observation to open the parent span first,
@@ -282,9 +282,17 @@ def predict(invoice: InvoiceLine) -> Prediction:
         "entity_valid": _entity_valid,
         "vat_treatment": _vat_treatment,
     }
-    # Streamlit Cloud maps secrets to env vars automatically
-    import os as _os
-    _api_key = _os.environ.get("ANTHROPIC_API_KEY", "")
+    # Use explicitly passed key first, then st.secrets, then os.environ
+    _api_key = anthropic_api_key
+    if not _api_key:
+        try:
+            import streamlit as _st
+            _api_key = str(_st.secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
+        except Exception:
+            pass
+    if not _api_key:
+        import os as _os
+        _api_key = _os.environ.get("ANTHROPIC_API_KEY", "")
     _llm_state["_api_key"] = _api_key
     _llm_result = _llm_gate_fn(_llm_state)
     llm_reasoning = _llm_result.get("llm_reasoning", "")
