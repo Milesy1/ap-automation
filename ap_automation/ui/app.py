@@ -1,4 +1,4 @@
-ï»¿"""
+"""
 Streamlit UI  AP Automation POC demo.
 Polished demo version with improved layout, plain-English explanations, and narrative captions.
 """
@@ -28,6 +28,7 @@ from ap_automation.core.models import (
 )
 from ap_automation.core.pipeline import confirm, predict, write_back
 from ap_automation.core.retrieval import ensure_collection, get_qdrant, index_outcome
+from ap_automation.ui.graph_tab import render_graph_tab
 from ap_automation.core.sheets import ensure_sheet_headers, post_to_sheet
 import httpx
 
@@ -75,6 +76,8 @@ if "initialised" not in st.session_state:
     st.session_state.initialised = False
 if "last_prediction" not in st.session_state:
     st.session_state.last_prediction = None
+if "graph_state" not in st.session_state:
+    st.session_state.graph_state = None
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
@@ -278,7 +281,7 @@ def answer_question(question: str) -> str:
 
     # Cost
     if any(w in q for w in ["cost", "price", "expensive", "cheap", "budget"]):
-        return "Infrastructure costs approximately **Â£300/month** at 10,000 invoices/month. The dominant cost is the OpenAI embedding and LLM API. At higher volumes the cost per invoice drops significantly."
+        return "Infrastructure costs approximately **£300/month** at 10,000 invoices/month. The dominant cost is the OpenAI embedding and LLM API. At higher volumes the cost per invoice drops significantly."
 
     # Postings / ERP
     if any(w in q for w in ["posted", "erp", "ledger", "how many invoices"]):
@@ -325,6 +328,7 @@ col4.metric(" Batches run", len(batch_results))
 st.divider()
 
 tabs = st.tabs([
+    "Graph",
     "Review Queue",
     "Batch Processing",
     "Performance",
@@ -336,6 +340,9 @@ tabs = st.tabs([
 
 #  TAB 1: Review Queue 
 with tabs[0]:
+    render_graph_tab(st.session_state.graph_state)
+
+with tabs[1]:
     st.markdown('<div class="narrative">Submit an invoice to see the system predict a GL code from historical evidence. Confirm the prediction to post it to the ERP and write it back into the learning corpus.</div>', unsafe_allow_html=True)
 
     col_form, col_result = st.columns([1, 1], gap="large")
@@ -345,7 +352,7 @@ with tabs[0]:
         description = st.text_input("Description", value=st.session_state.get("desc_input", "Office cleaning services monthly"), key="desc_input")
         col_a, col_b = st.columns(2)
         with col_a:
-            amount = st.number_input("Amount (Â£)", value=450.0, min_value=0.01, format="%.2f")
+            amount = st.number_input("Amount (£)", value=450.0, min_value=0.01, format="%.2f")
             entity = st.selectbox("Entity", ["UK001", "UK002", "IE001"])
         with col_b:
             currency = st.selectbox("Currency", ["GBP", "EUR", "USD", "CHF"])
@@ -371,6 +378,35 @@ with tabs[0]:
             with st.spinner("Running pipeline..."):
                 prediction = predict(inv)
             st.session_state.last_prediction = prediction
+            # Build graph_state from prediction for the Graph tab
+            prov = prediction.provenance or {}
+            st.session_state.graph_state = {
+                "invoice_id": str(inv.invoice_id),
+                "raw_vendor_name": inv.raw_vendor_name,
+                "description": inv.description,
+                "amount": inv.amount,
+                "currency": inv.currency,
+                "entity_id": inv.entity_id,
+                "canonical_vendor_id": prediction.resolved_line.canonical_vendor_id,
+                "mdm_confidence": prediction.resolved_line.mdm_confidence,
+                "amount_band": prediction.resolved_line.amount_band.value,
+                "evidence_count": len(prediction.evidence),
+                "predicted_gl": prediction.predicted_gl,
+                "predicted_cost_centre": prediction.predicted_cost_centre,
+                "agreement_ratio": prediction.agreement_ratio,
+                "weighted_confidence": prediction.weighted_confidence,
+                "routing_decision": prediction.routing_decision.value,
+                "routing_reason": prediction.routing_reason,
+                "agents_called": prov.get("a2a_agents", {}).get("agents_called", 0),
+                "agent_results": prov.get("a2a_agents", {}).get("results", []),
+                "vat_treatment": prov.get("a2a_agents", {}).get("results", [{}])[0].get("vat_treatment") if prov.get("a2a_agents", {}).get("results") else None,
+                "cost_centre_mismatch": any(r.get("cost_centre_mismatch") for r in prov.get("a2a_agents", {}).get("results", [])),
+                "entity_valid": next((r.get("entity_valid") for r in prov.get("a2a_agents", {}).get("results", []) if "entity_valid" in r), None),
+                "final_routing": prediction.routing_decision.value,
+                "gate_reason": prediction.routing_reason,
+                "agent_flags": [f for r in prov.get("a2a_agents", {}).get("results", []) for f in ([("cost_centre_mismatch" if r.get("cost_centre_mismatch") else None), ("entity_validation_failed" if r.get("entity_valid") is False else None)]) if f],
+                "started_at": prov.get("timestamp", ""),
+            }
             st.session_state.last_invoice = inv
 
     with col_result:
@@ -479,7 +515,7 @@ with tabs[0]:
             st.info("Submit an invoice on the left to see the prediction. Try the hard-edge example to see cold-start handling.")
 
 #  TAB 2: Batch Processing 
-with tabs[1]:
+with tabs[2]:
     st.markdown('<div class="narrative">Upload a CSV of invoices and run them through the full pipeline in bulk. Auto-posted invoices are written to the ERP and Google Sheets in real time. Every confirmed invoice grows the corpus  watch the automation rate climb in the Performance tab.</div>', unsafe_allow_html=True)
 
     uploaded = st.file_uploader("Upload invoices CSV", type=["csv"], label_visibility="collapsed")
@@ -530,14 +566,14 @@ with tabs[1]:
             c3.metric("Correct predictions", f"{correct_count:,}", f"{correct_count/len(results):.0%}")
             st.dataframe(pd.DataFrame([{
                 "Vendor": r["vendor"][:40], "Description": r["description"][:50],
-                "Amount": f"Â£{r['amount']:,.2f}", "GL": r["predicted_gl"] or "",
+                "Amount": f"£{r['amount']:,.2f}", "GL": r["predicted_gl"] or "",
                 "Confidence": f"{r['confidence']:.0%}",
                 "Routing": "Auto" if r["routing"] == "auto_post" else "Review",
                 "Correct": "Yes" if r.get("correct") else ("No" if r.get("correct") is False else ""),
             } for r in results]), use_container_width=True, height=400)
 
 #  TAB 3: Performance 
-with tabs[2]:
+with tabs[3]:
     st.markdown('<div class="narrative">This chart proves the write-back loop works. As more invoices are confirmed, the corpus grows and the system becomes more confident  auto-posting a higher proportion of invoices without any manual rule authoring.</div>', unsafe_allow_html=True)
 
     batch_results = st.session_state.metrics.get("batch_results", [])
@@ -557,7 +593,7 @@ with tabs[2]:
         st.info("Run a batch in the Batch Processing tab to see performance metrics.")
 
 #  TAB 4: ERP Ledger 
-with tabs[3]:
+with tabs[4]:
     st.markdown('<div class="narrative">Every auto-posted and human-confirmed invoice is written here and mirrored to Google Sheets in real time. This is the ERP write proof  the system is posting to a live system, not just predicting.</div>', unsafe_allow_html=True)
 
     postings = get_postings(limit=500)
@@ -569,7 +605,7 @@ with tabs[3]:
         st.info("No invoices posted yet.")
 
 #  TAB 5: Audit Trail 
-with tabs[4]:
+with tabs[5]:
     st.markdown('<div class="narrative">Every prediction carries full provenance  which historical lines drove it, what confidence score it produced, and who confirmed it. This is the compliance-grade audit trail: stronger traceability than a deterministic rules system.</div>', unsafe_allow_html=True)
 
     from ap_automation.core.database import get_audit_records
@@ -588,7 +624,7 @@ with tabs[4]:
         st.info("No audit records yet.")
 
 #  TAB 6: Ask AP 
-with tabs[5]:
+with tabs[6]:
     st.markdown('<div class="narrative">Ask questions about the AP Automation system in plain English. Query the corpus, check GL codes, understand routing decisions, and get performance summaries. Claude API integration coming soon for richer, more conversational answers.</div>', unsafe_allow_html=True)
 
     # Display chat history
@@ -633,7 +669,7 @@ with tabs[5]:
             st.rerun()
 
 #  TAB 7: Setup 
-with tabs[6]:
+with tabs[7]:
     col_setup, col_status = st.columns([1, 1], gap="large")
     with col_setup:
         st.markdown('<div class="section-header">Dataset</div>', unsafe_allow_html=True)
