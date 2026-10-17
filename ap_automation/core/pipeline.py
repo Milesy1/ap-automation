@@ -24,6 +24,7 @@ from ap_automation.core.models import (
 )
 from ap_automation.core.retrieval import retrieve, index_outcome
 from ap_automation.agents.orchestrator import AgentOrchestrator
+from ap_automation.graph.nodes import llm_gate_node as _llm_gate_fn
 
 # Module-level singletons
 _lf_client = None
@@ -241,6 +242,53 @@ def predict(invoice: InvoiceLine) -> Prediction:
             "weighted_confidence": weighted_confidence,
         })
 
+    # ── LLM Gate ──────────────────────────────────────
+    _cost_centre_mismatch = (
+        agent_result.cost_centre.data.get("cost_centre_mismatch", False)
+        if agent_result.cost_centre and agent_result.cost_centre.success else False
+    )
+    _entity_valid = (
+        agent_result.entity.data.get("entity_valid")
+        if agent_result.entity and agent_result.entity.success else None
+    )
+    _vat_treatment = (
+        agent_result.vat.data.get("vat_treatment")
+        if agent_result.vat and agent_result.vat.success else None
+    )
+    _agent_flags = []
+    if _cost_centre_mismatch:
+        _agent_flags.append("cost_centre_mismatch")
+    if _vat_treatment in ("reverse_charge", "blocked_entertainment", "outside_scope"):
+        _agent_flags.append(f"vat_{_vat_treatment}")
+    if _entity_valid is False:
+        _agent_flags.append("entity_validation_failed")
+    _gate_routing = routing_decision.value if not _agent_flags else "human_review"
+    _gate_reason = f"Agent flags raised: {chr(39)}{chr(44).join(_agent_flags)}{chr(39)}" if _agent_flags else routing_reason
+    _llm_state = {
+        "description": invoice.description,
+        "raw_vendor_name": invoice.raw_vendor_name,
+        "amount": invoice.amount,
+        "currency": invoice.currency,
+        "entity_id": invoice.entity_id,
+        "predicted_gl": predicted_gl,
+        "predicted_cost_centre": predicted_cc,
+        "weighted_confidence": weighted_confidence,
+        "routing_decision": routing_decision.value,
+        "final_routing": _gate_routing,
+        "gate_reason": _gate_reason,
+        "agent_flags": _agent_flags,
+        "agent_results": [r.to_dict() for r in agent_result.results],
+        "cost_centre_mismatch": _cost_centre_mismatch,
+        "entity_valid": _entity_valid,
+        "vat_treatment": _vat_treatment,
+    }
+    _llm_result = _llm_gate_fn(_llm_state)
+    llm_reasoning = _llm_result.get("llm_reasoning", "")
+    llm_reasoning_confidence = _llm_result.get("llm_reasoning_confidence", 0.0)
+    llm_escalated = _llm_result.get("llm_escalated", False)
+    llm_latency_ms = _llm_result.get("llm_latency_ms", 0)
+    final_routing = _llm_result.get("final_routing", _gate_routing)
+
     # ── Provenance JSON ───────────────────────────────
     provenance = {
         "prediction_id": prediction_id,
@@ -256,6 +304,11 @@ def predict(invoice: InvoiceLine) -> Prediction:
         "weighted_confidence": round(weighted_confidence, 4),
         "routing_decision": routing_decision.value,
         "routing_reason": routing_reason,
+        "final_routing": final_routing,
+        "llm_reasoning": llm_reasoning,
+        "llm_reasoning_confidence": llm_reasoning_confidence,
+        "llm_escalated": llm_escalated,
+        "llm_latency_ms": llm_latency_ms,
         "a2a_agents": agent_result.to_dict(),
         "retrieved_evidence": [
             {

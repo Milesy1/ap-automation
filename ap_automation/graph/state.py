@@ -4,23 +4,11 @@ Every node reads from and writes to this dict. LangGraph checkpoints it at each 
 """
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Any, Optional
+from typing import Optional
 from typing_extensions import TypedDict
-
-from ap_automation.core.models import (
-    AmountBand,
-    RoutingDecision,
-)
 
 
 class InvoiceState(TypedDict, total=False):
-    """
-    Full state of an invoice as it flows through the LangGraph pipeline.
-    Fields are populated progressively by each node.
-    total=False means all fields are optional — nodes only write what they produce.
-    """
-
     # ── Input ─────────────────────────────────────────
     invoice_id: str
     raw_vendor_name: str
@@ -34,11 +22,11 @@ class InvoiceState(TypedDict, total=False):
     # ── MDM node ──────────────────────────────────────
     canonical_vendor_id: str
     mdm_confidence: float
-    amount_band: str                    # AmountBand.value
+    amount_band: str
     mdm_latency_ms: int
 
     # ── Retrieval node ────────────────────────────────
-    evidence: list[dict]                # serialised EvidenceRecord dicts
+    evidence: list[dict]
     evidence_count: int
     retrieval_latency_ms: int
 
@@ -50,32 +38,39 @@ class InvoiceState(TypedDict, total=False):
     confidence_latency_ms: int
 
     # ── Routing node ──────────────────────────────────
-    routing_decision: str               # RoutingDecision.value
+    routing_decision: str
     routing_reason: str
 
     # ── Agents node ───────────────────────────────────
-    agent_results: list[dict]           # AgentResult.to_dict() per agent
+    agent_results: list[dict]
     agents_called: int
     agent_latency_ms: int
     vat_treatment: Optional[str]
     cost_centre_mismatch: bool
     entity_valid: Optional[bool]
 
-    # ── Gate node ─────────────────────────────────────
-    final_routing: str                  # RoutingDecision.value after agent flags applied
+    # ── Rule gate node ────────────────────────────────
+    final_routing: str
     gate_reason: str
-    agent_flags: list[str]              # e.g. ["cost_centre_mismatch", "vat_reverse_charge"]
+    agent_flags: list[str]
+
+    # ── LLM gate node ─────────────────────────────────
+    llm_reasoning: Optional[str]
+    llm_reasoning_confidence: Optional[float]
+    llm_escalated: Optional[bool]
+    llm_gate_reason: Optional[str]
+    llm_latency_ms: Optional[int]
 
     # ── Human review node ─────────────────────────────
-    review_queued_at: Optional[str]     # ISO timestamp
+    review_queued_at: Optional[str]
     reviewer_id: Optional[str]
     review_notes: Optional[str]
 
     # ── Confirmation node ─────────────────────────────
     confirmed_gl: Optional[str]
     confirmed_cc: Optional[str]
-    confirmation_source: Optional[str]  # ConfirmationSource.value
-    confirmed_at: Optional[str]         # ISO timestamp
+    confirmation_source: Optional[str]
+    confirmed_at: Optional[str]
     is_correct: Optional[bool]
     is_false_positive: Optional[bool]
 

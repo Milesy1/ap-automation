@@ -5,6 +5,8 @@ that LangGraph merges back into the state.
 """
 from __future__ import annotations
 
+import json
+import os
 import time
 from datetime import datetime, timezone
 from uuid import uuid4
@@ -69,14 +71,13 @@ def retrieval_node(state: InvoiceState) -> dict:
         "evidence": evidence_dicts,
         "evidence_count": len(evidence_dicts),
         "retrieval_latency_ms": int((time.time() - t0) * 1000),
-        "_evidence_records": evidence_records,  # passed internally, not in state schema
+        "_evidence_records": evidence_records,
     }
 
 
 # ── Node: Confidence scoring ──────────────────────────────────────────────────
 
 def confidence_node(state: InvoiceState) -> dict:
-    # Retrieve evidence records — re-retrieve if not in state (Streamlit path)
     evidence_records = state.get("_evidence_records")
     if evidence_records is None:
         from ap_automation.core.models import AmountBand
@@ -157,12 +158,13 @@ def agents_node(state: InvoiceState) -> dict:
     }
 
 
-# ── Node: Gate ────────────────────────────────────────────────────────────────
+# ── Node: Rule gate ───────────────────────────────────────────────────────────
 
 def gate_node(state: InvoiceState) -> dict:
     """
-    Final routing decision: applies agent flags on top of the confidence-based routing.
+    Rule-based gate: applies agent flags on top of confidence routing.
     Any agent flag escalates to human_review regardless of confidence.
+    This runs before the LLM gate and cannot be overridden by it.
     """
     flags: list[str] = []
 
@@ -192,13 +194,135 @@ def gate_node(state: InvoiceState) -> dict:
     }
 
 
+# ── Node: LLM reasoning gate ──────────────────────────────────────────────────
+
+def llm_gate_node(state: InvoiceState) -> dict:
+    """
+    LLM reasoning layer on top of the rule gate.
+    Reads the full invoice context and agent results.
+    Can escalate auto_post to human_review but CANNOT reverse human_review to auto_post.
+    Returns plain-English reasoning and a reasoning_confidence score.
+    """
+    t0 = time.time()
+
+    # Build the prompt
+    agent_summary = []
+    for r in state.get("agent_results", []):
+        agent_summary.append({
+            "agent": r.get("agent", r.get("agent_name", "unknown")),
+            "success": r.get("success"),
+            "confidence": r.get("confidence"),
+            "reasoning": r.get("reasoning", ""),
+            "data": {k: v for k, v in r.items() if k not in ("agent", "agent_name", "success", "confidence", "reasoning", "latency_ms", "error")},
+        })
+
+    prompt = f"""You are a senior AP controller reviewing an invoice routing decision made by an automated system.
+
+INVOICE:
+- Description: {state.get("description")}
+- Vendor: {state.get("raw_vendor_name", state.get("canonical_vendor_id"))}
+- Amount: {state.get("currency")} {state.get("amount")}
+- Entity: {state.get("entity_id")}
+
+SYSTEM DECISION:
+- Predicted GL: {state.get("predicted_gl")}
+- Predicted Cost Centre: {state.get("predicted_cost_centre")}
+- Weighted Confidence: {state.get("weighted_confidence")}
+- Rule Gate Decision: {state.get("final_routing")}
+- Rule Gate Reason: {state.get("gate_reason")}
+- Agent Flags: {state.get("agent_flags", [])}
+
+AGENT RESULTS:
+{json.dumps(agent_summary, indent=2)}
+
+Your task:
+1. Review the rule gate decision and agent results
+2. Decide whether the routing decision is correct
+3. If the rule gate said AUTO_POST but you see a risk the rules missed, escalate to HUMAN_REVIEW
+4. If the rule gate said HUMAN_REVIEW, you MUST keep it as HUMAN_REVIEW — you cannot override governance rules
+5. Return ONLY valid JSON in this exact format:
+
+{{
+  "routing": "auto_post" or "human_review",
+  "reasoning": "Plain English explanation of the decision in 2-3 sentences. Be specific about amounts, GL codes, flags.",
+  "reasoning_confidence": 0.0 to 1.0,
+  "escalated": true or false
+}}"""
+
+    try:
+        import httpx
+        api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+
+        # Try streamlit secrets if no env var
+        if not api_key:
+            try:
+                import streamlit as st
+                api_key = str(st.secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
+            except Exception:
+                pass
+
+        if not api_key:
+            raise ValueError("No ANTHROPIC_API_KEY found")
+
+        response = httpx.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": "claude-sonnet-4-6",
+                "max_tokens": 512,
+                "messages": [{"role": "user", "content": prompt}],
+            },
+            timeout=15.0,
+        )
+
+        raw = response.json()["content"][0]["text"].strip()
+        # Strip markdown fences if present
+        if raw.startswith("```"):
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+        result = json.loads(raw.strip())
+
+        routing = result.get("routing", state.get("final_routing"))
+        reasoning = result.get("reasoning", "")
+        reasoning_confidence = float(result.get("reasoning_confidence", 0.0))
+        escalated = result.get("escalated", False)
+
+        # Safety: LLM can never reverse a human_review to auto_post
+        if state.get("final_routing") == RoutingDecision.HUMAN_REVIEW.value:
+            routing = RoutingDecision.HUMAN_REVIEW.value
+            if escalated:
+                escalated = False
+
+        llm_latency_ms = int((time.time() - t0) * 1000)
+
+        return {
+            "final_routing": routing,
+            "llm_reasoning": reasoning,
+            "llm_reasoning_confidence": reasoning_confidence,
+            "llm_escalated": escalated,
+            "llm_gate_reason": f"LLM: {reasoning}",
+            "llm_latency_ms": llm_latency_ms,
+        }
+
+    except Exception as e:
+        print(f"[LLM Gate] Error: {e} — falling back to rule gate decision")
+        return {
+            "llm_reasoning": f"LLM gate unavailable: {str(e)[:100]}. Rule gate decision stands.",
+            "llm_reasoning_confidence": 0.0,
+            "llm_escalated": False,
+            "llm_gate_reason": "Rule gate only (LLM unavailable)",
+            "llm_latency_ms": int((time.time() - t0) * 1000),
+        }
+
+
 # ── Node: Auto post ───────────────────────────────────────────────────────────
 
 def auto_post_node(state: InvoiceState) -> dict:
-    """
-    Auto-posts the invoice to the ERP (mock in POC).
-    Sets confirmed_gl to predicted_gl and triggers write-back.
-    """
     now = datetime.now(timezone.utc).isoformat()
     return {
         "confirmed_gl": state.get("predicted_gl"),
@@ -207,7 +331,7 @@ def auto_post_node(state: InvoiceState) -> dict:
         "confirmed_at": now,
         "erp_posted": True,
         "erp_posted_at": now,
-        "is_correct": None,         # unknown until write-back feedback
+        "is_correct": None,
         "is_false_positive": False,
     }
 
@@ -215,11 +339,6 @@ def auto_post_node(state: InvoiceState) -> dict:
 # ── Node: Human review ────────────────────────────────────────────────────────
 
 def human_review_node(state: InvoiceState) -> dict:
-    """
-    Parks the invoice for human review.
-    In production this writes to a review queue and the graph interrupts here.
-    In the POC it sets the status and the UI handles the confirmation step.
-    """
     return {
         "review_queued_at": datetime.now(timezone.utc).isoformat(),
         "erp_posted": False,
@@ -229,10 +348,6 @@ def human_review_node(state: InvoiceState) -> dict:
 # ── Node: Confirmation ────────────────────────────────────────────────────────
 
 def confirmation_node(state: InvoiceState) -> dict:
-    """
-    Receives a human confirmation decision and prepares for write-back.
-    Detects false positives (auto-posted predictions corrected by human).
-    """
     predicted = state.get("predicted_gl")
     confirmed = state.get("confirmed_gl")
     is_correct = predicted == confirmed if predicted and confirmed else None
@@ -251,9 +366,7 @@ def confirmation_node(state: InvoiceState) -> dict:
 # ── Node: Write-back ──────────────────────────────────────────────────────────
 
 def write_back_node(state: InvoiceState) -> dict:
-    """Indexes the confirmed outcome into Qdrant for future retrieval."""
     from ap_automation.core.retrieval import _collection_size
-    from ap_automation.core.models import AmountBand
 
     corpus_before = _collection_size()
 
@@ -299,7 +412,7 @@ def write_back_node(state: InvoiceState) -> dict:
 # ── Edge router ───────────────────────────────────────────────────────────────
 
 def route_after_gate(state: InvoiceState) -> str:
-    """Conditional edge: directs to auto_post or human_review based on gate_node output."""
+    """Conditional edge after LLM gate: uses final_routing which LLM may have escalated."""
     final = state.get("final_routing", RoutingDecision.HUMAN_REVIEW.value)
     if final == RoutingDecision.AUTO_POST.value:
         return "auto_post"

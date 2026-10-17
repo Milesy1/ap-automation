@@ -5,9 +5,6 @@ state at each step, agent results inline, and final routing decision.
 """
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from uuid import uuid4
-
 import streamlit as st
 
 
@@ -18,28 +15,16 @@ _NODES = [
     ("confidence",   "Confidence Scoring", "#a855f7", "Scores evidence, predicts GL code"),
     ("routing",      "Base Routing",       "#ec4899", "Confidence-based routing decision"),
     ("agents",       "A2A Agents",         "#f59e0b", "VAT, Cost Centre, Entity agents run in parallel"),
-    ("gate",         "Gate",               "#ef4444", "Applies agent flags — governance beats confidence"),
+    ("gate",         "Rule Gate",          "#ef4444", "Applies agent flags — governance beats confidence"),
+    ("llm_gate",     "LLM Gate",           "#dc2626", "Claude reviews context and reasons over the decision"),
     ("auto_post",    "Auto Post",          "#10b981", "Posts to ERP automatically"),
     ("human_review", "Human Review",       "#f97316", "Parked for human review"),
     ("confirmation", "Confirmation",       "#3b82f6", "Human confirms or corrects the prediction"),
     ("write_back",   "Write-back",         "#14b8a6", "Indexes confirmed outcome into Qdrant"),
 ]
 
-_NODE_ORDER = [n[0] for n in _NODES]
-
-
-def _node_config(node_id: str) -> tuple:
-    for n in _NODES:
-        if n[0] == node_id:
-            return n
-    return (node_id, node_id, "#64748b", "")
-
 
 def render_graph_tab(graph_state: dict | None = None) -> None:
-    """
-    Render the LangGraph visualiser tab.
-    graph_state: the InvoiceState dict after a graph.invoke() call, or None.
-    """
     st.markdown("## Invoice Processing Graph")
     st.caption(
         "Each node does one thing. State flows left to right. "
@@ -53,12 +38,12 @@ def render_graph_tab(graph_state: dict | None = None) -> None:
 
     _render_live_graph(graph_state)
     _render_state_breakdown(graph_state)
+    _render_llm_reasoning(graph_state)
     _render_agent_results(graph_state)
     _render_routing_summary(graph_state)
 
 
 def _active_nodes(state: dict) -> list[str]:
-    """Infer which nodes executed based on state keys populated."""
     active = []
     if state.get("canonical_vendor_id"):
         active.append("mdm")
@@ -70,9 +55,10 @@ def _active_nodes(state: dict) -> list[str]:
         active.append("routing")
     if state.get("agents_called") is not None:
         active.append("agents")
-    if state.get("final_routing"):
+    if state.get("gate_reason"):
         active.append("gate")
-    final = state.get("final_routing", "")
+    if state.get("llm_reasoning") is not None:
+        active.append("llm_gate")
     if state.get("erp_posted"):
         active.append("auto_post")
     elif state.get("review_queued_at"):
@@ -85,32 +71,20 @@ def _active_nodes(state: dict) -> list[str]:
 
 
 def _render_static_graph() -> None:
-    """Render the graph diagram with no active nodes."""
     cols = st.columns(len(_NODES))
     for i, (node_id, label, colour, desc) in enumerate(_NODES):
         with cols[i]:
             st.markdown(
-                f"""
-                <div style="
-                    background:{colour}22;
-                    border:2px solid {colour}66;
-                    border-radius:8px;
-                    padding:8px 4px;
-                    text-align:center;
-                    min-height:80px;
-                    display:flex;
-                    flex-direction:column;
-                    justify-content:center;
-                ">
-                    <div style="font-size:11px;font-weight:600;color:{colour};">{label}</div>
-                </div>
-                """,
+                f"""<div style="background:{colour}22;border:2px solid {colour}66;border-radius:8px;
+                padding:8px 4px;text-align:center;min-height:80px;display:flex;
+                flex-direction:column;justify-content:center;">
+                <div style="font-size:10px;font-weight:600;color:{colour};">{label}</div>
+                </div>""",
                 unsafe_allow_html=True,
             )
 
 
 def _render_live_graph(state: dict) -> None:
-    """Render the graph with active nodes highlighted."""
     active = _active_nodes(state)
     final_routing = state.get("final_routing", "")
 
@@ -130,32 +104,24 @@ def _render_live_graph(state: dict) -> None:
             elif is_skipped:
                 border = "2px dashed #64748b44"
                 bg = "#64748b11"
-                opacity = "0.4"
+                opacity = "0.35"
                 tick = ""
             else:
                 border = f"2px solid {colour}44"
                 bg = f"{colour}11"
-                opacity = "0.6"
+                opacity = "0.55"
                 tick = ""
 
+            escalated = node_id == "llm_gate" and state.get("llm_escalated")
+            badge = " ⚡" if escalated else ""
+
             st.markdown(
-                f"""
-                <div style="
-                    background:{bg};
-                    border:{border};
-                    border-radius:8px;
-                    padding:8px 4px;
-                    text-align:center;
-                    min-height:80px;
-                    display:flex;
-                    flex-direction:column;
-                    justify-content:center;
-                    opacity:{opacity};
-                    transition:all 0.3s;
-                " title="{desc}">
-                    <div style="font-size:11px;font-weight:700;color:{colour};">{tick}{label}</div>
-                </div>
-                """,
+                f"""<div style="background:{bg};border:{border};border-radius:8px;
+                padding:8px 4px;text-align:center;min-height:80px;display:flex;
+                flex-direction:column;justify-content:center;opacity:{opacity};"
+                title="{desc}">
+                <div style="font-size:10px;font-weight:700;color:{colour};">{tick}{label}{badge}</div>
+                </div>""",
                 unsafe_allow_html=True,
             )
 
@@ -163,7 +129,6 @@ def _render_live_graph(state: dict) -> None:
 
 
 def _render_state_breakdown(state: dict) -> None:
-    """Render the state at each executed node as expandable sections."""
     st.markdown("### State at each node")
 
     node_states = {
@@ -206,7 +171,7 @@ def _render_state_breakdown(state: dict) -> None:
     for node_id, label, colour, desc in _NODES:
         if node_id not in node_states or node_id not in active:
             continue
-        with st.expander(f"{label}", expanded=(node_id == "gate")):
+        with st.expander(f"{label}", expanded=(node_id in ("gate", "llm_gate"))):
             s = node_states[node_id]
             cols = st.columns(2)
             items = [(k, v) for k, v in s.items() if v is not None]
@@ -225,8 +190,45 @@ def _render_state_breakdown(state: dict) -> None:
                         st.metric(k.replace("_", " ").title(), str(v))
 
 
+def _render_llm_reasoning(state: dict) -> None:
+    """Render the LLM gate reasoning prominently."""
+    reasoning = state.get("llm_reasoning")
+    if not reasoning:
+        return
+
+    st.markdown("### LLM Gate Reasoning")
+
+    escalated = state.get("llm_escalated", False)
+    llm_confidence = state.get("llm_reasoning_confidence", 0.0)
+    llm_latency = state.get("llm_latency_ms", 0)
+
+    if escalated:
+        st.error("Claude escalated this invoice to human review — a risk was identified that the rule gate missed.")
+    else:
+        final = state.get("final_routing", "")
+        if final == "auto_post":
+            st.success("Claude confirmed the auto-post decision.")
+        else:
+            st.warning("Claude agreed with the rule gate: human review required.")
+
+    st.markdown(
+        f"""<div style="background:#1e293b;border-left:4px solid #dc2626;border-radius:6px;
+        padding:16px 20px;margin:8px 0;">
+        <div style="color:#f1f5f9;font-size:14px;line-height:1.6;">{reasoning}</div>
+        </div>""",
+        unsafe_allow_html=True,
+    )
+
+    cols = st.columns(3)
+    with cols[0]:
+        st.metric("LLM Confidence", f"{llm_confidence:.2f}")
+    with cols[1]:
+        st.metric("Escalated", "Yes" if escalated else "No")
+    with cols[2]:
+        st.metric("LLM Latency", f"{llm_latency} ms")
+
+
 def _render_agent_results(state: dict) -> None:
-    """Render A2A agent results inline."""
     results = state.get("agent_results", [])
     if not results:
         return
@@ -235,9 +237,8 @@ def _render_agent_results(state: dict) -> None:
     for r in results:
         agent = r.get("agent", r.get("agent_name", "unknown"))
         success = r.get("success", False)
-        colour = "#10b981" if success else "#ef4444"
         label = "OK" if success else "FAILED"
-        with st.expander(f"{agent}  [{label}]", expanded=True):
+        with st.expander(f"{agent}  [{label}]", expanded=False):
             cols = st.columns(3)
             with cols[0]:
                 st.metric("Status", label)
@@ -253,18 +254,20 @@ def _render_agent_results(state: dict) -> None:
 
 
 def _render_routing_summary(state: dict) -> None:
-    """Render the final routing decision summary."""
     final = state.get("final_routing")
     if not final:
         return
 
     st.markdown("### Final Routing Decision")
     flags = state.get("agent_flags", [])
+    escalated = state.get("llm_escalated", False)
 
     if final == "auto_post":
         st.success(f"AUTO POST — {state.get('gate_reason', '')}")
     else:
-        if flags:
+        if escalated:
+            st.error(f"HUMAN REVIEW — Claude escalated: {state.get('llm_reasoning', '')[:120]}...")
+        elif flags:
             st.warning(f"HUMAN REVIEW — Agent flags: {', '.join(flags)}")
         else:
             st.warning(f"HUMAN REVIEW — {state.get('gate_reason', '')}")
