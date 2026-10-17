@@ -255,11 +255,15 @@ Your task:
         api_key = ""
         try:
             import streamlit as st
-            api_key = str(st.secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
-        except Exception:
-            pass
+            all_secrets = dict(st.secrets)
+            print(f"[LLM Gate] Available secret keys: {list(all_secrets.keys())}")
+            api_key = str(all_secrets.get("ANTHROPIC_API_KEY", "") or "").strip()
+            print(f"[LLM Gate] API key found: {bool(api_key)}, length: {len(api_key)}")
+        except Exception as se:
+            print(f"[LLM Gate] st.secrets error: {se}")
         if not api_key:
             api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+            print(f"[LLM Gate] env var API key found: {bool(api_key)}")
 
         if not api_key:
             raise ValueError("No ANTHROPIC_API_KEY found")
