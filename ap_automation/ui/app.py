@@ -399,10 +399,11 @@ with tabs[0]:
                 "vat_treatment": next((r.get("vat_treatment") for r in a2a.get("results", []) if "vat_treatment" in r), None),
                 "cost_centre_mismatch": any(r.get("cost_centre_mismatch") for r in a2a.get("results", [])),
                 "entity_valid": next((r.get("entity_valid") for r in a2a.get("results", []) if "entity_valid" in r), None),
-                "final_routing": prediction.routing_decision.value,
-                "gate_reason": prediction.routing_reason,
                 "agent_flags": [f for r in a2a.get("results", []) for f in ["cost_centre_mismatch" if r.get("cost_centre_mismatch") else None, "entity_validation_failed" if r.get("entity_valid") is False else None] if f],
+                "final_routing": "human_review" if any(r.get("cost_centre_mismatch") or r.get("entity_valid") is False for r in a2a.get("results", [])) else prediction.routing_decision.value,
+                "gate_reason": "Agent flags raised" if any(r.get("cost_centre_mismatch") or r.get("entity_valid") is False for r in a2a.get("results", [])) else prediction.routing_reason,
                 "started_at": prov.get("timestamp", ""),
+                "total_latency_ms": int((datetime.now(timezone.utc) - datetime.fromisoformat(prov["timestamp"])).total_seconds() * 1000) if prov.get("timestamp") else None,
             }
             st.session_state.last_invoice = inv
 
